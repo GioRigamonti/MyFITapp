@@ -5,6 +5,12 @@
 """
 import zipfile
 import json
+import csv
+#import tensorflow as tf
+#import numpy as np
+#import pandas as pd
+#from tensorflow import keras
+#from tensorflow.keras import layers
 
 
 file_name = 'MOTIONSENSE'
@@ -32,8 +38,22 @@ for data_item in data:
     for i in fieldsToDelete:
         del data_item[i] 
 
-
 #accesso ad una sola componente del dizionario: data[indice][dictKey]
+
+for item_data in data:
+    # creazione dell'intestazione del file .csv
+    item = ['accelerometer x ', 'accelerometer y ', 'accelerometer z ','activity']
+    #apertura di un file in scrittura per il caricamento dei dati
+    data_file = open(item_data['_id']['$oid'] + '.csv', 'w')
+    with data_file:
+        # creazione del csv writer object 
+        csv_writer = csv.writer(data_file, dialect = 'excel')
+        #scrittura dell'intestazione del file .cvs
+        csv_writer.writerow(item)
+        #riempimento del file .csv con tutti i dati relativi all'accelerometro
+        for item in item_data['accelerometer']:
+            header = item + [item_data['label']]               
+            csv_writer.writerow(header)
 
 #chiusura del file .zip
 myzip.close()
