@@ -75,6 +75,27 @@ with data_file:
             header = item + [item_data['label']]              
             csv_writer.writerow(header)
 
+
+"""
+DICT_TO_DATAFRAME
+a=data[0]
+
+#print(pd.DataFrame(pd.DataFrame(list(data[0].items()), columns=['a', 'b'])))
+
+b=pd.DataFrame.from_dict(a['accelerometer'])
+
+c = pd.Series(data=[])
+
+for i in range(0,len(a['accelerometer'])):
+    c[i]=a['label']
+
+indx=b.shape[1]
+b.insert(loc=indx,column='altra', value=c)
+#b=pd.DataFrame({'a' : a.keys() , 'b' : a.values() })
+
+print(b)
+"""
+
 #zip_name = 'MOTIONSENSE.zip'
 #apertura dell'archivio per estrazione
 #with zipfile.ZipFile(zip_name) as myzip:
