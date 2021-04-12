@@ -42,10 +42,13 @@ for data_item in data:
     for i in fieldsToDelete:
         del data_item[i] 
 
+"""
+#DICT_TO_DATAFRAME breve
 df = pd.DataFrame()
 
 for data_dict in data:
     df_1 = pd.DataFrame.from_dict(data_dict['accelerometer'])
+    df_1.columns = ['acc_x', 'acc_y', 'acc_z']
     label_list = []
     id_list = []
 
@@ -57,9 +60,11 @@ for data_dict in data:
     df_1.insert(loc = indx, column = 'label', value = label_list)
     df_1.insert(loc = indx+1, column = 'id', value = id_list)
     df= df.append(df_1)
+"""
 
-"""    
-#DICT_TO_DATAFRAME
+
+"""   
+#DICT_TO_DATAFRAME giusto
 a = data[0]
 
 acc_x = []
@@ -87,17 +92,19 @@ for data_dict in data:
     for i in range(0,len(data_dict['accelerometer'])):
         label_list.append(data_dict['label'])
         id_list.append(data_dict['_id']['$oid'])
-
+        
 indx = df.shape[1]
 df.insert(loc = indx, column = 'label', value = label_list)
 df.insert(loc = indx+1, column = 'id', value = id_list)
 """
-print(df)
 
 
 
-"""        
-"""
+
+
+
+
+
 
 """
 #accesso ad una sola componente del dizionario: data[indice][dictKey]
