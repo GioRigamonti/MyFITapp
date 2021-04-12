@@ -42,6 +42,23 @@ for data_item in data:
     for i in fieldsToDelete:
         del data_item[i] 
 
+df = pd.DataFrame()
+
+for data_dict in data:
+    df_1 = pd.DataFrame.from_dict(data_dict['accelerometer'])
+    label_list = []
+    id_list = []
+
+    for i in range(0,len(data_dict['accelerometer'])):
+        label_list.append(data_dict['label'])
+        id_list.append(data_dict['_id']['$oid'])
+
+    indx=df_1.shape[1]
+    df_1.insert(loc = indx, column = 'label', value = label_list)
+    df_1.insert(loc = indx+1, column = 'id', value = id_list)
+    df= df.append(df_1)
+
+"""    
 #DICT_TO_DATAFRAME
 a = data[0]
 
@@ -74,9 +91,9 @@ for data_dict in data:
 indx = df.shape[1]
 df.insert(loc = indx, column = 'label', value = label_list)
 df.insert(loc = indx+1, column = 'id', value = id_list)
+"""
+print(df)
 
-    
-#print(df)
 
 
 """        
