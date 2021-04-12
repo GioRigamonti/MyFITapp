@@ -35,7 +35,7 @@ fieldsToDelete = ['db_id','type','sensors','config_id', 'gyroscope']
 
 
 #crea una lista di dizionari, uno per ogni elemento della stringa letta dal file .json
-#data = json.loads(r) #type(data) = list
+data = json.loads(r) #type(data) = list
 
 #elimina i campi inutilizzati, mantiene solo _id, label, accelerometer 
 #for data_item in data: 
@@ -60,20 +60,20 @@ fieldsToDelete = ['db_id','type','sensors','config_id', 'gyroscope']
         #    csv_writer.writerow(header)
 
 #alternativa per un unico file csv con tutti i dati
-#for item_data in data:
-    # creazione dell'intestazione del file .csv
-  #  item = ['id ','accelerometer x ', 'accelerometer y ', 'accelerometer z ','activity']
-    #apertura di un file in scrittura per il caricamento dei dati
-   # data_file = open(file_name + '.csv', 'w')
-    #with data_file:
-        # creazione del csv writer object (in alternativa aggiungere delimiter = '\t')
-     #   csv_writer = csv.writer(data_file, dialect = 'excel') 
-        #scrittura dell'intestazione del file .cvs
-      #  csv_writer.writerow(item)
-        #riempimento del file .csv con tutti i dati relativi all'accelerometro
-       # for item in item_data['accelerometer']:
-        #    header = [item_data['_id']['$oid']] + item + [item_data['label']]               
-         #   csv_writer.writerow(header)
+# creazione dell'intestazione del file .csv
+item = ['accelerometer x ', 'accelerometer y ', 'accelerometer z ','activity']
+#apertura di un file in scrittura per il caricamento dei dati
+data_file = open(file_name + '.csv', 'w')
+with data_file:
+# creazione del csv writer object (in alternativa aggiungere delimiter = '\t')
+    csv_writer = csv.writer(data_file, dialect = 'excel') 
+    #scrittura dell'intestazione del file .cvs
+    csv_writer.writerow(item)
+    #riempimento del file .csv con tutti i dati relativi all'accelerometro
+    for item_data in data:
+        for item in item_data['accelerometer']:
+            header = item + [item_data['label']]              
+            csv_writer.writerow(header)
 
 #zip_name = 'MOTIONSENSE.zip'
 #apertura dell'archivio per estrazione
