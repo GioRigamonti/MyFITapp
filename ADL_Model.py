@@ -242,11 +242,5 @@ keras.utils.plot_model(model, show_shapes = True, show_dtype = True,
 
 
 
-
-
-
-#chiusura del file .zip
-myzip.close()
-
 #chiusura del file .zip
 myzip.close()
