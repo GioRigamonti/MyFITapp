@@ -6,23 +6,27 @@
 import zipfile
 import json
 import csv
-#import tensorflow as tf
+import tensorflow as tf
 import numpy as np
 import pandas as pd
-#from tensorflow import keras
-#from tensorflow.keras import layers
-from sklearn.model_selection import train_test_split
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.layers.experimental.preprocessing import Normalization
+from tensorflow.keras.layers.experimental.preprocessing import CategoryEncoding
+from tensorflow.keras.layers.experimental.preprocessing import StringLookup
+     
 
-
+file_name = 'MOTIONSENSE'
 #apertura dell'archivio per estrazione
-#with zipfile.ZipFile(file_name + '.zip') as myzip:
- #   with myzip.open(file_name + '.json') as myfile:
+with zipfile.ZipFile(file_name + '.zip') as myzip:
+    with myzip.open(file_name + '.json') as myfile:
         #lettura e conversione da bytecode a str e eliminazione degli spazi(\r\n)
-  #      r = myfile.read().decode('utf-8').strip() 
+        r = myfile.read().decode('utf-8').strip() 
             
 
 
-#fieldsToDelete = ['db_id','type','sensors','config_id', 'gyroscope']
+fieldsToDelete = ['db_id','type','sensors','config_id', 'gyroscope']
+
 
 
 #alternativa senza zip
@@ -71,20 +75,20 @@ from sklearn.model_selection import train_test_split
         #    header = [item_data['_id']['$oid']] + item + [item_data['label']]               
          #   csv_writer.writerow(header)
 
-zip_name = 'MOTIONSENSE.zip'
+#zip_name = 'MOTIONSENSE.zip'
 #apertura dell'archivio per estrazione
-with zipfile.ZipFile(zip_name) as myzip:
-   file_name = myzip.namelist()[0]
-   ms = pd.read_json(file_name)
-   ms.head()
+#with zipfile.ZipFile(zip_name) as myzip:
+#   file_name = myzip.namelist()[0]
+#   ms = pd.read_json(file_name)
+ #  ms.head()
 
-df = pd.DataFrame(ms.data, columns = ms.feature_names)
+#df = pd.DataFrame(ms.data, columns = ms.feature_names)
 # Convert datatype to float
-df = df.astype(float)
+#df = df.astype(float)
 # append "target" and name it "label"
-df['label'] = ms.target
+#df['label'] = ms.target
 # Use string label instead
-df['label'] = df.label.replace(dict(enumerate(ms.target_names)))
+#df['label'] = df.label.replace(dict(enumerate(ms.target_names)))
 # label -> one-hot encoding
 #label = pd.get_dummies(df['label']) #concatena 'label' al nome delle attività
 #label.columns = ['label_' + str(x) for x in label.columns]
@@ -93,23 +97,23 @@ df['label'] = df.label.replace(dict(enumerate(ms.target_names)))
 #df.drop(['label'], axis=1, inplace=True)
 
 # Creating X and y
-X = df[['accelerometer x ', 'accelerometer y ', 'accelerometer z ']]
+#X = df[['accelerometer x ', 'accelerometer y ', 'accelerometer z ']]
 # Convert DataFrame into np array
-X = np.asarray(X)
-y = df[['stairs down ', ' jogging ', 'sitting ', 'standing ', 'stairs up ', 'walking ']]
+#X = np.asarray(X)
+#y = df[['stairs down ', ' jogging ', 'sitting ', 'standing ', 'stairs up ', 'walking ']]
 # Convert DataFrame into np array
-y = np.asarray(y)
+#y = np.asarray(y)
 
-X_train, X_test, y_train, y_test = train_test_split(
-  X,
-  y,
+#X_train, X_test, y_train, y_test = train_test_split(
+ # X,
+  #y,
   #test_size = None
-)
+#)
 
-print (len(X_train))
-print (len(X_test))
-print (len(y_train))
-print (len(y_test))
+#print (len(X_train))
+#print (len(X_test))
+#print (len(y_train))
+#print (len(y_test))
 
 
 file_url = '5fbaa22cab33096d8049d73c.csv' #file_name + '.csv'
@@ -143,25 +147,6 @@ train_ds = train_ds.batch(32)
 val_ds = val_ds.batch(32)
 
 
-
-# Categorical features encoded as float64
-
-acc_x = keras.Input(shape=(1,), name = 'accelerometer x ', dtype = 'float64')
-acc_y = keras.Input(shape=(1,), name = 'accelerometer y ', dtype = 'float64')
-acc_z = keras.Input(shape=(1,), name = 'accelerometer z ', dtype = 'float64')
-
-# Categorical feature encoded as string
-activity = keras.Input(shape=(1,), name = 'activity', dtype = 'string')
-
-
-
-all_inputs = [
-    acc_x,
-    acc_y,
-    acc_z,
-    activity
-]
-
 def encode_numerical_feature(feature, name, dataset):
     # Create a Normalization layer for our feature
     normalizer = Normalization()
@@ -178,47 +163,63 @@ def encode_numerical_feature(feature, name, dataset):
     return encoded_feature
 
 
+
 def encode_string_categorical_feature(feature, name, dataset):
-    # Create a StringLookup layer which will turn strings into integer indices
+# Create a StringLookup layer which will turn strings into integer indices
     index = StringLookup()
 
-    # Prepare a Dataset that only yields our feature
-    feature_ds = dataset.map(lambda x, y: x[name])
+# Prepare a Dataset that only yields our feature
+    feature_ds = dataset.map(lambda x, y: y[name])
     feature_ds = feature_ds.map(lambda x: tf.expand_dims(x, -1))
 
-    # Learn the set of possible string values and assign them a fixed integer index
+# Learn the set of possible string values and assign them a fixed integer index
     index.adapt(feature_ds)
 
-    # Turn the string input into integer indices
+# Turn the string input into integer indices
     encoded_feature = index(feature)
 
-    # Create a CategoryEncoding for our integer indices
-    encoder = CategoryEncoding(output_mode="binary")
+# Create a CategoryEncoding for our integer indices
+    encoder = CategoryEncoding(output_mode = "binary")
 
-    # Prepare a dataset of indices
+# Prepare a dataset of indices
     feature_ds = feature_ds.map(index)
 
-    # Learn the space of possible indices
+# Learn the space of possible indices
     encoder.adapt(feature_ds)
 
-    # Apply one-hot encoding to our indices
+# Apply one-hot encoding to our indices
     encoded_feature = encoder(encoded_feature)
     return encoded_feature
 
 
+#Categorical features encoded as float64
+
+acc_x = keras.Input(shape=(1,), name = 'accelerometer x ', dtype = 'float64')
+acc_y = keras.Input(shape=(1,), name = 'accelerometer y ', dtype = 'float64')
+acc_z = keras.Input(shape=(1,), name = 'accelerometer z ', dtype = 'float64')
 
 
+# Categorical feature encoded as string
+activity = keras.Input(shape=(1,), name = 'activity', dtype = 'string')
+
+
+
+all_inputs = [
+    acc_x,
+    acc_y,
+    acc_z,
+    activity
+]
 
 # Integer categorical features
 acc_x_encoded = encode_numerical_feature(acc_x, 'accelerometer x ', train_ds)
 acc_y_encoded = encode_numerical_feature(acc_y, 'accelerometer y ', train_ds)
-acc_z_encoded = encode_numerical_feature(acc_z, 'accelerometer z', train_ds)
+acc_z_encoded = encode_numerical_feature(acc_z, 'accelerometer z ', train_ds)
+
+
 
 # String categorical features
 activity_encode = encode_string_categorical_feature(activity, 'activity', train_ds)
-
-
-
 all_features = layers.concatenate(
     [
         acc_x_encoded,
