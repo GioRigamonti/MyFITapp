@@ -5,12 +5,13 @@
 """
 import zipfile
 import json
-import tensorflow as tf
+#import tensorflow as tf
 import pandas as pd
-from tensorflow import keras
-from tensorflow.keras import layers
-#from tensorflow.keras.models import load_model   #per caricamento modello
-from tensorflow.keras.layers.experimental.preprocessing import Normalization
+import numpy as np
+from tensorflow.keras.layers import Dense, Dropout 
+from tensorflow.keras.optimizers import RMSprop 
+from tensorflow.keras.models import Sequential
+from sklearn.model_selection import train_test_split
 
 
 file_name = 'MOTIONSENSE'
@@ -71,77 +72,53 @@ with data_file:
 """
 
 # convalida e addestramento del set di dati
-val_dataframe = dataframe.sample(replace = False, random_state = 1337, 
-                                 axis = 0)
-train_dataframe = dataframe.drop(val_dataframe.index)
+label = pd.get_dummies(dataframe['label'])
+label.columns = ['label_' + str(x) for x in label.columns]
+df = pd.concat([dataframe, label], axis=1)
 
-print("Using %d samples for training and %d for validation" 
-      % (len(train_dataframe), len(val_dataframe)))
+# drop old label
+df.drop(['label'], axis=1, inplace=True)
 
-#generazione del dataset a partire dal dataframe
-def dataframe_to_dataset(dataframe):
-    dataframe = dataframe.copy()
-    labels = dataframe.pop('label')
-    ds = tf.data.Dataset.from_tensor_slices((dict(dataframe), labels))
-    ds = ds.shuffle(buffer_size = len(dataframe))
-    return ds
+X = df[['acc_x', 'acc_y', 'acc_z']]
 
-train_ds = dataframe_to_dataset(train_dataframe)
-val_ds = dataframe_to_dataset(val_dataframe)
+#Conversione del Dataframe in un np array
+X = np.asarray(X)
+y = df[['label_stairs down', 'label_jogging',
+        'label_sitting','label_standing','label_stairs up', 'label_walking']]
 
-#restistuzione tupla da dataset
-for x, y in train_ds.take(2):
-    print("Input:\n", x)
-    print("Activity:", y)
-    print()
 
-#batch del dataset
-train_ds = train_ds.batch(32)
-val_ds = val_ds.batch(32)
+y = np.asarray(y)
 
-#normalizzazone dei dati numerici
-def encode_numerical_feature(feature, name, dataset):
-    # creazione livello di normalizzazione
-    normalizer = Normalization()
+X_train, X_test, y_train, y_test = train_test_split(
+  X,
+  y,
+  test_size = 0.25
+)
 
-    # preparazione del dataset
-    feature_ds = dataset.map(lambda x, y: x[name])
-    feature_ds = feature_ds.map(lambda x: tf.expand_dims(x, -1))
-
-    # apprentimento delle statistiche dei dati
-    normalizer.adapt(feature_ds)
-
-    # normalizzazione funzione in input
-    encoded_feature = normalizer(feature)
-    
-    return encoded_feature
-
-#codifica delle caratteristiche
-acc_x = keras.Input(shape=(1,), name = 'acc_x', dtype = 'float64')
-acc_y = keras.Input(shape=(1,), name = 'acc_y', dtype = 'float64')
-acc_z = keras.Input(shape=(1,), name = 'acc_z', dtype = 'float64')
-
-all_inputs = [acc_x, acc_y, acc_z]
-
-acc_x_encoded = encode_numerical_feature(acc_x, 'acc_x', train_ds)
-acc_y_encoded = encode_numerical_feature(acc_y, 'acc_y', train_ds)
-acc_z_encoded = encode_numerical_feature(acc_z, 'acc_z', train_ds)
-
-all_features = layers.concatenate([acc_x_encoded, acc_y_encoded, acc_z_encoded])
-
+ 
 #creazione del modello
-x = layers.Dense(32, activation = 'sigmoid')(all_features)
-x = layers.Dropout(0.5)(x)
+model = Sequential()
+model.add(Dense(3, activation = 'softmax', input_shape=(3,)))
+model.add(Dropout(0.5)) 
+model.add(Dense(5, activation = 'sigmoid'))
+model.add(Dense(6, activation = 'sigmoid'))
 
-output = layers.Dense(1, activation = 'sigmoid')(x)
-
-model = keras.Model(all_inputs, output)
 
 #configurazione modello per addestramento
-model.compile('SGD', 'categorical_crossentropy', metrics = ["accuracy"])
+model.compile(loss = 'categorical_crossentropy',     
+              optimizer = RMSprop(), 
+              metrics = ['accuracy'])
 
 #addestramento del modello
-model.fit(x = train_ds, epochs = 50, verbose = 2, validation_data = val_ds, shuffle = True)
+history = model.fit(
+   X_train, y_train, 
+   batch_size = 128, 
+   epochs = 50, 
+   verbose = 2, 
+   validation_data = (X_test, y_test)
+)
+
+
 
 #salvataggio modello
-model.save('./model.tf')
+#model.save('./model.tf')
