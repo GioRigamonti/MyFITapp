@@ -50,8 +50,8 @@ for item_data in data:
 dict_acc={'acc_x': acc_x_list, 'acc_y': acc_y_list, 'acc_z': acc_z_list, 
           'label': label_list}
 
-# creazione di un dataframe da dizionario
-dataframe = pd.DataFrame.from_dict(dict_acc)
+# creazione di un dataset da dizionario
+dataset = pd.DataFrame.from_dict(dict_acc)
 
 """
 #alternativa per un unico file csv con tutti i dati
@@ -72,23 +72,23 @@ with data_file:
 """
 
 # convalida e addestramento del set di dati
-label = pd.get_dummies(dataframe['label'])
+label = pd.get_dummies(dataset['label'])
 label.columns = ['label_' + str(x) for x in label.columns]
-df = pd.concat([dataframe, label], axis=1)
+ds = pd.concat([dataset, label], axis=1)
 
 # drop old label
-df.drop(['label'], axis=1, inplace=True)
+ds.drop(['label'], axis=1, inplace=True)
 
-X = df[['acc_x', 'acc_y', 'acc_z']]
+X = ds[['acc_x', 'acc_y', 'acc_z']]
 
-#Conversione del Dataframe in un np array
+#Conversione dei dati in un tensore
 X = np.asarray(X)
-y = df[['label_stairs down', 'label_jogging',
+y = ds[['label_stairs down', 'label_jogging',
         'label_sitting','label_standing','label_stairs up', 'label_walking']]
-
-
 y = np.asarray(y)
 
+#divisione del dataset in X_train, y_train per il traning e X_test, y_test per 
+#la validazione
 X_train, X_test, y_train, y_test = train_test_split(
   X,
   y,
