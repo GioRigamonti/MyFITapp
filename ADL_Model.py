@@ -9,7 +9,10 @@ import json
 import pandas as pd
 import numpy as np
 from tensorflow.keras.layers import Dense, Dropout 
-from tensorflow.keras.optimizers import RMSprop 
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import MaxPool2D
+from tensorflow.keras.layers import Flatten
+#from tensorflow.keras.layers import *
 from tensorflow.keras.models import Sequential
 from sklearn.model_selection import train_test_split
 
@@ -95,30 +98,32 @@ X_train, X_test, y_train, y_test = train_test_split(
   test_size = 0.25
 )
 
- 
 #creazione del modello
-model = Sequential()
-model.add(Dense(3, activation = 'softmax', input_shape=(3,)))
+model = Sequential() 
+model.add(Dense(128, activation = 'relu', input_shape=(3,)))
 model.add(Dropout(0.5)) 
-model.add(Dense(5, activation = 'sigmoid'))
-model.add(Dense(6, activation = 'sigmoid'))
-
-
+model.add(Dense(128, activation = 'relu'))
+model.add(Dense(6, activation = 'softmax'))
+model.summary()
 #configurazione modello per addestramento
-model.compile(loss = 'categorical_crossentropy',     
-              optimizer = RMSprop(), 
-              metrics = ['accuracy'])
-
+model.compile(loss='categorical_crossentropy', optimizer='adam', 
+              metrics=['accuracy'])
 #addestramento del modello
-history = model.fit(
-   X_train, y_train, 
-   batch_size = 128, 
-   epochs = 50, 
-   verbose = 2, 
-   validation_data = (X_test, y_test)
-)
+model.fit(X_train, y_train, validation_split = 1 - 0.8, epochs = 3, 
+          batch_size = 64, verbose = 2, validation_data = (X_test, y_test))
 
 
 
-#salvataggio modello
-#model.save('./model.tf')
+
+
+
+
+
+
+
+
+
+
+
+
+
