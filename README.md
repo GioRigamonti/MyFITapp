@@ -10,3 +10,9 @@ qual volta uno sviluppatore desidera realizzare app che si basano sull’identif
 ADL. Ad esempio, app che tengono sotto controllo l’attivita’ fisa della persona, nonché’
 app che stimolano l’utente a fare determinate ADL durante la giornata.
 # MyFITapp
+
+
+
+# Progetto Elementi di Bioinformatica - PED_validator
+### Progetto di Maggioni Jessica 845389 e Rigamonti Giorgia 844619
+### A.A. 2020/2021
