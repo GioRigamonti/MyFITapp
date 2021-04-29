@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import it.unimib.myfitapp.R;
 
-public class DashboardFragment extends Fragment {
+public class ActivityFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private ActivityViewModel activityViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        activityViewModel =
+                new ViewModelProvider(this).get(ActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_activity, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        activityViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
