@@ -1,4 +1,4 @@
-package it.unimib.myfitapp.ui.notifications;
+package it.unimib.myfitapp.ui.calories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

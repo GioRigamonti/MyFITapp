@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyFITapp</string>
+    <string name="title_home">Home</string>
+    <string name="title_activity">Attività</string>
+    <string name="title_calories">Calorie</string>
+</resources>

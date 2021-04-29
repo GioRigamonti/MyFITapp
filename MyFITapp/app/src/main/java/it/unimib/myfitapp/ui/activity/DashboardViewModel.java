@@ -1,4 +1,4 @@
-package it.unimib.myfitapp.ui.dashboard;
+package it.unimib.myfitapp.ui.activity;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
