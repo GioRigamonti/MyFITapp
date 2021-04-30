@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.MyFITapp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryColor_blue</item>
+        <item name="colorPrimary">@color/secondaryLightColor_cobalto</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor_blue</item>
         <item name="colorOnPrimary">@color/primaryTextColor_white</item>
         <!-- Secondary brand color. -->
