@@ -5,6 +5,15 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <!--Colore primario-->
+    <color name="primaryColor_blue">#0026ad</color>
+    <color name="primaryLightColor_blue">#5850e0</color>
+    <color name="primaryDarkColor_blue">#00027c</color>
+    <!--Colore secondario-->
+    <color name="secondaryColor_cobalto">#004aad</color>
+    <color name="secondaryLightColor_cobalto">#5475e0</color>
+    <color name="secondaryDarkColor_cobalto">#00247d</color>
+    <!--Colore testo-->
+    <color name="primaryTextColor_white">#ffffff</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 </resources>
