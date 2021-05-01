@@ -4,4 +4,6 @@
     <string name="title_home">Home</string>
     <string name="title_activity">Attività</string>
     <string name="title_calories">Calorie</string>
+    <string name="profile">Profilo</string>
+    <string name="options">Opzioni</string>
 </resources>

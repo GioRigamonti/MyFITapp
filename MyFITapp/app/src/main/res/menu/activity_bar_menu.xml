@@ -2,17 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
         <item
-            android:id="@+id/action_one"
+            android:id="@+id/action_profile"
             android:icon="@drawable/ic_baseline_account_circle_24"
             app:showAsAction="always"
-            android:title="Profile"/>
+            android:title="@string/profile"/>
         <item
-            android:id="@+id/action_two"
+            android:id="@+id/action_options"
             android:icon="@drawable/ic_baseline_more_vert_24"
             app:showAsAction="always"
-            android:title="Options"/>
+            android:title="@string/options"/>
 
 
 </menu>
