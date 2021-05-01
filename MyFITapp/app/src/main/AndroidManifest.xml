@@ -11,10 +11,11 @@
         android:theme="@style/Theme.MyFITapp">
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
+       
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
