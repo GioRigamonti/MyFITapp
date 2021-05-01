@@ -9,4 +9,30 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="um_altezza">
+        <item>cm</item>
+        <item>inch</item>
+    </string-array>
+
+    <string-array name="um_peso">
+        <item>kg</item>
+        <item>lb</item>
+    </string-array>
+
+    <string-array name="um_distanza">
+        <item>km</item>
+        <item>mi</item>
+    </string-array>
+
+    <string-array name="um_velocità">
+        <item>m/s</item>
+        <item>km/h</item>
+        <item>mph</item>
+    </string-array>
+
+    <string-array name="um_calorie">
+        <item>kcal</item>
+        <item>joule</item>
+    </string-array>
 </resources>

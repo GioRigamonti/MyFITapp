@@ -6,4 +6,11 @@
     <string name="title_calories">Calorie</string>
     <string name="profile">Profilo</string>
     <string name="options">Opzioni</string>
+    <string name="heigh">altezza</string>
+    <string name="weight">Peso</string>
+    <string name="distance">Distanza</string>
+    <string name="speed">Velocità</string>
+    <string name="calories">Calorie</string>
+    <string name="notifications">Notifiche</string>
+    <string name="modProfile">Modifica il tuo profilo</string>
 </resources>

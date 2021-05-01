@@ -30,4 +30,11 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="heigh">Heigh</string>
+    <string name="weight">Weight</string>
+    <string name="distance">Distance</string>
+    <string name="speed">Speed</string>
+    <string name="calories">Calories</string>
+    <string name="notifications">Notifications</string>
+    <string name="modProfile">Modify your profile</string>
 </resources>
