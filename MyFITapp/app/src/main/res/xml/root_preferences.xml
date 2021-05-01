@@ -1,35 +1,54 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/unit_header">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+        <ListPreference
+            app:defaultValue="false"
+            app:entries="@array/um_altezza"
+            app:entryValues="@array/um_altezza"
+            app:key="@string/heigh"
+            app:title="@string/heigh"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+            app:defaultValue="kg"
+            app:entries="@array/um_peso"
+            app:entryValues="@array/um_peso"
+            app:key="@string/weight"
+            app:title="@string/weight"
             app:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            app:defaultValue="km"
+            app:entries="@array/um_distanza"
+            app:entryValues="@array/um_distanza"
+            app:key="@string/distance"
+            app:title="@string/distance"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="m/s"
+            app:entries="@array/um_velocità"
+            app:entryValues="@array/um_velocità"
+            app:key="@string/speed"
+            app:title="@string/speed"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="kcal"
+            app:entries="@array/um_calorie"
+            app:entryValues="@array/um_calorie"
+            app:key="@string/calories"
+            app:title="@string/calories"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/notifications">
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
+            app:key="notifications"
+            app:title="@string/notifications" />
     </PreferenceCategory>
-
+    
 </PreferenceScreen>

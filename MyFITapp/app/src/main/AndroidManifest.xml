@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFITapp">
         <activity
-            android:name=".activity_settings"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
         <activity
             android:name=".ui.login.LoginActivity"

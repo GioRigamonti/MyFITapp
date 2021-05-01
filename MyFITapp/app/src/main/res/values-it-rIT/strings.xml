@@ -23,11 +23,7 @@
     <string name="invalid_password">Password deve avere almeno 5 caratteri</string>
     <string name="login_failed">Login fallito</string>
     <string name="title_activity_settings">Opzioni</string>
-    <string name="messages_header">Messaggi</string>
-    <string name="sync_header">Sincronizzazione</string>
-    <string name="signature_title">Firma</string>
-    <string name="reply_title">Azione predefinita</string>
-    <string name="sync_title">Sincronizza la tua mail periodicamente</string>
+    <string name="unit_header">Unità di misura</string>
     <string name="attachment_title">Scarica gli allegati</string>
     <string name="attachment_summary_on">Scarica automaticamente gli allegati</string>
     <string name="attachment_summary_off">Scarica solo gli allegati quando richiesto manualmente</string>
