@@ -1,9 +1,11 @@
 package it.unimib.myfitapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -12,6 +14,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import it.unimib.myfitapp.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +41,27 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.activity_bar_menu,menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id=item.getItemId();
+        switch(id)
+        {
+            case R.id.action_profile:
+                // definisco l'intenzione di aprire l'Activity "Page1.java"
+                Intent openPage1 = new Intent(MainActivity.this, LoginActivity.class);
+                // passo all'attivazione dell'activity page1.java
+                startActivity(openPage1);
+                break;
+            case R.id.action_options:
+                // definisco l'intenzione di aprire l'Activity "Page1.java"
+                Intent openPage2 = new Intent(MainActivity.this,activity_settings.class);
+                // passo all'attivazione dell'activity page1.java
+                startActivity(openPage2);
+                break;
+        }
+        return false;
     }
     
 }
