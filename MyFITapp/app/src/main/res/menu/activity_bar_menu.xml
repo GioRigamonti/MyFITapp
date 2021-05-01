@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
         <item
-            android:id="@+id/MENU_1"
-            android:title="Nuova nota"/>
+            android:id="@+id/action_one"
+            android:icon="@drawable/ic_baseline_account_circle_24"
+            app:showAsAction="always"
+            android:title="Profile"/>
         <item
-            android:id="@+id/MENU_2"
-            android:title="Elenco note"/>
+            android:id="@+id/action_two"
+            android:icon="@drawable/ic_baseline_more_vert_24"
+            app:showAsAction="always"
+            android:title="Options"/>
+
+
 </menu>
