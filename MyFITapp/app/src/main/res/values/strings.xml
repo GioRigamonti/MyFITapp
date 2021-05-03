@@ -34,7 +34,6 @@
     <!-- Strings used for fragments for navigation -->
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="email">Email</string>
     <string name="user_ID">User_ID</string>
     <string name="sex">Sex</string>
     <string name="age">Age</string>
@@ -47,4 +46,7 @@
     <string name="logout">Logout</string>
     <string name="annulla">Cancel</string>
     <string name="level_sedentario">Sedentary</string>
+    <string name="title_activity_profile">Profile</string>
+    <!-- Strings used for fragments for navigation -->
+
 </resources>

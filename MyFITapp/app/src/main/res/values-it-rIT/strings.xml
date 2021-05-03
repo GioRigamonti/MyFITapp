@@ -36,9 +36,9 @@
     <string name="age">Età</string>
     <string name="sex">Sesso</string>
     <string name="user_ID">User_ID</string>
-    <string name="email">Email</string>
     <string name="surname">Cognome</string>
     <string name="name">Nome</string>
     <string name="logout">Logout</string>
     <string name="annulla">Annulla</string>
+    <string name="title_activity_profile">Profilo</string>
 </resources>

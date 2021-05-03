@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFITapp">
         <activity
+            android:name=".Profile"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.MyFITapp.NoActionBar"></activity>
+        <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
-            android:theme="@style/Theme.MyFITapp.NoActionBar"></activity>
+            android:theme="@style/Theme.MyFITapp.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
