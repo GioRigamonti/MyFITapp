@@ -31,4 +31,14 @@
     <string name="title_activity_registration">Registrazione</string>
     <string name="Button_confirm">Conferma</string>
     <string name="add_photo">Aggiungi una foto</string>
+    <string name="IMC">IMC</string>
+    <string name="activity_level">Livello di attività</string>
+    <string name="age">Età</string>
+    <string name="sex">Sesso</string>
+    <string name="user_ID">User_ID</string>
+    <string name="email">Email</string>
+    <string name="surname">Cognome</string>
+    <string name="name">Nome</string>
+    <string name="logout">Logout</string>
+    <string name="annulla">Annulla</string>
 </resources>
