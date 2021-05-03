@@ -21,7 +21,7 @@
         android:layout_height="124dp"
         app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
         tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="108dp" />
+        tools:layout_editor_absoluteY="55dp" />
 
     <TextView
         android:id="@+id/addPhoto"
@@ -32,6 +32,7 @@
         tools:layout_editor_absoluteY="206dp" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/confirm_button">
@@ -39,10 +40,10 @@
         <TableRow
             android:id="@+id/id_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name" />
@@ -62,7 +63,7 @@
         <TableRow
             android:id="@+id/id_surname"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/surname"
@@ -85,7 +86,7 @@
         <TableRow
             android:id="@+id/id_email"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/email"
@@ -108,7 +109,7 @@
         <TableRow
             android:id="@+id/id_user_ID"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/user_id"
@@ -131,7 +132,7 @@
         <TableRow
             android:id="@+id/id_password"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView7"
@@ -154,61 +155,94 @@
         <TableRow
             android:id="@+id/id_sex"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sex" />
+
+            <Spinner
+                android:id="@+id/input_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/sesso" />
         </TableRow>
 
         <TableRow
             android:id="@+id/id_age"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/age" />
+
+            <EditText
+                android:id="@+id/input_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date" />
         </TableRow>
 
         <TableRow
             android:id="@+id/id_weight"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weight" />
+
+            <EditText
+                android:id="@+id/input_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
         </TableRow>
 
         <TableRow
             android:id="@+id/id_height"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/heigh" />
+
+            <EditText
+                android:id="@+id/input_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
         </TableRow>
 
         <TableRow
             android:id="@+id/id_actvity_level"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/activity_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/activity_level" />
+
+            <Spinner
+                android:id="@+id/input_activityLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/livello_attività" />
         </TableRow>
     </TableLayout>
 
