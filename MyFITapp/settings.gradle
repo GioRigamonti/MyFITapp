@@ -1,2 +1,3 @@
+include ':ADL_Library'
 include ':app'
 rootProject.name = "MyFITapp"
