@@ -1,4 +1,4 @@
 package it.unimib.adl_library;
 
-public class Libreria {
+public interface ADL_Interface {
 }
