@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -18,14 +19,16 @@
         android:id="@+id/user_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/user_ID"
+        android:text="user_ID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_image" />
 
     <TableLayout
-        android:layout_width="match_parent"
+        android:id="@+id/tableLayout2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_ID">
@@ -42,8 +45,9 @@
                 android:text="@string/name" />
 
             <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50" />
 
             <TextView
                 android:id="@+id/user_name"
@@ -62,10 +66,11 @@
                 android:id="@+id/surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="50"
                 android:text="@string/surname" />
 
             <Space
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -77,19 +82,20 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/name_email"
+            android:id="@+id/email_row"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/user_email"
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_email" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="50" />
 
             <TextView
                 android:id="@+id/user_email"
@@ -112,7 +118,8 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="50" />
 
             <TextView
                 android:id="@+id/user_sex"
@@ -131,6 +138,7 @@
                 android:id="@+id/age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="50"
                 android:text="@string/age" />
 
             <Space
@@ -181,7 +189,8 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="50" />
 
             <TextView
                 android:id="@+id/user_heigh"
@@ -227,7 +236,8 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="50" />
 
             <TextView
                 android:id="@+id/user_activityLevel"
@@ -238,4 +248,15 @@
         </TableRow>
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="@string/logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
