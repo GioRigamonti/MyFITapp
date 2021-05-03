@@ -2,40 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/name"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <Button
-        android:id="@+id/confirm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Button_confirm"
-        tools:layout_editor_absoluteX="270dp"
-        tools:layout_editor_absoluteY="640dp" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="142dp"
-        android:layout_height="124dp"
-        app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="55dp" />
+        android:id="@+id/addPhotoImage"
+        android:layout_width="99dp"
+        android:layout_height="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
     <TextView
-        android:id="@+id/addPhoto"
+        android:id="@+id/addPhotoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addPhotoImage"
         tools:layout_editor_absoluteX="288dp"
         tools:layout_editor_absoluteY="206dp" />
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_button">
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addPhotoText">
+
 
         <TableRow
             android:id="@+id/id_name"
@@ -56,7 +57,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name" />
+                    android:background="@null" />
             </com.google.android.material.textfield.TextInputLayout>
         </TableRow>
 
@@ -245,5 +246,16 @@
                 android:entries="@array/livello_attività" />
         </TableRow>
     </TableLayout>
+
+    <Button
+        android:id="@+id/button_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="@string/Button_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
