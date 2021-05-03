@@ -6,257 +6,278 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ImageView
-        android:id="@+id/user_image"
-        android:layout_width="99dp"
-        android:layout_height="90dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/user_ID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/user_ID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_image" />
-
-    <TableLayout
-        android:id="@+id/tableLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_ID">
-
-        <TableRow
-            android:id="@+id/name_row"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/name"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/name" />
+                android:layout_height="match_parent">
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="50" />
+                <ImageView
+                    android:id="@+id/user_image"
+                    android:layout_width="99dp"
+                    android:layout_height="90dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintBottom_toTopOf="@+id/user_ID"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                <TextView
+                    android:id="@+id/user_ID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/user_ID"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_image" />
 
-        </TableRow>
+                <TableLayout
+                    android:id="@+id/tableLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_ID">
 
-        <TableRow
-            android:id="@+id/surname_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/name_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/surname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:text="@string/surname" />
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50" />
 
-            <TextView
-                android:id="@+id/user_surname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/email_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/surname_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/prompt_email" />
+                        <TextView
+                            android:id="@+id/surname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:text="@string/surname" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50" />
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/user_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_surname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/sex_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/email_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/sex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sex" />
+                        <TextView
+                            android:id="@+id/email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prompt_email" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50" />
 
-            <TextView
-                android:id="@+id/user_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/age_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/sex_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:text="@string/age" />
+                        <TextView
+                            android:id="@+id/sex"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sex" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50" />
 
-            <TextView
-                android:id="@+id/user_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/weigth_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/age_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/weight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/weight" />
+                        <TextView
+                            android:id="@+id/age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:text="@string/age" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/user_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/heigh_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/weigth_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/heigh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/heigh" />
+                        <TextView
+                            android:id="@+id/weight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/weight" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/user_heigh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/IMC_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/heigh_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/IMC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/IMC" />
+                        <TextView
+                            android:id="@+id/heigh"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/heigh" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50" />
 
-            <TextView
-                android:id="@+id/user_IMC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_heigh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-        <TableRow
-            android:id="@+id/activityLevel_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                    <TableRow
+                        android:id="@+id/IMC_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/activityLevel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_level" />
+                        <TextView
+                            android:id="@+id/IMC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/IMC" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50" />
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/user_activityLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="..." />
+                        <TextView
+                            android:id="@+id/user_IMC"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
 
-        </TableRow>
+                    </TableRow>
 
-    </TableLayout>
+                    <TableRow
+                        android:id="@+id/activityLevel_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
+                        <TextView
+                            android:id="@+id/activityLevel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_level" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50" />
+
+                        <TextView
+                            android:id="@+id/user_activityLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="..." />
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <Button
+                    android:id="@+id/button_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:text="@string/logout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

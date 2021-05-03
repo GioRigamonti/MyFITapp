@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.action_profile:
                 // definisco l'intenzione di aprire l'Activity "Page1.java"
-                Intent openPage1 = new Intent(MainActivity.this, Registration.class);
+                Intent openPage1 = new Intent(MainActivity.this, Profile.class);
                 // passo all'attivazione dell'activity page1.java
                 startActivity(openPage1);
                 break;
