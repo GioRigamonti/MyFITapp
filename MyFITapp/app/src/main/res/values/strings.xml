@@ -30,4 +30,18 @@
     <string name="calories">Calories</string>
     <string name="notifications">Notifications</string>
     <string name="modProfile">Modify your profile</string>
+    <string name="title_activity_registration">Registration</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="level_sedentario">Sedentary</string>
+    <string name="level_sportivo">Sporty</string>
+    <string name="level_attivo">Active</string>
+    <string name="Button_confirm">Confirm</string>
+    <string name="add_photo">Add a photo</string>
 </resources>

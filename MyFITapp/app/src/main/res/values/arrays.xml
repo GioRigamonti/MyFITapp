@@ -24,4 +24,15 @@
         <item>kcal</item>
         <item>joule</item>
     </string-array>
+
+    <string-array name="sesso">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
+
+    <string-array name="livello_attività">
+        <item>@string/level_sedentario</item>
+        <item>@string/level_attivo</item>
+        <item>@string/level_sportivo</item>
+    </string-array>
 </resources>

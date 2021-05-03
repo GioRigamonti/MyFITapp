@@ -25,4 +25,10 @@
     <string name="unit_header">Unità di misura</string>
     <string name="forgot_password">Password dimenticata</string>
     <string name="not_registered">Non ancora registrato</string>
+    <string name="level_sedentario">Sedentario</string>
+    <string name="level_sportivo">Sportivo</string>
+    <string name="level_attivo">Attivo</string>
+    <string name="title_activity_registration">Registrazione</string>
+    <string name="Button_confirm">Conferma</string>
+    <string name="add_photo">Aggiungi una foto</string>
 </resources>
