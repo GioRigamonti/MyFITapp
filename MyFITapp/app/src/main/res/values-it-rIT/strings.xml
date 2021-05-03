@@ -17,16 +17,12 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
-    <string name="action_sign_in_short">Login</string>
     <string name="welcome">Benvenuto!</string>
     <string name="invalid_username">username non valido</string>
     <string name="invalid_password">Password deve avere almeno 5 caratteri</string>
     <string name="login_failed">Login fallito</string>
     <string name="title_activity_settings">Opzioni</string>
     <string name="unit_header">Unità di misura</string>
-    <string name="attachment_title">Scarica gli allegati</string>
-    <string name="attachment_summary_on">Scarica automaticamente gli allegati</string>
-    <string name="attachment_summary_off">Scarica solo gli allegati quando richiesto manualmente</string>
     <string name="forgot_password">Password dimenticata</string>
     <string name="not_registered">Non ancora registrato</string>
 </resources>
