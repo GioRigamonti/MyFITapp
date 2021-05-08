@@ -166,7 +166,7 @@
                 android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/age" />
+                android:text="@string/date_of_birth" />
 
             <EditText
                 android:id="@+id/input_date"
