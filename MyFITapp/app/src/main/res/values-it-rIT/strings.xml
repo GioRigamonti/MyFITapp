@@ -42,4 +42,5 @@
     <string name="annulla">Annulla</string>
     <string name="title_activity_profile">Profilo</string>
     <string name="date_of_birth">Data di nascita</string>
+    <string name="title_activity_edit_profile">Modifica profilo</string>
 </resources>

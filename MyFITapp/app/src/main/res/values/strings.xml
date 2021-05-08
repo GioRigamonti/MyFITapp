@@ -29,7 +29,7 @@
     <string name="speed">Speed</string>
     <string name="calories">Calories</string>
     <string name="notifications">Notifications</string>
-    <string name="modProfile">Modify your profile</string>
+    <string name="modProfile">Edit your profile</string>
     <string name="title_activity_registration">Registration</string>
     <!-- Strings used for fragments for navigation -->
     <string name="name">Name</string>
@@ -48,6 +48,9 @@
     <string name="level_sedentario">Sedentary</string>
     <string name="title_activity_profile">Profile</string>
     <string name="date_of_birth">Date of birth</string>
+    <string name="title_activity_edit_profile">Edit profile</string>
+    <!-- Strings used for fragments for navigation -->
+
     <!-- Strings used for fragments for navigation -->
 
 </resources>
