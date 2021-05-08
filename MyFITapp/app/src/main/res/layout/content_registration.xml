@@ -137,15 +137,25 @@
                         <TextView
                             android:id="@+id/Password"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
                             android:text="@string/prompt_password" />
 
-                        <EditText
-                            android:id="@+id/input_password"
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/user_password"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPassword" />
+                            app:boxBackgroundColor="#FFFFFF"
+                            app:boxStrokeColor="#00FFFFFF"
+                            app:passwordToggleEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/user_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="textPassword" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
