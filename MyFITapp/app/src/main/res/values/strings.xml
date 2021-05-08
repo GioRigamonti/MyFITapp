@@ -47,6 +47,7 @@
     <string name="annulla">Cancel</string>
     <string name="level_sedentario">Sedentary</string>
     <string name="title_activity_profile">Profile</string>
+    <string name="date_of_birth">Date of birth</string>
     <!-- Strings used for fragments for navigation -->
 
 </resources>
