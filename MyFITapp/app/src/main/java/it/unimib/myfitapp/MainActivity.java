@@ -3,6 +3,7 @@ package it.unimib.myfitapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(openPage1);
                 break;
             case R.id.action_options:
-                // definisco l'intenzione di aprire l'Activity "Page1.java"
+                // definisco l'intenzione di aprire l'Activity "Page2.java"
                 Intent openPage2 = new Intent(MainActivity.this,SettingsActivity.class);
-                // passo all'attivazione dell'activity page1.java
+                // passo all'attivazione dell'activity page2.java
                 startActivity(openPage2);
                 break;
         }
