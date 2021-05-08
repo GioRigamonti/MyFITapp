@@ -29,10 +29,10 @@
                     app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
                 <TextView
-                    android:id="@+id/addPhotoText"
+                    android:id="@+id/editPhotoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_photo"
+                    android:text="@string/modify_photo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/addPhotoImage" />
@@ -44,48 +44,8 @@
                     android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addPhotoText">
+                    app:layout_constraintTop_toBottomOf="@+id/editPhotoText">
 
-
-                    <TableRow
-                        android:id="@+id/id_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/Name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/name" />
-
-                        <EditText
-                            android:id="@+id/input_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_surname"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/surname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/surname" />
-
-                        <EditText
-                            android:id="@+id/input_surname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-
-                    </TableRow>
 
                     <TableRow
                         android:id="@+id/id_email"
@@ -103,7 +63,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:inputType="textWebEmailAddress|textPersonName" />
+                            android:inputType="textWebEmailAddress" />
 
                     </TableRow>
 
@@ -143,26 +103,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:inputType="textPersonName|textPassword" />
+                            android:inputType="textPassword" />
 
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_sex"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/sex"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sex" />
-
-                        <Spinner
-                            android:id="@+id/input_sex"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/sesso" />
                     </TableRow>
 
                     <TableRow
