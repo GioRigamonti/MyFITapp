@@ -68,7 +68,7 @@
 
                         <TextView
                             android:id="@+id/user_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -92,9 +92,9 @@
 
                         <TextView
                             android:id="@+id/user_surname"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
-                            android:text="..." />
+                            android:text="..aaaaaaa" />
 
                     </TableRow>
 
@@ -116,7 +116,7 @@
 
                         <TextView
                             android:id="@+id/user_email"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -140,7 +140,7 @@
 
                         <TextView
                             android:id="@+id/user_sex"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -164,7 +164,7 @@
 
                         <TextView
                             android:id="@+id/user_age"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -187,7 +187,7 @@
 
                         <TextView
                             android:id="@+id/user_weight"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -211,7 +211,7 @@
 
                         <TextView
                             android:id="@+id/user_heigh"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -234,7 +234,7 @@
 
                         <TextView
                             android:id="@+id/user_IMC"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
@@ -258,7 +258,7 @@
 
                         <TextView
                             android:id="@+id/user_activityLevel"
-                            android:layout_width="wrap_content"
+                            android:layout_width="232dp"
                             android:layout_height="wrap_content"
                             android:text="..." />
 
