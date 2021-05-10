@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "649363487140",
+    "project_id": "myfitapp-a5b2b",
+    "storage_bucket": "myfitapp-a5b2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649363487140:android:bb8ce879e53a4672162931",
+        "android_client_info": {
+          "package_name": "it.unimib.myfitapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649363487140-7bq984rhdmd69crap7e588elaklmph8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6YkKz1IbBon6mGRQoZH9CfEc5TydLEqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649363487140-7bq984rhdmd69crap7e588elaklmph8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
