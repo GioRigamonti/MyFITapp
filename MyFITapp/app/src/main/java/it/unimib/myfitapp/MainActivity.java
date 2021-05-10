@@ -3,7 +3,6 @@ package it.unimib.myfitapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import it.unimib.myfitapp.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.action_profile:
                 // definisco l'intenzione di aprire l'Activity "Page1.java"
-                Intent openPage1 = new Intent(MainActivity.this, Profile.class);
+                Intent openPage1 = new Intent(MainActivity.this, Login.class);
                 // passo all'attivazione dell'activity page1.java
                 startActivity(openPage1);
                 break;
             case R.id.action_options:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage2 = new Intent(MainActivity.this,SettingsActivity.class);
+                Intent openPage2 = new Intent(MainActivity.this, Settings.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage2);
                 break;
