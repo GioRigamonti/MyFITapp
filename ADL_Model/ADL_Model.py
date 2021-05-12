@@ -11,7 +11,9 @@ import numpy as np
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.models import Sequential
 from sklearn.model_selection import train_test_split
-
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_fscore_support
+import seaborn as sns
 
 file_name = 'MOTIONSENSE'
 #apertura dell'archivio per estrazione
@@ -68,6 +70,7 @@ y = ds[['label_stairs down', 'label_jogging',
         'label_sitting','label_standing','label_stairs up', 'label_walking']]
 y = np.asarray(y)
 
+
 #divisione del dataset in X_train, y_train per il traning e X_test, y_test per 
 #la validazione
 X_train, X_test, y_train, y_test = train_test_split(
@@ -77,21 +80,56 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 #creazione del modello
-model = Sequential() 
+model = Sequential(name ='model1') 
 model.add(Dense(128, activation = 'relu', input_shape=(3,)))
 model.add(Dropout(0.5)) 
-model.add(Dense(128, activation = 'relu'))
+model.add(Dense(128, activation = 'relu')) 
 model.add(Dense(6, activation = 'softmax'))
 model.summary()
 
 #configurazione modello per addestramento
-model.compile(loss='categorical_crossentropy', optimizer='adam', 
-              metrics=['accuracy'])
+model.compile(loss='log_cosh', optimizer='Adam', 
+              metrics=['top_k_categorical_accuracy'])
+#loss = 'categorical_crossentropy', optimizer = 'Adam', metrics = ['accuracy']
 
 #addestramento del modello
-model.fit(X_train, y_train, validation_split = 1 - 0.8, epochs = 10, 
-          batch_size = 64, verbose = 2, validation_data = (X_test, y_test))
+history = model.fit(X_train, y_train,
+                  	validation_split = 1 - 0.8, 
+                  	epochs = 10, 
+                  	batch_size = 64, 
+			verbose = 2, 
+                 	validation_data = (X_test, y_test))
+history.history
 
+print("\n\n\nEvaluate on test data")
+results = model.evaluate(X_test, y_test, 
+    			batch_size=128)
+print("\ntest loss, test acc:", results)
+
+#matrice di confusione+classification_report
+y_pred = model.predict_classes(X_test)
+
+y_test1 = y_test.argmax(axis=-1)
+
+# Creates a confusion matrix
+cm = confusion_matrix(y_test1, y_pred) 
+
+# Transform to df for easier plotting
+cm_df = pd.DataFrame(cm,
+                     index   = ['Downstairs', 'Jogging', 'Sitting', 'Standing', 'Upstairs', 'Walking'], 
+                     columns = ['Downstairs', 'Jogging', 'Sitting', 'Standing', 'Upstairs', 'Walking'])
+
+plt.figure(figsize=(10,10))
+sns.heatmap(cm_df, annot=True, fmt="d", linewidths=0.5, cmap='Blues', cbar=False, annot_kws={'size':14}, square=True)
+plt.title('Kernel \nAccuracy:{0:.3f}'.format(accuracy_score(y_test1, y_pred)))
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+plt.show()
+
+from sklearn.metrics import classification_report
+print(classification_report(y_test1, y_pred, target_names=['Downstairs', 'Jogging', 'Sitting', 'Standing', 'Upstairs', 'Walking']))
+
+"""
 # Convert the model
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
@@ -99,3 +137,4 @@ tflite_model = converter.convert()
 # Save the model
 with open('ADL_Model.tflite', 'wb') as f:
   f.write(tflite_model)
+"""
