@@ -84,6 +84,8 @@ model = Sequential(name ='model1')
 model.add(Dense(128, activation = 'relu', input_shape=(3,)))
 model.add(Dropout(0.5)) 
 model.add(Dense(128, activation = 'relu')) 
+model.add(tf.keras.layers.AveragePooling2D(
+    pool_size = (2,2), strides = None, padding = "valid", data_format = "channels_first"))
 model.add(Dense(6, activation = 'softmax'))
 model.summary()
 
