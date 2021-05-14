@@ -185,7 +185,7 @@ def plot_grafico_training(history, epochs):
   plt.plot(epoch_range, history.history['val_accuracy'])
   plt.title('ADL_Model accuracy')
   plt.ylabel('Accuracy')
-  plt.xlabel('Epochs')
+  plt.xlabel('Epoche')
   plt.legend(['Train', 'Val'], loc='upper left')
   plt.show()
 
@@ -194,7 +194,7 @@ def plot_grafico_training(history, epochs):
   plt.plot(epoch_range, history.history['val_loss'])
   plt.title('ADL_Model loss')
   plt.ylabel('Loss')
-  plt.xlabel('Epochs')
+  plt.xlabel('Epoche')
   plt.legend(['Train', 'Val'], loc='upper left')
   plt.show()
 
