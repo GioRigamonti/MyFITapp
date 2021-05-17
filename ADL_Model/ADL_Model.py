@@ -71,7 +71,19 @@ data['label'].value_counts().plot(kind='bar',
                                 color= mcolors.TABLEAU_COLORS,
                                 title='Suddivisione dati MOTIONSENSE per Activity')
 plt.show()
+"""
+# creazione di un grafico per vedere l'andamento dell'accelerometro in ogni attività
+def plot_activity(activity, df):
+    dataframe = df[df['label'] == activity][['acc_x', 'acc_y', 'acc_z']][:200]
+    axis = dataframe.plot(subplots=True, figsize=(16, 12), 
+                     title=activity)
+    for ax in axis:
+        ax.legend(loc='lower left', bbox_to_anchor=(1.0, 0.5))
 
+        
+for i in activities:
+    plot_activity(i, data)
+"""
 # bilanciamento dei dati
 activity_min = data['label'].value_counts().min()
 
@@ -200,6 +212,7 @@ def plot_grafico_training(history, epochs):
 
 plot_grafico_training(history, len(history.history['loss']))
 
+#plot_grafico_training(history, len(history.history['accuracy']))
 
 # generazione delle previsioni
 y_pred = np.argmax(model.predict(X_test), axis=-1)
