@@ -92,7 +92,7 @@ sitting = data[data['label']=='sitting'].head(activity_min).copy()
 standing = data[data['label']=='standing'].head(activity_min).copy()
 stairs_up = data[data['label']=='stairs up'].head(activity_min).copy()
 jogging = data[data['label']=='jogging'].head(activity_min).copy()
-stairs_down = data[data['label']=='stairs down'].copy()
+stairs_down = data[data['label']=='stairs down'].head(activity_min).copy()
 
 balanced_data = pd.DataFrame()
 balanced_data = balanced_data.append([walking, sitting, standing, stairs_up, 
@@ -135,16 +135,17 @@ def dividi_frames(df, frame_size, ov_size):
     frames = []
     labels = []
     for i in range(0, len(df) - frame_size, ov_size):
-        x = df['acc_x'].values[i: i + frame_size]
+        # divisione in frame da 150
+        x = df['acc_x'].values[i: i + frame_size] 
         y = df['acc_y'].values[i: i + frame_size]
         z = df['acc_z'].values[i: i + frame_size]
         
-        # Retrieve the most often used label in this segment
+        # Selezione della label del frame più usata
         label = stats.mode(df['label'][i: i + frame_size])[0][0]
         frames.append([x, y, z])
         labels.append(label)
 
-    # Bring the segments into a better shape
+    # Reshape del frame e conversione in array
     frames = np.asarray(frames).reshape(-1, frame_size, N_FEATURES)
     labels = np.asarray(labels)
 
@@ -182,16 +183,16 @@ model.add(Dense(6, activation='softmax'))
 
 # addestramento del modello
 model.compile(optimizer=Adam(learning_rate = 0.001), loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
-
+model.summary()
 # training del modello
 epochs=100
 callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=2)
-print('training del modello..\n')
+print('\n\ntraining del modello..\n')
 history = model.fit(X_train, y_train, epochs = epochs, validation_data= (X_test, y_test), verbose=2, callbacks=[callback])
 
 # stampa del grafico del training
 def plot_grafico_training(history, epochs):
-  # Plot training & validation accuracy values
+  # Plot training & valori della validation accuracy 
   epoch_range = range(1, epochs+1)
   plt.plot(epoch_range, history.history['accuracy'])
   plt.plot(epoch_range, history.history['val_accuracy'])
@@ -201,7 +202,7 @@ def plot_grafico_training(history, epochs):
   plt.legend(['Train', 'Val'], loc='upper left')
   plt.show()
 
-  # Plot training & validation loss values
+  # Plot training & valori della validation loss
   plt.plot(epoch_range, history.history['loss'])
   plt.plot(epoch_range, history.history['val_loss'])
   plt.title('ADL_Model loss')

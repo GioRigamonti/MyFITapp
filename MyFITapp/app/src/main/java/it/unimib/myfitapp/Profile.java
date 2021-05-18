@@ -57,9 +57,15 @@ public class Profile extends AppCompatActivity {
                 startActivity(openPage2);
                 break;
 
+
             case android.R.id.home:
-                finish();
-                return true;
+                //finish();
+                //return true;
+                Intent openPage3 = new Intent(Profile.this, MainActivity.class);
+                // passo all'attivazione dell'activity page2.java
+                startActivity(openPage3);
+                break;
+
         }
 
         return false;
