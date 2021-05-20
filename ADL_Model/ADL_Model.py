@@ -3,6 +3,7 @@
 @author: Jessica Maggioni 845389
 @author: Giorgia Rigamonti 844619
 """
+
 import zipfile
 import json
 
@@ -14,8 +15,7 @@ import matplotlib.colors as mcolors
 
 import tensorflow as tf
 from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Flatten, Dense, Dropout, BatchNormalization
-from tensorflow.keras.layers import Conv2D, MaxPool2D
+from tensorflow.keras.layers import Flatten, Dense, Dropout, Conv2D
 from tensorflow.keras.optimizers import Adam
 
 from sklearn.model_selection import train_test_split
@@ -24,28 +24,35 @@ from mlxtend.plotting import plot_confusion_matrix
 from sklearn import metrics
 
 
-
 file_name = 'MOTIONSENSE'
-#apertura dell'archivio per estrazione
+# apertura dell'archivio per estrazione
 with zipfile.ZipFile(file_name + '.zip') as myzip:
     with myzip.open(file_name + '.json') as myfile:
-        #lettura e conversione da bytecode a str e eliminazione degli spazi(\r\n)
+        # lettura e conversione da bytecode a str e eliminazione degli spazi(\r\n)
         r = myfile.read().decode('utf-8').strip() 
 
-#chiusura del file .zip
+# chiusura del file .zip
 myzip.close()
-           
-fieldsToDelete = ['db_id','type','sensors','config_id', 'gyroscope']
+     
+fieldsToDelete = ['_id', 'db_id', 'type', 'sensors', 'config_id', 'gyroscope']
  
-#crea una lista di dizionari, uno per ogni elemento della stringa letta dal file .json
-json_data = json.loads(r) #type(data) = list
+# crea una lista di dizionari, uno per ogni elemento della stringa letta dal file .json
+json_data = json.loads(r) # type(data) = list
 
-#elimina i campi inutilizzati, mantiene solo _id, label, accelerometer 
+# estrazione della frequenza dal dataset
+freq_acc=[]
+for item_data in json_data:
+    for item in item_data['sensors']:
+        if (item['type'] == 'accelerometer'):
+            freq_acc.append(item['frequency'])
+freq_ds = stats.mode(freq_acc)[0][0]
+
+# elimina i campi inutilizzati, mantiene solo label, accelerometer 
 for data_item in json_data: 
     for i in fieldsToDelete:
         del data_item[i] 
 
-#creazione dizionario per il dataframe
+# creazione dizionario per il dataframe
 acc_x_list = []
 acc_y_list = []
 acc_z_list = []
@@ -84,6 +91,7 @@ def plot_activity(activity, df):
 for i in activities:
     plot_activity(i, data)
 """
+
 # bilanciamento dei dati
 activity_min = data['label'].value_counts().min()
 
@@ -98,7 +106,7 @@ balanced_data = pd.DataFrame()
 balanced_data = balanced_data.append([walking, sitting, standing, stairs_up, 
                                       jogging, stairs_down])
 
-#conversione delle label in notazione numerica
+# conversione delle label in notazione numerica
 # 'jogging' = 0
 # 'sitting' = 1
 # 'stairs down' = 2
@@ -123,10 +131,11 @@ stand_X['label'] = y.values
 
 
 # suddivisione dei frame in base alla frequenza
-# si considerano 150 osservazioni per finestra e 100 di overlap
-Fs = 50
-frame_size = Fs*3 # 150
-ov_size = Fs*2 # 100
+# suppondendo la frequenza sia 50Hz, si considerano 150 osservazioni per 
+# finestra e 100 di overlap
+Fs = freq_ds
+frame_size = Fs*3
+ov_size = Fs*2
 
 def dividi_frames(df, frame_size, ov_size):
 
@@ -184,6 +193,7 @@ model.add(Dense(6, activation='softmax'))
 # addestramento del modello
 model.compile(optimizer=Adam(learning_rate = 0.001), loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
 model.summary()
+
 # training del modello
 epochs=100
 callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=2)
@@ -213,23 +223,22 @@ def plot_grafico_training(history, epochs):
 
 plot_grafico_training(history, len(history.history['loss']))
 
-#plot_grafico_training(history, len(history.history['accuracy']))
-
 # generazione delle previsioni
 y_pred = np.argmax(model.predict(X_test), axis=-1)
 
 # calcolo dell'accuracy del modello
 accuracy = metrics.accuracy_score(y_true=y_test, y_pred=y_pred)
 print('Accuracy:\n    {}\n\n'.format(accuracy))
+
 # creazione della matrice di confusione
 mat = metrics.confusion_matrix(y_test, y_pred)
-plot_confusion_matrix(conf_mat=mat, class_names=label.classes_, show_normed=True, show_absolute=True, figsize=(7,7), colorbar=True)
-
+plot_confusion_matrix(conf_mat=mat, class_names=label.classes_, 
+                      show_normed=True, show_absolute=True, figsize=(7,7), 
+                      colorbar=True)
 
 # generazione del report del modello
 classification_report = metrics.classification_report(y_test, y_pred, target_names=string_array)
 print('classification report:\n\n' + classification_report)
-
 
 # conversione del modello
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
