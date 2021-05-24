@@ -12,8 +12,6 @@ import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,10 +45,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener{
-
-    Spinner SignUpSex, SignUpActivity_level;
-    Button SignUpButton;
-
     private static final String TAG = EditProfile.class.getSimpleName();
     Button btnsave;
     private FirebaseAuth firebaseAuth;
@@ -59,23 +52,39 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     private DatabaseReference databaseReference;
     private EditText editTextName;
     private EditText editTextSurname;
-    private EditText editTextUser_ID;
-    private EditText editTextDate;
-    private EditText editTextWeigth;
-    private EditText editTextHeigh;
-    private Spinner spinnerSex;
-    private Spinner spinnerActivity_level;
+    private EditText editTextUserID;
     private ImageView profileImageView;
     private FirebaseStorage firebaseStorage;
+    private EditText editHeight;
+    private EditText editWeigth;
+    private EditText editDate;
+    private Spinner editTextSex;
+    private Spinner editTextActivity_level;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
     private StorageReference storageReference;
+
+    public EditProfile() {
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
+            imagePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
+                profileImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -91,20 +100,18 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         databaseReference = FirebaseDatabase.getInstance().getReference();
         editTextName = (EditText)findViewById(R.id.input_name);
         editTextSurname = (EditText)findViewById(R.id.input_surname);
-        editTextUser_ID = (EditText)findViewById(R.id.input_user_ID);
-        editTextDate = (EditText)findViewById(R.id.input_date);
-        editTextWeigth = (EditText)findViewById(R.id.input_weight);
-        editTextHeigh = (EditText)findViewById(R.id.input_height);
-        spinnerSex = (Spinner)findViewById(R.id.input_sex);
-        spinnerActivity_level = (Spinner)findViewById(R.id.input_activityLevel);
-
-        btnsave = (Button)findViewById(R.id.button_confirm);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        editTextSex = (Spinner)findViewById(R.id.input_sex);
+        editTextActivity_level = (Spinner)findViewById(R.id.input_activityLevel);
+        editDate = (EditText)findViewById(R.id.input_date);
+        editHeight = (EditText)findViewById(R.id.input_height);
+        editWeigth = (EditText)findViewById(R.id.input_weight);
+        editTextUserID = (EditText)findViewById(R.id.input_user_ID);
+        FirebaseUser user=firebaseAuth.getCurrentUser();
+        btnsave=(Button)findViewById(R.id.button_confirm);
         btnsave.setOnClickListener(this);
 
         textViewemailname=(TextView)findViewById(R.id.view_email);
         textViewemailname.setText(user.getEmail());
-
         profileImageView = findViewById(R.id.addPhotoImage);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
@@ -135,46 +142,26 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         return true;
     }
 
-    public EditProfile() {
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
-            imagePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
-                profileImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     private void userInformation() throws ParseException {
         String name = editTextName.getText().toString().trim();
         String surname = editTextSurname.getText().toString().trim();
-        String userId = editTextUser_ID.getText().toString().trim();
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(editTextDate.getText().toString());
-        float weight = Float.valueOf(editTextWeigth.getText().toString());
-        int heigh = Integer.valueOf(editTextHeigh.getText().toString());
-        String sex = spinnerSex.toString().trim();
-        String activityLevel = spinnerActivity_level.toString().trim();
-
         String email = textViewemailname.getText().toString().trim();
-
-        Profile profile = new Profile(name, surname, email, userId, sex, date, weight, heigh, activityLevel);
-
+        String sex = editTextSex.toString().trim();
+        String user_id = editTextUserID.getText().toString().trim();
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(editDate.getText().toString());
+        int height = Integer.valueOf(editWeigth.getText().toString());
+        float weight = Float.valueOf(editWeigth.getText().toString());
+        String activity_level = editTextActivity_level.toString().trim();
+        Profile userinformation = new Profile(user_id, name,surname,email, sex, date,weight,height,activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(profile);
+        databaseReference.child(user.getUid()).setValue(userinformation);
         Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
     }
-
     @Override
     public void onClick(View view) {
-        if (view == btnsave){
+        if (view==btnsave){
             if (imagePath == null) {
-
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_baseline_account_circle_24);
 
@@ -184,7 +171,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                // sendUserData();
+
+                //sendUserData();
                 finish();
                 startActivity(new Intent(EditProfile.this, MainActivity.class));
             }
@@ -201,7 +189,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void sendUserData() {
+    private void sendUserData(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         // Get "User UID" from Firebase > Authentification > Users.
         DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
@@ -248,5 +236,4 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         okBT.setTextColor(Color.BLUE);
         okBT.setLayoutParams(neutralBtnLP);
     }
-
 }
