@@ -24,20 +24,13 @@
                     android:id="@+id/addPhotoImage"
                     android:layout_width="99dp"
                     android:layout_height="90dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="64dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
+                    app:layout_constraintBottom_toTopOf="@id/tableLayout"
+                    app:srcCompat="@drawable/ic_baseline_account_circle_24" />//sostituire con logo
 
-                <TextView
-                    android:id="@+id/addPhotoText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_photo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addPhotoImage" />
 
                 <TableLayout
                     android:id="@+id/tableLayout"
@@ -46,48 +39,9 @@
                     android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addPhotoText">
+                    app:layout_constraintBottom_toTopOf="@id/button_confirm"
+                    app:layout_constraintTop_toBottomOf="@+id/addPhotoImage">
 
-
-                    <TableRow
-                        android:id="@+id/id_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/Name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/name" />
-
-                        <EditText
-                            android:id="@+id/input_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_surname"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/surname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/surname" />
-
-                        <EditText
-                            android:id="@+id/input_surname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-
-                    </TableRow>
 
                     <TableRow
                         android:id="@+id/id_email"
@@ -106,26 +60,6 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:inputType="textWebEmailAddress" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_user_ID"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/user_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/user_ID" />
-
-                        <EditText
-                            android:id="@+id/input_user_ID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
 
                     </TableRow>
 
@@ -160,110 +94,33 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_sex"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/sex"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sex" />
-
-                        <Spinner
-                            android:id="@+id/input_sex"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/sesso" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_age"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/age"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date_of_birth" />
-
-                        <EditText
-                            android:id="@+id/input_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="date" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_weight"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/weight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/weight" />
-
-                        <EditText
-                            android:id="@+id/input_weight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="number" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_height"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/height"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/heigh" />
-
-                        <EditText
-                            android:id="@+id/input_height"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="number" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_actvity_level"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/activity_level"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/activity_level" />
-
-                        <Spinner
-                            android:id="@+id/input_activityLevel"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/livello_attività" />
-                    </TableRow>
                 </TableLayout>
 
                 <Button
                     android:id="@+id/button_confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="60dp"
-                    android:text="@string/Button_confirm"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/register"
+                    app:layout_constraintBottom_toTopOf="@id/link_login"
                     app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+                <TextView
+                    android:id="@+id/link_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:layout_marginBottom="40dp"
+                    android:clickable="true"
+                    android:text="@string/registered"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_confirm" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

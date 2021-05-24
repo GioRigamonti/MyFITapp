@@ -24,7 +24,7 @@
     <string name="title_activity_settings">Opzioni</string>
     <string name="unit_header">Unità di misura</string>
     <string name="forgot_password">Password dimenticata</string>
-    <string name="not_registered">Non ancora registrato</string>
+    <string name="registered">Già registrato</string>
     <string name="level_sedentario">Sedentario</string>
     <string name="level_sportivo">Sportivo</string>
     <string name="level_attivo">Attivo</string>
@@ -44,4 +44,5 @@
     <string name="date_of_birth">Data di nascita</string>
     <string name="title_activity_edit_profile">Modifica profilo</string>
     <string name="modify_photo">Modifica foto</string>
+    <string name="register">Registrati</string>
 </resources>
