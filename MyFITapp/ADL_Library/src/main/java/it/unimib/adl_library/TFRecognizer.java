@@ -3,6 +3,7 @@ package it.unimib.adl_library;
 public class TFRecognizer extends ADLManager {
     private ADLModel model;
     private ADLObserver accObserver;
+    private ADLListener accListener;
 
     public TFRecognizer(ADLModel model) {
         this.model = model;
