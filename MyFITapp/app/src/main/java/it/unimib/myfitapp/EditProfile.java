@@ -150,7 +150,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         int height = Integer.valueOf(editHeight.getText().toString());
         float weight = Float.valueOf(editWeight.getText().toString());
         String activity_level = editTextActivity_level.toString().trim();
-        Profile userinformation = new Profile(name,surname,email, sex, date,weight,height,activity_level);
+        UserInformation userinformation = new UserInformation(name,surname,email, sex, date,weight,height,activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
         Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
