@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Home extends AppCompatActivity {
-    private final int DISPLAY_LENGTH = 0;
+    private final int DISPLAY_LENGTH = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,22 +21,9 @@ public class Home extends AppCompatActivity {
         //Check current user
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(authStateListener);
-        /*new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                /*Intent mainIntent = new Intent(Home.this,Home.class);
-                Home.this.startActivity(mainIntent);
-                Home.this.finish();*/
-        // }
-        //}, DISPLAY_LENGTH);*/
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, Registration.class));
         finish();
     }
-
-
-
-
 
 
     FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
