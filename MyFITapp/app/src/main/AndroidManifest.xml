@@ -12,11 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFITapp">
-        <activity
-            android:name=".Home"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Theme.MyFITapp.NoActionBar"></activity>
-        <activity android:name=".ResetPassword" />
+
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"

@@ -45,7 +45,8 @@ public class UserInformation {
     public String getUserSex(){
         return sex;
     }
-    public Date getUserAge(){
+    public int getAge(){return age;}
+    public Date getUserDate(){
         return date;
     }
     public int setUserAge(Date date){
