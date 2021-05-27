@@ -116,10 +116,10 @@ public class Login extends AppCompatActivity {
         Intent inent = new Intent(this, Registration.class);
         startActivity(inent);
     }
-    /*public void NavigateForgetMyPassword(View v) {
+    public void NavigateForgetMyPassword(View v) {
         Intent inent = new Intent(this, ResetPassword.class);
         startActivity(inent);
-    }*/
+    }
 
 
     @Override
