@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class Profile extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private ImageView profilePicImageView;
     private FirebaseStorage firebaseStorage;
-
+    Button LogoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +89,14 @@ public class Profile extends AppCompatActivity {
                 Picasso.get().load(uri).fit().centerInside().into(profilePicImageView);
             }
         });
-        if (firebaseAuth.getCurrentUser() == null){
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(),Login.class));
+            startActivity(new Intent(getApplicationContext(), Login.class));
         }
-        final FirebaseUser user=firebaseAuth.getCurrentUser();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
                 profileNameTextView.setText(userProfile.getUserName());
                 profileSurnameTextView.setText(userProfile.getUserSurname());
@@ -110,12 +111,21 @@ public class Profile extends AppCompatActivity {
                 textViewemailname = findViewById(R.id.user_email);
                 textViewemailname.setText(user.getEmail());
             }
+
             @Override
-            public void onCancelled( DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(Profile.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
+        LogoutButton = (Button) findViewById(R.id.button_logout);
 
+        LogoutButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, Login.class);
+                startActivity(intent);
+            }
+        });
+        
     }
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
