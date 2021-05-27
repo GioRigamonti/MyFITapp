@@ -32,28 +32,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.addAuthStateListener(authStateListener);
 
     }
 
-    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-            if (firebaseUser == null) {
-                Intent intent = new Intent(MainActivity.this, Registration.class);
-                startActivity(intent);
-                finish();
-            }
-            if (firebaseUser != null) {
-                Intent intent = new Intent(MainActivity.this, Profile.class);
-                startActivity(intent);
-                finish();
-            }
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
