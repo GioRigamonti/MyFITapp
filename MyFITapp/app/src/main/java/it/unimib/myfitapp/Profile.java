@@ -211,5 +211,3 @@ public class Profile extends AppCompatActivity {
         startActivity(inent);
     }
 }
-
-}
