@@ -55,7 +55,7 @@
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/prompt_email" />
+                            android:text="@string/name" />
 
                         <EditText
                             android:id="@+id/input_name"
@@ -74,7 +74,7 @@
                             android:id="@+id/surname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/prompt_email" />
+                            android:text="@string/surname" />
 
                         <EditText
                             android:id="@+id/input_surname"
@@ -100,44 +100,6 @@
                             android:id="@+id/view_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/id_user_ID"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/user_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/user_ID" />
-
-                        <EditText
-                            android:id="@+id/input_user_ID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-
-                    </TableRow>
-                    <TableRow
-                        android:id="@+id/id_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/Password"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/prompt_password" />
-
-                        <TextView
-                            android:id="@+id/view_Password"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
 
                     </TableRow>
 
