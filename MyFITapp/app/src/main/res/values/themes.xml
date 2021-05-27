@@ -23,6 +23,6 @@
 
     <style name="Theme.MyFITapp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="HomeTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/ic_omini_senza_sfondo</item>
+        <item name="android:windowBackground">@drawable/ic_myfit</item>
     </style>
 </resources>
