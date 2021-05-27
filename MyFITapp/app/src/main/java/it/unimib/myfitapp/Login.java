@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     private boolean logged = false;
     private EditText SignInMail, SignInPass;
     private FirebaseAuth auth;
-    private Button SignInButton;
+    private Button SignInButton, ForgetPasswordButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,35 +46,13 @@ public class Login extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-
-        SignInMail = (EditText) findViewById(R.id.email_text);
-        SignInPass = (EditText) findViewById(R.id.password_text);
-        SignInButton = (Button) findViewById(R.id.login_button);
+        SignInMail = (EditText) findViewById(R.id.input_email_login);
+        SignInPass = (EditText) findViewById(R.id.user_password_text_login);
+        SignInButton = (Button) findViewById(R.id.button_confirm);
+        ForgetPasswordButton = (Button) findViewById(R.id.button_forgetPassword);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
-        Button btnHome =(Button)findViewById(R.id.login);
-        btnHome.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0) {
-                if (logged){
-                    // definisco l'intenzione
-                    Intent openPage1 = new Intent(Login.this,MainActivity.class);
-                    logged = true;
-                    // passo all'attivazione dell'activity Pagina.java
-                    startActivity(openPage1);}
-                else{
-                    // definisco l'intenzione
-                    Intent openPage = new Intent(Login.this,Profile.class);
-                    // passo all'attivazione dell'activity Pagina.java
-                    startActivity(openPage);}
-
-            }
-
-        });
 
         SignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,14 +89,17 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        ForgetPasswordButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                NavigateForgetMyPassword(v);
+            }
+        });
+
     }
-    public void NavigateSignUp(View v) {
-        Intent inent = new Intent(this, Registration.class);
-        startActivity(inent);
-    }
+
     public void NavigateForgetMyPassword(View v) {
-        Intent inent = new Intent(this, ResetPassword.class);
-        startActivity(inent);
+        Intent intent = new Intent(this, ResetPassword.class);
+        startActivity(intent);
     }
 
 

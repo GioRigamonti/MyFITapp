@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 public class Registration extends AppCompatActivity {
     EditText SignUpMail,SignUpPass;
-    Button SignUpButton;
+    Button SignUpButton, SignInButton;
     private FirebaseAuth auth;
 
 
@@ -45,6 +45,8 @@ public class Registration extends AppCompatActivity {
 
         auth=FirebaseAuth.getInstance();
         SignUpButton = (Button) findViewById(R.id.button_confirm);
+        SignInButton = (Button) findViewById(R.id.button_goToSignIn);
+
 
         SignUpButton.setOnClickListener(new View.OnClickListener() {
 
@@ -81,10 +83,19 @@ public class Registration extends AppCompatActivity {
                             });}
             }
         });
+
+
+        SignInButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                    navigate_sign_in(v);
+            }
+        });
     }
+
     public void navigate_sign_in(View v){
-        Intent inent = new Intent(this, Login.class);
-        startActivity(inent);
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+        finish();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
