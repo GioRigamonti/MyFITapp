@@ -52,11 +52,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     private DatabaseReference databaseReference;
     private EditText editTextName;
     private EditText editTextSurname;
-    private EditText editTextUserID;
     private ImageView profileImageView;
     private FirebaseStorage firebaseStorage;
     private EditText editHeight;
-    private EditText editWeigth;
+    private EditText editWeight;
     private EditText editDate;
     private Spinner editTextSex;
     private Spinner editTextActivity_level;
@@ -104,8 +103,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         editTextActivity_level = (Spinner)findViewById(R.id.input_activityLevel);
         editDate = (EditText)findViewById(R.id.input_date);
         editHeight = (EditText)findViewById(R.id.input_height);
-        editWeigth = (EditText)findViewById(R.id.input_weight);
-        editTextUserID = (EditText)findViewById(R.id.input_user_ID);
+        editWeight = (EditText)findViewById(R.id.input_weight);
         FirebaseUser user=firebaseAuth.getCurrentUser();
         btnsave=(Button)findViewById(R.id.button_confirm);
         btnsave.setOnClickListener(this);
@@ -148,12 +146,11 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String surname = editTextSurname.getText().toString().trim();
         String email = textViewemailname.getText().toString().trim();
         String sex = editTextSex.toString().trim();
-        String user_id = editTextUserID.getText().toString().trim();
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(editDate.getText().toString());
-        int height = Integer.valueOf(editWeigth.getText().toString());
-        float weight = Float.valueOf(editWeigth.getText().toString());
+        int height = Integer.valueOf(editHeight.getText().toString());
+        float weight = Float.valueOf(editWeight.getText().toString());
         String activity_level = editTextActivity_level.toString().trim();
-        Profile userinformation = new Profile(user_id, name,surname,email, sex, date,weight,height,activity_level);
+        Profile userinformation = new Profile(name,surname,email, sex, date,weight,height,activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
         Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();

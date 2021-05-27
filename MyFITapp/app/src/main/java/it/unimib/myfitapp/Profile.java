@@ -40,7 +40,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Profile extends AppCompatActivity {
-    private String userID;
     private String name;
     private String surname;
     private String email;
@@ -54,7 +53,7 @@ public class Profile extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private TextView profileNameTextView, profileSurnameTextView,textViewemailname;
     private TextView profileSex, profileAge, profileWeight, profileActivityLevel;
-    private TextView profileIMC,profileUserID, profileHeight;
+    private TextView profileIMC, profileHeight;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private ImageView profilePicImageView;
@@ -81,7 +80,6 @@ public class Profile extends AppCompatActivity {
         profileSex = findViewById(R.id.user_sex);
         profileWeight = findViewById(R.id.user_weight);
         profileHeight = findViewById(R.id.user_heigh);
-        profileUserID = findViewById(R.id.user_ID);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -114,7 +112,6 @@ public class Profile extends AppCompatActivity {
                 profileSex.setText(userProfile.getUserSex());
                 profileWeight.setText(Float.toString(userProfile.getUserWeight()));
                 profileIMC.setText(Float.toString(userProfile.getIMC()));
-                profileUserID.setText(userProfile.getUserID());
 
 
                 textViewemailname = findViewById(R.id.user_email);
@@ -174,9 +171,8 @@ public class Profile extends AppCompatActivity {
     public Profile(){
     }
 
-    public Profile(String userID, String name,String surname, String email, String sex,
+    public Profile(String name,String surname, String email, String sex,
                     Date date, float weight, int height, String activity_level) {
-        this.userID = userID;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -189,9 +185,6 @@ public class Profile extends AppCompatActivity {
         this.IMC = setIMC(sex,age,weight,height);
     }
 
-    public String getUserID(){
-        return userID;
-    }
     public String getUserName(){
         return name;
     }

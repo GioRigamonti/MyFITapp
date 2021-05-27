@@ -13,10 +13,12 @@ public class ADLInstance {
     }
 
     public void setAcc_x(float acc_x) {
+
         this.acc_x = acc_x;
     }
 
     public float getAcc_y() {
+
         return acc_y;
     }
 
