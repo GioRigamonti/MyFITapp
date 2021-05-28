@@ -169,12 +169,197 @@ public class Profile extends AppCompatActivity {
         return false;
     }
 
-
-
-   
     public void navigateLogOut(View v){
         FirebaseAuth.getInstance().signOut();
-        Intent inent = new Intent(this, MainActivity.class);
-        startActivity(inent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
+
+    public void buttonClickedEditName(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_name, null);
+        final EditText etName = alertLayout.findViewById(R.id.et_name);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Edit Name");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = etName.getText().toString().trim();
+                String surname = profileSurnameTextView.getText().toString().trim();
+                String email = textViewemailname.getText().toString().trim();
+                String sex = profileSex.getText().toString().trim();
+                int age = Integer.parseInt(profileAge.getText().toString().trim());
+                int height = Integer.parseInt(profileHeight.getText().toString().trim());
+                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                String activity_level = profileActivityLevel.getText().toString().trim();
+                UserInformation userinformation = new UserInformation(name, surname, email, sex,
+                        age, weight, height, activity_level);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    public void buttonClickedEditSurname(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_surname, null);
+        final EditText etSurname = alertLayout.findViewById(R.id.et_surname);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Edit Surname");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = profileNameTextView.getText().toString().trim();
+                String surname = etSurname.getText().toString().trim();
+                String email = textViewemailname.getText().toString().trim();
+                String sex = profileSex.getText().toString().trim();
+                int age = Integer.parseInt(profileAge.getText().toString().trim());
+                int height = Integer.parseInt(profileHeight.getText().toString().trim());
+                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                String activity_level = profileActivityLevel.getText().toString().trim();
+                UserInformation userinformation = new UserInformation(name, surname, email, sex,
+                        age, weight, height, activity_level);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+    public void buttonClickedEditWeight(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_weight, null);
+        final EditText etWeight = alertLayout.findViewById(R.id.et_weight);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Edit Weight");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = profileNameTextView.getText().toString().trim();
+                String surname = profileSurnameTextView.getText().toString().trim();
+                String email = textViewemailname.getText().toString().trim();
+                String sex = profileSex.getText().toString().trim();
+                int age = Integer.parseInt(profileAge.getText().toString().trim());
+                int height = Integer.parseInt(profileHeight.getText().toString().trim());
+                float weight = Float.parseFloat(etWeight.getText().toString().trim());
+                String activity_level = profileActivityLevel.getText().toString().trim();
+                UserInformation userinformation = new UserInformation(name, surname, email, sex,
+                        age, weight, height, activity_level);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                etWeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+    public void buttonClickedEditHeight(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_height, null);
+        final EditText etHeight = alertLayout.findViewById(R.id.et_height);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Edit Height");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = profileNameTextView.getText().toString().trim();
+                String surname = profileSurnameTextView.getText().toString().trim();
+                String email = textViewemailname.getText().toString().trim();
+                String sex = profileSex.getText().toString().trim();
+                int age = Integer.parseInt(profileAge.getText().toString().trim());
+                int height = Integer.parseInt(etHeight.getText().toString().trim());
+                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                String activity_level = profileActivityLevel.getText().toString().trim();
+                UserInformation userinformation = new UserInformation(name, surname, email, sex,
+                        age, weight, height, activity_level);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                etHeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+    public void buttonClickedEditActivityLevel(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_activity_level, null);
+        final EditText etActivityLevel = alertLayout.findViewById(R.id.et_activity_level);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Edit Activity Level");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = profileNameTextView.getText().toString().trim();
+                String surname = profileSurnameTextView.getText().toString().trim();
+                String email = textViewemailname.getText().toString().trim();
+                String sex = profileSex.getText().toString().trim();
+                int age = Integer.parseInt(profileAge.getText().toString().trim());
+                int height = Integer.parseInt(profileHeight.getText().toString().trim());
+                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                String activity_level = etActivityLevel.getText().toString().trim();
+                UserInformation userinformation = new UserInformation(name, surname, email, sex,
+                        age, weight, height, activity_level);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).setValue(userinformation);
+                etActivityLevel.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
 }
