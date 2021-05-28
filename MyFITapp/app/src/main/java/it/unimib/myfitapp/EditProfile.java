@@ -28,10 +28,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,9 +49,10 @@ import java.util.Date;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = EditProfile.class.getSimpleName();
-    Button btnsave;
+    Button btnsave, DateOfBirthButton;
+    DatePicker picker;
     private FirebaseAuth firebaseAuth;
-    private TextView textViewemailname;
+    private TextView textViewemailname, textViewDate;
     private DatabaseReference databaseReference;
     private EditText editTextName;
     private EditText editTextSurname;
@@ -56,7 +60,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     private FirebaseStorage firebaseStorage;
     private EditText editHeight;
     private EditText editWeight;
-    private EditText editDate;
+    //private EditText editDate;
     private Spinner editTextSex;
     private Spinner editTextActivity_level;
     private static int PICK_IMAGE = 123;
@@ -96,12 +100,21 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             finish();
             startActivity(new Intent(getApplicationContext(),Login.class));
         }
+        textViewDate = (TextView)findViewById(R.id.input_date_TextView);
+        picker = (DatePicker)findViewById(R.id.datePicker);
+        DateOfBirthButton = (Button)findViewById(R.id.calendarButton);
+        DateOfBirthButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                buttonClickedCalendar(v);
+            }
+        });
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
         editTextName = (EditText)findViewById(R.id.input_name);
         editTextSurname = (EditText)findViewById(R.id.input_surname);
         editTextSex = (Spinner)findViewById(R.id.input_sex);
         editTextActivity_level = (Spinner)findViewById(R.id.input_activityLevel);
-        editDate = (EditText)findViewById(R.id.input_date);
+        //editDate = (EditText)findViewById(R.id.input_date);
         editHeight = (EditText)findViewById(R.id.input_height);
         editWeight = (EditText)findViewById(R.id.input_weight);
         FirebaseUser user=firebaseAuth.getCurrentUser();
@@ -146,7 +159,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String surname = editTextSurname.getText().toString().trim();
         String email = textViewemailname.getText().toString().trim();
         String sex = editTextSex.toString().trim();
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(editDate.getText().toString());
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
         int height = Integer.valueOf(editHeight.getText().toString());
         float weight = Float.valueOf(editWeight.getText().toString());
         String activity_level = editTextActivity_level.toString().trim();
@@ -232,5 +245,30 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         okBT.setPadding(50, 10, 10, 10);   // Set Position
         okBT.setTextColor(Color.BLUE);
         okBT.setLayoutParams(neutralBtnLP);
+    }
+
+    public void buttonClickedCalendar(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_caldendar, null);
+        final DatePicker dateOfBirth = alertLayout.findViewById(R.id.datePicker);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Choose date of birth");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                textViewDate.setText(picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 }
