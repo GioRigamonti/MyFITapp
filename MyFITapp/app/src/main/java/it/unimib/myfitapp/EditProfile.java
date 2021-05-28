@@ -1,5 +1,6 @@
 package it.unimib.myfitapp;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,10 +50,14 @@ import java.util.Date;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = EditProfile.class.getSimpleName();
-    Button btnsave, DateOfBirthButton;
+
+    private TextView textViewDate;
+    Button DateOfBirthButton;
     DatePicker picker;
+
+    Button btnsave;
     private FirebaseAuth firebaseAuth;
-    private TextView textViewemailname, textViewDate;
+    private TextView textViewemailname;
     private DatabaseReference databaseReference;
     private EditText editTextName;
     private EditText editTextSurname;
@@ -100,6 +105,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             finish();
             startActivity(new Intent(getApplicationContext(),Login.class));
         }
+
         textViewDate = (TextView)findViewById(R.id.input_date_TextView);
         picker = (DatePicker)findViewById(R.id.datePicker);
         DateOfBirthButton = (Button)findViewById(R.id.calendarButton);
@@ -114,10 +120,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         editTextSurname = (EditText)findViewById(R.id.input_surname);
         editTextSex = (Spinner)findViewById(R.id.input_sex);
         editTextActivity_level = (Spinner)findViewById(R.id.input_activityLevel);
-        //editDate = (EditText)findViewById(R.id.input_date);
         editHeight = (EditText)findViewById(R.id.input_height);
         editWeight = (EditText)findViewById(R.id.input_weight);
         FirebaseUser user=firebaseAuth.getCurrentUser();
+
         btnsave=(Button)findViewById(R.id.button_confirm);
         btnsave.setOnClickListener(this);
 
@@ -168,9 +174,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         databaseReference.child(user.getUid()).setValue(userinformation);
         Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
     }
+
     @Override
     public void onClick(View view) {
-        if (view==btnsave){
+        if (view == btnsave){
             if (imagePath == null) {
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_baseline_account_circle_24);
@@ -265,7 +272,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                textViewDate.setText(picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
+                textViewDate.setText(dateOfBirth.getDayOfMonth()+"/"+ (dateOfBirth.getMonth() + 1)+"/"+dateOfBirth.getYear());
             }
         });
         AlertDialog dialog = alert.create();
