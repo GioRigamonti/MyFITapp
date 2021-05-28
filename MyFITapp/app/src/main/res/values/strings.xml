@@ -59,6 +59,11 @@
     <string name="reset_my_password">Reset Password</string>
     <string name="scegli_data">Choose your date of birth</string>
     <string name="ok_confirm">Ok</string>
+    <string name="edit_activity_level">Edit Activity Level</string>
+    <string name="edit_height">Edit Height</string>
+    <string name="edit_weight">Edit Weight</string>
+    <string name="edit_surname">Edit Surname</string>
+    <string name="edit_name">Edit Name</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 

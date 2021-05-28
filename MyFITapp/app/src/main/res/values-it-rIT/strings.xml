@@ -51,4 +51,9 @@
     <string name="height">Altezza</string>
     <string name="scegli_data">Scegli la tua data di nascita</string>
     <string name="ok_confirm">Ok</string>
+    <string name="edit_activity_level">Modifica Livello di Attività</string>
+    <string name="edit_height">Modifica Altezza</string>
+    <string name="edit_weight">Modifica Peso</string>
+    <string name="edit_surname">Modifica Cognome</string>
+    <string name="edit_name">Modifica Nome</string>
 </resources>

@@ -173,7 +173,7 @@ public class Profile extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_name, null);
         final EditText etName = alertLayout.findViewById(R.id.et_name);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Edit Name");
+        alert.setTitle(getResources().getString(R.string.edit_name));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -211,7 +211,7 @@ public class Profile extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_surname, null);
         final EditText etSurname = alertLayout.findViewById(R.id.et_surname);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Edit Surname");
+        alert.setTitle(getResources().getString(R.string.edit_surname));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -248,7 +248,7 @@ public class Profile extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_weight, null);
         final EditText etWeight = alertLayout.findViewById(R.id.et_weight);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Edit Weight");
+        alert.setTitle(getResources().getString(R.string.edit_weight));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -285,7 +285,7 @@ public class Profile extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_height, null);
         final EditText etHeight = alertLayout.findViewById(R.id.et_height);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Edit Height");
+        alert.setTitle(getResources().getString(R.string.edit_height));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -322,7 +322,7 @@ public class Profile extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_activity_level, null);
         final EditText etActivityLevel = alertLayout.findViewById(R.id.et_activity_level);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Edit Activity Level");
+        alert.setTitle(getResources().getString(R.string.edit_activity_level));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
