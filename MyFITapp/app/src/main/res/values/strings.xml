@@ -24,7 +24,8 @@
     <!-- Messages Preferences -->
 
     <!-- Sync Preferences -->
-    <string name="heigh">Heigh</string>
+    <string name="height">Height</string>
+    <string name="heigh">Height</string>
     <string name="weight">Weight</string>
     <string name="distance">Distance</string>
     <string name="speed">Speed</string>

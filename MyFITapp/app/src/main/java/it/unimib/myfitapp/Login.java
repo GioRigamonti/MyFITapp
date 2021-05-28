@@ -104,10 +104,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    /*public void NavigateForgetMyPassword(View v) {
-        Intent intent = new Intent(this, ResetPassword.class);
-        startActivity(intent);
-    }*/
+    
     public void NavigateSignUp(View v) {
         Intent intent = new Intent(this, Registration.class);
         startActivity(intent);
