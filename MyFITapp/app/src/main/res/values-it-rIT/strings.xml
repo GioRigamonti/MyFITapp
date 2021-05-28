@@ -13,7 +13,7 @@
     <string name="calories">Calorie</string>
     <string name="notifications">Notifiche</string>
     <string name="modProfile">Modifica il tuo profilo</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">MyFITapp Login</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
@@ -28,7 +28,7 @@
     <string name="level_sedentario">Sedentario</string>
     <string name="level_sportivo">Sportivo</string>
     <string name="level_attivo">Attivo</string>
-    <string name="title_activity_registration">Registrazione</string>
+    <string name="title_activity_registration">MyFITapp Registrazione</string>
     <string name="Button_confirm">Conferma</string>
     <string name="add_photo">Aggiungi una foto</string>
     <string name="IMC">IMC</string>
@@ -46,4 +46,6 @@
     <string name="modify_photo">Modifica foto</string>
     <string name="register">Registrati</string>
     <string name="reset_my_password">Reset Password</string>
+    <string name="not_registered">Non ancora registrato</string>
+    <string name="login">Login</string>
 </resources>

@@ -21,7 +21,7 @@ public class Home extends AppCompatActivity {
         //Check current user
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(authStateListener);
-        startActivity(new Intent(this, Registration.class));
+        startActivity(new Intent(this, Login.class));
         finish();
     }
 
@@ -32,7 +32,7 @@ public class Home extends AppCompatActivity {
             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
             if (firebaseUser == null) {
-                Intent intent = new Intent(Home.this, Registration.class);
+                Intent intent = new Intent(Home.this, Login.class);
                 startActivity(intent);
                 finish();
             }

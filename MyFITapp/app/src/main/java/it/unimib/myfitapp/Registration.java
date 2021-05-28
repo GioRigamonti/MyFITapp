@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 public class Registration extends AppCompatActivity {
     EditText SignUpMail,SignUpPass;
-    Button SignUpButton, SignInButton;
+    Button SignUpButton;
     private FirebaseAuth auth;
 
 
@@ -40,12 +40,15 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         SignUpMail = findViewById(R.id.input_email);
         SignUpPass = findViewById(R.id.user_password_text);
 
         auth=FirebaseAuth.getInstance();
         SignUpButton = (Button) findViewById(R.id.button_confirm);
-        SignInButton = (Button) findViewById(R.id.button_goToSignIn);
 
 
         SignUpButton.setOnClickListener(new View.OnClickListener() {
@@ -84,18 +87,6 @@ public class Registration extends AppCompatActivity {
             }
         });
 
-
-        SignInButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                    navigate_sign_in(v);
-            }
-        });
-    }
-
-    public void navigate_sign_in(View v){
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-        finish();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -103,6 +94,20 @@ public class Registration extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
 

@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     private boolean logged = false;
     private EditText SignInMail, SignInPass;
     private FirebaseAuth auth;
-    private Button SignInButton, ForgetPasswordButton;
+    private Button SignInButton, ForgetPasswordButton, NotRegisteredButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +41,12 @@ public class Login extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         SignInMail = (EditText) findViewById(R.id.input_email_login);
         SignInPass = (EditText) findViewById(R.id.user_password_text_login);
         SignInButton = (Button) findViewById(R.id.button_confirm);
         ForgetPasswordButton = (Button) findViewById(R.id.button_forgetPassword);
-
+        NotRegisteredButton = (Button)findViewById(R.id.button_goToSignUp);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -94,29 +90,22 @@ public class Login extends AppCompatActivity {
                 NavigateForgetMyPassword(v);
             }
         });
-
+        NotRegisteredButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                NavigateSignUp(v);
+            }
+        });
     }
 
     public void NavigateForgetMyPassword(View v) {
         Intent intent = new Intent(this, ResetPassword.class);
         startActivity(intent);
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-            switch (item.getItemId()) {
-                case android.R.id.home:
-                    finish();
-                    return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-            return true;
+    public void NavigateSignUp(View v) {
+        Intent intent = new Intent(this, Registration.class);
+        startActivity(intent);
     }
+
 
 }
 
