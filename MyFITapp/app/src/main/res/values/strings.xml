@@ -57,6 +57,8 @@
     <string name="register">sign up</string>
     <string name="not_registered">Not registered</string>
     <string name="reset_my_password">Reset Password</string>
+    <string name="scegli_data">Choose your date of birth</string>
+    <string name="ok_confirm">Ok</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 

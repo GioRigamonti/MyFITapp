@@ -166,8 +166,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String email = textViewemailname.getText().toString().trim();
         String sex = editTextSex.toString().trim();
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
-        int height = Integer.valueOf(editHeight.getText().toString());
-        float weight = Float.valueOf(editWeight.getText().toString());
+        int height = Integer.parseInt(editHeight.getText().toString());
+        float weight = Float.parseFloat(editWeight.getText().toString());
         String activity_level = editTextActivity_level.toString().trim();
         UserInformation userinformation = new UserInformation(name,surname,email, sex, date,weight,height,activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -182,14 +182,14 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_baseline_account_circle_24);
 
-                // openSelectProfilePictureDialog();
+                openSelectProfilePictureDialog();
                 try {
                     userInformation();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-                //sendUserData();
+                sendUserData();
                 finish();
                 startActivity(new Intent(EditProfile.this, MainActivity.class));
             }
@@ -259,17 +259,17 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_caldendar, null);
         final DatePicker dateOfBirth = alertLayout.findViewById(R.id.datePicker);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Choose date of birth");
+        alert.setTitle(getResources().getString(R.string.scegli_data));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
         alert.setCancelable(false);
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(getResources().getString(R.string.annulla), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 textViewDate.setText(dateOfBirth.getDayOfMonth()+"/"+ (dateOfBirth.getMonth() + 1)+"/"+dateOfBirth.getYear());

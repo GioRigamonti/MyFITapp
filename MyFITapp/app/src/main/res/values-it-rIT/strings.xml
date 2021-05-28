@@ -49,4 +49,6 @@
     <string name="not_registered">Non ancora registrato</string>
     <string name="login">Login</string>
     <string name="height">Altezza</string>
+    <string name="scegli_data">Scegli la tua data di nascita</string>
+    <string name="ok_confirm">Ok</string>
 </resources>
