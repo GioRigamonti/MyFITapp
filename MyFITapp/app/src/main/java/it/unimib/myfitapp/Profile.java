@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,9 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class Profile extends AppCompatActivity {
 
@@ -172,47 +169,7 @@ public class Profile extends AppCompatActivity {
         return false;
     }
 
-    public void buttonClickedEditName(View view) {
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_name, null);
-        final EditText etUsername = alertLayout.findViewById(R.id.et_username);
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Name Edit");
-        // this is set the view from XML inside AlertDialog
-        alert.setView(alertLayout);
-        // disallow cancel of AlertDialog on click of back button and outside touch
-        alert.setCancelable(false);
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String name = etUsername.getText().toString();
-                String surname = profileSurnameTextView.getText().toString().trim();
-                String email = textViewemailname.getText().toString().trim();
-                String sex = profileSex.toString().trim();
-                Date date = null;
-                try {
-                    date = new SimpleDateFormat("dd/MM/yyyy").parse(profileAge.getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                int height = Integer.valueOf(profileHeight.getText().toString());
-                float weight = Float.valueOf(profileWeight.getText().toString());
-                String activity_level = profileActivityLevel.toString().trim();
-                UserInformation userinformation = new UserInformation(name,surname,email, sex, date, weight,height,activity_level);
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                etUsername.onEditorAction(EditorInfo.IME_ACTION_DONE);
-            }
-        });
-        AlertDialog dialog = alert.create();
-        dialog.show();
-    }
+
 
    
     public void navigateLogOut(View v){

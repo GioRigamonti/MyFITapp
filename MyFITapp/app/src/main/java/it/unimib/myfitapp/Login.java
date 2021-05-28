@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class Login extends AppCompatActivity {
     private boolean logged = false;
@@ -85,9 +92,9 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        ForgetPasswordButton.setOnClickListener(new View.OnClickListener() {
+       ForgetPasswordButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                NavigateForgetMyPassword(v);
+                buttonClickedForgotPassword(v);
             }
         });
         NotRegisteredButton.setOnClickListener(new View.OnClickListener() {
@@ -97,13 +104,38 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    public void NavigateForgetMyPassword(View v) {
+    /*public void NavigateForgetMyPassword(View v) {
         Intent intent = new Intent(this, ResetPassword.class);
         startActivity(intent);
-    }
+    }*/
     public void NavigateSignUp(View v) {
         Intent intent = new Intent(this, Registration.class);
         startActivity(intent);
+
+    }
+    public void buttonClickedForgotPassword(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_forgot_password, null);
+        final EditText forgot_password = alertLayout.findViewById(R.id.forgot_password);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Reset Password");
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                forgot_password.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 
 
