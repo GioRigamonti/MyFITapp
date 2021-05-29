@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_options:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage2 = new Intent(MainActivity.this, Settings.class);
+                Intent openPage2 = new Intent(MainActivity.this, Prova.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage2);
                 break;

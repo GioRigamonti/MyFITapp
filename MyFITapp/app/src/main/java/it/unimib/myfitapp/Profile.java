@@ -144,7 +144,7 @@ public class Profile extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_options:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage1 = new Intent(Profile.this, Settings.class);
+                Intent openPage1 = new Intent(Profile.this, Prova.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage1);
                 break;
