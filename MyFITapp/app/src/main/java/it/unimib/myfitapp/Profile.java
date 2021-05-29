@@ -35,10 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Profile extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
@@ -144,7 +140,7 @@ public class Profile extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_options:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage1 = new Intent(Profile.this, Prova.class);
+                Intent openPage1 = new Intent(Profile.this, Settings.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage1);
                 break;

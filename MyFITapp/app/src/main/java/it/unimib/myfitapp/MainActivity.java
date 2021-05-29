@@ -7,9 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_options:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage2 = new Intent(MainActivity.this, Prova.class);
+                Intent openPage2 = new Intent(MainActivity.this, Settings.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage2);
                 break;

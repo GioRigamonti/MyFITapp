@@ -11,7 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_myfitapp_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFITapp">
-        <activity android:name=".Prova"></activity>
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"
@@ -28,6 +27,9 @@
             android:name=".Registration"
             android:label="@string/title_activity_registration"
             android:theme="@style/Theme.MyFITapp.NoActionBar" />
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
