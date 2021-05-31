@@ -5,12 +5,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.SystemClock;
 
+import java.util.ArrayList;
+
 public class ADLListener implements SensorEventListener {
     public static final int DEFAULT_SAMPLING_DELAY = 5000;
     private int frequenza;
     private int readingDelay;
     private long lastReading;
     protected long samplingDelay = DEFAULT_SAMPLING_DELAY;
+    public ArrayList<Double> accArray = new ArrayList<Double>();
 
     public void ADLListener(int frequenza){
         readingDelay = frequenza;
@@ -29,5 +32,9 @@ public class ADLListener implements SensorEventListener {
     public int getFrequenzaDiCampionamento(){
 
         return frequenza;
+    }
+
+    public void clearFeatures() {
+        accArray.clear();
     }
 }
