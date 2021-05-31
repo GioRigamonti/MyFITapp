@@ -2,19 +2,32 @@ package it.unimib.adl_library;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.os.SystemClock;
 
-public class ADLListener {
+public class ADLListener implements SensorEventListener {
+    public static final int DEFAULT_SAMPLING_DELAY = 5000;
     private int frequenza;
+    private int readingDelay;
+    private long lastReading;
+    protected long samplingDelay = DEFAULT_SAMPLING_DELAY;
 
-    public void ADLListener(int frequenza){}
-
-    public void onSensorChanged(SensorEvent event){}
-
+    public void ADLListener(int frequenza){
+        readingDelay = frequenza;
+    }
+    @Override
+    public void onSensorChanged(SensorEvent event){
+        lastReading = SystemClock.elapsedRealtime();
+        }
+    @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
 
-    public void setFrequenzaDiCampionamento(int millisecondi){}
+    public void setFrequenzaDiCampionamento(int millisecondi){
+        samplingDelay = millisecondi;
+    }
 
     public int getFrequenzaDiCampionamento(){
+
         return frequenza;
     }
 }
