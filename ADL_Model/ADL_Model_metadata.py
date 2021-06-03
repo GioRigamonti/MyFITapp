@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun  3 17:05:45 2021
-
-@author: Giorgia
+@author: Jessica Maggioni 845389
+@author: Giorgia Rigamonti 844619
 """
 
   
@@ -16,8 +15,9 @@ import os
 
 model_meta = _metadata_fb.ModelMetadataT()
 model_meta.name = "ADL model classifier"
-model_meta.description = ("Identify the Activty related to Human Action")
-model_meta.author = "Jessica & Giorgia"
+model_meta.description = ("Human Action Classificator")
+model_meta.author = "Jessica Maggioni"
+model_meta.author = "Giorgia Rigamonti"
 
 # Creates input info.
 input_meta = _metadata_fb.TensorMetadataT()
@@ -25,8 +25,8 @@ input_meta = _metadata_fb.TensorMetadataT()
 # Creates output info.
 output_meta = _metadata_fb.TensorMetadataT()
 
-input_meta.name = "Accelerometer coord."
-input_meta.description = ("Coordinate acc")
+input_meta.name = "Accelerometer coordinates"
+input_meta.description = ("Accelerometer coordinates as float numbers")
 input_meta.content = _metadata_fb.ContentT()
 
 # Creates output info.
@@ -36,7 +36,7 @@ output_meta.description = "Labels of Human Actions"
 output_meta.content = _metadata_fb.ContentT()
 label_file = _metadata_fb.AssociatedFileT()
 label_file.name = os.path.basename("labels.txt")
-label_file.description = "Labels for objects that the model can recognize."
+label_file.description = "Labels for the human action detected"
 label_file.type = _metadata_fb.AssociatedFileType.TENSOR_AXIS_LABELS
 output_meta.associatedFiles = [label_file]
 
@@ -55,8 +55,18 @@ metadata_buf = b.Output()
 
 populator = _metadata.MetadataPopulator.with_model_file("./ADL_Model.tflite")
 populator.load_metadata_buffer(metadata_buf)
-populator.load_associated_files(["C:/Users/giorg/Documents/MyFITapp/ADL_Model/labels.txt"])
+populator.load_associated_files(["C:/Users/Jessica/Documents/GitHub/MyFITapp/ADL_Model/labels.txt"])
 populator.populate()
+
+
+model_file = "./ADL_Model.tflite"
+model_basename = os.path.basename(model_file)
+export_model_path = os.path.join("./", model_basename)  
+displayer = _metadata.MetadataDisplayer.with_model_file(export_model_path)
+export_json_file = os.path.join("./", os.path.splitext("./ADL_Model.tflite")[0] + ".json")
+json_file = displayer.get_metadata_json()
+with open(export_json_file, "w") as f:
+    f.write(json_file)
 
 
 
