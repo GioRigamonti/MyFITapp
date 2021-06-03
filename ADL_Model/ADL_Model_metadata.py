@@ -29,6 +29,7 @@ input_meta.name = "Accelerometer coordinates"
 input_meta.description = ("Accelerometer coordinates as float numbers")
 input_meta.content = _metadata_fb.ContentT()
 
+
 # Creates output info.
 output_meta = _metadata_fb.TensorMetadataT()
 output_meta.name = "Labels"
@@ -55,7 +56,7 @@ metadata_buf = b.Output()
 
 populator = _metadata.MetadataPopulator.with_model_file("./ADL_Model.tflite")
 populator.load_metadata_buffer(metadata_buf)
-populator.load_associated_files(["C:/Users/Jessica/Documents/GitHub/MyFITapp/ADL_Model/labels.txt"])
+populator.load_associated_files(["./labels.txt"])
 populator.populate()
 
 
