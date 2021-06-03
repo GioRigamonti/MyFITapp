@@ -5,6 +5,8 @@ import android.hardware.Sensor;
 import android.os.Handler;
 import android.hardware.SensorManager;
 
+import org.tensorflow.lite.Interpreter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,13 +101,33 @@ public class TFRecognizer extends ADLManager {
         classificationHandler.removeCallbacks(classificationRunnable);
 
     }
+    public float doInference(String inputString) {
+        //input shape is 1
+        float[] inputVal = new float[1];
+        inputVal[0] = Float.parseFloat(inputString);
+
+        //output shape is 1
+        float [] outputval = new float[1];
+
+        //Run inference passing the input shape and getting the output shape
+        model.getModel().run(inputVal, outputval);
+        //inferred value is at
+        float inferredValue = outputval[0];
+
+        return inferredValue;
+    }
+
     /*public String getLabel(){
 
+    }*/
 
-    }
-    public float getConfidence(){
+    /*public float getConfidence(){
 
     }*/
+
+    public void interpreterClose(Interpreter interpreter){
+        interpreter.close();
+    }
 
 
 
