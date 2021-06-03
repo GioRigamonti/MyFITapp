@@ -35,6 +35,7 @@ output_meta = _metadata_fb.TensorMetadataT()
 output_meta.name = "Labels"
 output_meta.description = "Labels of Human Actions"
 output_meta.content = _metadata_fb.ContentT()
+
 label_file = _metadata_fb.AssociatedFileT()
 label_file.name = os.path.basename("labels.txt")
 label_file.description = "Labels for the human action detected"
