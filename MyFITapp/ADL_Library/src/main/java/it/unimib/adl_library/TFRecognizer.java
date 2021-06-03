@@ -4,11 +4,18 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.os.Handler;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.common.FileUtil;
+import org.tensorflow.lite.support.common.TensorProcessor;
+import org.tensorflow.lite.support.common.ops.NormalizeOp;
+import org.tensorflow.lite.support.label.TensorLabel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TFRecognizer extends ADLManager {
     private ADLModel model;
@@ -117,9 +124,28 @@ public class TFRecognizer extends ADLManager {
         return inferredValue;
     }
 
-    /*public String getLabel(){
+    final String ASSOCIATED_AXIS_LABELS = "labels.txt";
 
-    }*/
+    public String getLabel(){
+        List<String> associatedAxisLabels = null;
+
+        try {
+            associatedAxisLabels = FileUtil.loadLabels(this, ASSOCIATED_AXIS_LABELS);
+        } catch (IOException e) {
+            Log.e("tfliteSupport", "Error reading label file", e);
+        }
+
+        // Post-processor which dequantize the result
+        TensorProcessor probabilityProcessor =
+                new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
+        if (null != associatedAxisLabels) {
+            // Map of labels and their corresponding probability
+            TensorLabel labels = new TensorLabel(associatedAxisLabels,
+                    probabilityProcessor.process(probabilityBuffer));
+            // Create a map to access the result based on label
+            Map<String, Float> floatMap = labels.getMapWithFloatValue();
+        }
+    }
 
     /*public float getConfidence(){
 

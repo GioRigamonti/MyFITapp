@@ -3,6 +3,7 @@ package it.unimib.adl_library;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 
 import org.tensorflow.lite.Interpreter;
@@ -20,10 +21,11 @@ public class ADLModel {
     //create constructor
     public void ADLModel() {
         try{
-            tflite = new Interpreter(loadModelFile(context)) ;
+            tflite = new Interpreter(loadModelFile(context));
 
-        }catch (Exception ex){
-            ex.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("tfliteSupport", "Error reading model", e);
         }
     }
 
