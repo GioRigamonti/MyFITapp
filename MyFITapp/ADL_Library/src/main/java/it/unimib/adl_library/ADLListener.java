@@ -6,6 +6,7 @@ import android.hardware.SensorEventListener;
 import android.os.SystemClock;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ADLListener implements SensorEventListener {
     public static final int DEFAULT_SAMPLING_DELAY = 5000;
@@ -18,9 +19,20 @@ public class ADLListener implements SensorEventListener {
     public void ADLListener(int frequenza){
         readingDelay = frequenza;
     }
+
+    private static List<Float> ax = new ArrayList<>();
+    private static List<Float> ay = new ArrayList<>();
+    private static List<Float> az = new ArrayList<>();
+
     @Override
     public void onSensorChanged(SensorEvent event){
-        lastReading = SystemClock.elapsedRealtime();
+        Sensor sensor = event.sensor;
+        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            ax.add(event.values[0]);
+            ay.add(event.values[1]);
+            az.add(event.values[2]);
+        }
+
         }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){}

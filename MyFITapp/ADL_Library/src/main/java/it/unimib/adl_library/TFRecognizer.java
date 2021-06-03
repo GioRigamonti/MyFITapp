@@ -6,21 +6,29 @@ import android.os.Handler;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.common.TensorProcessor;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
 import org.tensorflow.lite.support.label.TensorLabel;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class TFRecognizer extends ADLManager {
+    File file = new File("labels.txt");
+    final String ASSOCIATED_AXIS_LABELS = file.getPath();
+
     private ADLModel model;
     private ArrayList<ADLObserver> accObservers = new ArrayList<ADLObserver>();
 
+    TensorBuffer probabilityBuffer = TensorBuffer.createFixedSize(new int[]{1, 1001}, DataType.UINT8);
 
     private Handler classificationHandler = new Handler();
     private ADLListener accListener = new ADLListener();
@@ -108,6 +116,8 @@ public class TFRecognizer extends ADLManager {
         classificationHandler.removeCallbacks(classificationRunnable);
 
     }
+
+
     public float doInference(String inputString) {
         //input shape is 1
         float[] inputVal = new float[1];
@@ -122,15 +132,14 @@ public class TFRecognizer extends ADLManager {
         float inferredValue = outputval[0];
 
         return inferredValue;
+
     }
 
-    final String ASSOCIATED_AXIS_LABELS = "labels.txt";
-
-    public String getLabel(){
+    public String getLabel(Context context){
         List<String> associatedAxisLabels = null;
 
         try {
-            associatedAxisLabels = FileUtil.loadLabels(this, ASSOCIATED_AXIS_LABELS);
+            associatedAxisLabels = FileUtil.loadLabels( this, ASSOCIATED_AXIS_LABELS);
         } catch (IOException e) {
             Log.e("tfliteSupport", "Error reading label file", e);
         }
@@ -144,7 +153,10 @@ public class TFRecognizer extends ADLManager {
                     probabilityProcessor.process(probabilityBuffer));
             // Create a map to access the result based on label
             Map<String, Float> floatMap = labels.getMapWithFloatValue();
+            float max = floatMap.get()
+            return getLabel(floatMap, );
         }
+
     }
 
     /*public float getConfidence(){
