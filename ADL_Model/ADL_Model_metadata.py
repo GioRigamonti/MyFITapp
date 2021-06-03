@@ -14,10 +14,9 @@ import os
 # Creates model info.
 
 model_meta = _metadata_fb.ModelMetadataT()
-model_meta.name = "ADL model classifier"
-model_meta.description = ("Human Action Classificator")
-model_meta.author = "Jessica Maggioni"
-model_meta.author = "Giorgia Rigamonti"
+model_meta.name = "ADL_Model"
+model_meta.description = ("Human Action classifier. It can recognize walking, jogging, sitting, standing, stairs up, stairs down activity")
+model_meta.author = "Jessica Maggioni e Giorgia Rigamonti"
 
 # Creates input info.
 input_meta = _metadata_fb.TensorMetadataT()
@@ -28,13 +27,20 @@ output_meta = _metadata_fb.TensorMetadataT()
 input_meta.name = "Accelerometer coordinates"
 input_meta.description = ("Accelerometer coordinates as float numbers")
 input_meta.content = _metadata_fb.ContentT()
+input_meta.content.content_properties = _metadata_fb.FeaturePropertiesT()
+input_meta.content.contentPropertiesType = (
+    _metadata_fb.ContentProperties.FeatureProperties)
 
 
 # Creates output info.
 output_meta = _metadata_fb.TensorMetadataT()
-output_meta.name = "Labels"
-output_meta.description = "Labels of Human Actions"
+output_meta.name = "Probabilities"
+output_meta.description = "Probable Human Action detected"
 output_meta.content = _metadata_fb.ContentT()
+output_meta.content.content_properties = _metadata_fb.FeaturePropertiesT()
+output_meta.content.contentPropertiesType = (
+    _metadata_fb.ContentProperties.FeatureProperties)
+
 label_file = _metadata_fb.AssociatedFileT()
 label_file.name = os.path.basename("labels.txt")
 label_file.description = "Labels for the human action detected"
@@ -68,7 +74,3 @@ export_json_file = os.path.join("./", os.path.splitext("./ADL_Model.tflite")[0] 
 json_file = displayer.get_metadata_json()
 with open(export_json_file, "w") as f:
     f.write(json_file)
-
-
-
-

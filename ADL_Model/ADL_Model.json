@@ -1,0 +1,35 @@
+{
+  "name": "ADL_Model",
+  "description": "Human Action classifier. It can recognize walking, jogging, sitting, standing, stairs up, stairs down activity",
+  "subgraph_metadata": [
+    {
+      "input_tensor_metadata": [
+        {
+          "name": "Accelerometer coordinates",
+          "description": "Accelerometer coordinates as float numbers",
+          "content": {
+            "content_properties_type": "FeatureProperties"
+          }
+        }
+      ],
+      "output_tensor_metadata": [
+        {
+          "name": "Probabilities",
+          "description": "Probable Human Action detected",
+          "content": {
+            "content_properties_type": "FeatureProperties"
+          },
+          "associated_files": [
+            {
+              "name": "labels.txt",
+              "description": "Labels for the human action detected",
+              "type": "TENSOR_AXIS_LABELS"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "author": "Jessica Maggioni e Giorgia Rigamonti",
+  "min_parser_version": "1.0.0"
+}
