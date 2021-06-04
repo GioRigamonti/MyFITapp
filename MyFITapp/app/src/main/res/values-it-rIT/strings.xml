@@ -69,7 +69,7 @@
     <string name="daily_activity">Attività giornaliera</string>
     <string name="walking_distance">Distanza a piedi</string>
     <string name="cycling_distance">Distanza in bicicletta</string>
-    <string name="steps">Gradini</string>
+    <string name="steps">Dislivello</string>
     <string name="weekly_activity_report">Report attività settimanale</string>
     <string name="weekly_report">Report settimanale</string>
     <string name="add_calories_consumed">Aggiungi calorie assunte</string>
