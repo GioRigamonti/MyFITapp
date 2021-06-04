@@ -78,6 +78,8 @@
     <string name="walking_distance">Walking distance</string>
     <string name="cycling_distance">Cycling distance</string>
     <string name="steps">Steps</string>
+    <string name="food">food</string>
+    <string name="excercize">Excercize</string>
     <string name="weekly_activity_report">Weekly activity report</string>
     <string name="weekly_report">Weekly report</string>
     <string name="add_calories_consumed">Add calories consumed</string>

@@ -73,4 +73,6 @@
     <string name="weekly_activity_report">Report attività settimanale</string>
     <string name="weekly_report">Report settimanale</string>
     <string name="add_calories_consumed">Aggiungi calorie assunte</string>
+    <string name="food">Cibo</string>
+    <string name="excercize">Esercizio</string>
 </resources>
