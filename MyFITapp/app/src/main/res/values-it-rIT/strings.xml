@@ -61,4 +61,7 @@
     <string name="play">Avvia</string>
     <string name="daily_steps_string">Passi giornalieri</string>
     <string name="rimanenti">rimanenti</string>
+    <string name="delete">Elimina il tuo Account</string>
+    <string name="deleteAccount">Vuoi eliminare il tuo Account?</string>
+    <string name="reset">Reset Password</string>
 </resources>

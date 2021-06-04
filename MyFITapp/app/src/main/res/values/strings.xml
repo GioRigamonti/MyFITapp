@@ -69,6 +69,9 @@
     <string name="play">Play</string>
     <string name="daily_steps_string">Daily steps</string>
     <string name="rimanenti">remaining</string>
+    <string name="delete">Delete your Account</string>
+    <string name="reset">Reset Password</string>
+    <string name="deleteAccount">Do you want delete your Account?</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 
