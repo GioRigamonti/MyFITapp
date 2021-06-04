@@ -65,6 +65,8 @@
     <string name="edit_surname">Edit Surname</string>
     <string name="edit_name">Edit Name</string>
     <string name="get_confidence">Get confidence</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 
