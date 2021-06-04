@@ -72,6 +72,15 @@
     <string name="delete">Delete your Account</string>
     <string name="reset">Reset Password</string>
     <string name="deleteAccount">Do you want delete your Account?</string>
+    <string name="calorie_count">Calorie count</string>
+    <string name="start_activity">Start a new activity</string>
+    <string name="daily_activity">Daily activity</string>
+    <string name="walking_distance">Walking distance</string>
+    <string name="cycling_distance">Cycling distance</string>
+    <string name="steps">Steps</string>
+    <string name="weekly_activity_report">Weekly activity report</string>
+    <string name="weekly_report">Weekly report</string>
+    <string name="add_calories_consumed">Add calories consumed</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 
