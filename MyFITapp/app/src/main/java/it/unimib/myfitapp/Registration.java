@@ -10,6 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -79,6 +80,7 @@ public class Registration extends AppCompatActivity {
                                         Toast.makeText(Registration.this, "ERROR",Toast.LENGTH_LONG).show();
                                     }
                                     else {
+                                        sendEmailVerification();
                                         startActivity(new Intent(Registration.this, EditProfile.class));
                                         finish();
                                     }
@@ -108,6 +110,20 @@ public class Registration extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
+    }
+
+    private void sendEmailVerification() {
+        // Send verification email
+        // [START send_email_verification]
+        final FirebaseUser user = auth.getCurrentUser();
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // Email sent
+                    }
+                });
+        // [END send_email_verification]
     }
 
 
