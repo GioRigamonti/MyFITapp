@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class Login extends AppCompatActivity {
-    private boolean logged = false;
+    private static final String TAG = "Login";
     private EditText SignInMail, SignInPass;
     private FirebaseAuth auth;
     private Button SignInButton, ForgetPasswordButton, NotRegisteredButton;
@@ -110,6 +111,7 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
 
     }
+
     public void buttonClickedForgotPassword(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_forgot_password, null);
@@ -129,6 +131,20 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 forgot_password.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                String email = forgot_password.getText().toString().trim();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter your email!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
             }
         });
         AlertDialog dialog = alert.create();
