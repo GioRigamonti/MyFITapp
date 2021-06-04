@@ -23,7 +23,7 @@ public class ActivityFragment extends Fragment {
         activityViewModel =
                 new ViewModelProvider(this).get(ActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_activity, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
+        final TextView textView = root.findViewById(R.id.text_daily_activity);
         activityViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
