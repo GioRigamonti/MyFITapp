@@ -57,4 +57,6 @@
     <string name="edit_surname">Modifica Cognome</string>
     <string name="edit_name">Modifica Nome</string>
     <string name="get_confidence">Confidenza</string>
+    <string name="pause">Pausa</string>
+    <string name="play">Avvia</string>
 </resources>
