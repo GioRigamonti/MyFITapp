@@ -67,6 +67,8 @@
     <string name="get_confidence">Get confidence</string>
     <string name="pause">Pause</string>
     <string name="play">Play</string>
+    <string name="daily_steps_string">Daily steps</string>
+    <string name="rimanenti">remaining</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 

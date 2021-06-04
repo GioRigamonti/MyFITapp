@@ -59,4 +59,5 @@
     <string name="get_confidence">Confidenza</string>
     <string name="pause">Pausa</string>
     <string name="play">Avvia</string>
+    <string name="daily_steps_string">Passi giornalieri</string>
 </resources>
