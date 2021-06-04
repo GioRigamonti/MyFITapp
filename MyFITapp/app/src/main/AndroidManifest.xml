@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
+            android:name=".Splash_Screen"
             android:theme="@style/HomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
