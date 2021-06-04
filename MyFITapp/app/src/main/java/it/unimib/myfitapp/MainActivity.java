@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage2);
                 break;
+            case R.id.confidence:
+                // definisco l'intenzione di aprire l'Activity "Page2.java"
+                Intent openPage3 = new Intent(MainActivity.this, Settings.class);
+                // passo all'attivazione dell'activity page2.java
+                startActivity(openPage3);
+                break;
         }
         return false;
     }

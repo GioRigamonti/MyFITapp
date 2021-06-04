@@ -7,11 +7,16 @@
             android:icon="@drawable/ic_baseline_account_circle_24"
             app:showAsAction="always"
             android:title="@string/profile"/>
+
+
         <item
             android:id="@+id/action_options"
             android:icon="@drawable/ic_baseline_more_vert_24"
-            app:showAsAction="always"
             android:title="@string/options"/>
-
+        <item
+            android:id="@+id/confidence"
+            app:showAsAction="never"
+            android:checked="false"
+            android:title="@string/get_confidence" />
 
 </menu>

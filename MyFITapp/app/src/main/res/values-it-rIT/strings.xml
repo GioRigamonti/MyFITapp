@@ -56,4 +56,5 @@
     <string name="edit_weight">Modifica Peso</string>
     <string name="edit_surname">Modifica Cognome</string>
     <string name="edit_name">Modifica Nome</string>
+    <string name="get_confidence">Confidenza</string>
 </resources>
