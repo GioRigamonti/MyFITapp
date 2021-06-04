@@ -115,17 +115,17 @@ public class Login extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_forgot_password, null);
         final EditText forgot_password = alertLayout.findViewById(R.id.forgot_password);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Reset Password");
+        alert.setTitle(getResources().getString(R.string.reset));
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
         alert.setCancelable(false);
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(getResources().getString(R.string.annulla), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 forgot_password.onEditorAction(EditorInfo.IME_ACTION_DONE);

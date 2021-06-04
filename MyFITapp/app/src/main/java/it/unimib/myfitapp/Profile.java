@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,7 +40,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class Profile extends AppCompatActivity {
-
+    private static final String TAG = "Profile";
     private DatabaseReference databaseReference;
     private TextView profileNameTextView, profileSurnameTextView,textViewemailname;
     private TextView profileSex, profileAge, profileWeight, profileActivityLevel;
@@ -46,6 +50,7 @@ public class Profile extends AppCompatActivity {
     private ImageView profilePicImageView;
     private FirebaseStorage firebaseStorage;
     Button LogoutButton;
+    Button DeleteAccountButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +119,14 @@ public class Profile extends AppCompatActivity {
 
         LogoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(Profile.this, Login.class);
-                startActivity(intent);
+                navigateLogOut(v);
+            }
+        });
+        DeleteAccountButton = (Button) findViewById(R.id.button_delete_account);
+
+        DeleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                buttonClickedDelete(v);
             }
         });
         
@@ -358,5 +369,43 @@ public class Profile extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
+    public void buttonClickedDelete(View view) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(getResources().getString(R.string.deleteAccount));
+        alert.setCancelable(false);
+        alert.setNegativeButton(getResources().getString(R.string.annulla), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteUser();
+                Intent openPage = new Intent(Profile.this, Login.class);
+                startActivity(openPage);
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+
+    public void deleteUser() {
+        // [START delete_user]
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User account deleted.");
+                        }
+                    }
+                });
+        // [END delete_user]
+    }
+
 
 }
