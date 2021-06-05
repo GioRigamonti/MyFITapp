@@ -395,6 +395,7 @@ public class Profile extends AppCompatActivity {
     public void deleteUser() {
         // [START delete_user]
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference.child(user.getUid()).removeValue();
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
