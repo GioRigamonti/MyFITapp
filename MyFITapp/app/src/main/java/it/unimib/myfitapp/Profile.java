@@ -62,7 +62,7 @@ public class Profile extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         profilePicImageView = findViewById(R.id.user_image);
         profileNameTextView = findViewById(R.id.user_name);
         profileSurnameTextView = findViewById(R.id.user_surname);

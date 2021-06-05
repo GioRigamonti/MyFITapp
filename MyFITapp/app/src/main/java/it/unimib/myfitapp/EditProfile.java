@@ -115,7 +115,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         editTextName = (EditText)findViewById(R.id.input_name);
         editTextSurname = (EditText)findViewById(R.id.input_surname);
         editTextSex = (Spinner)findViewById(R.id.input_sex);
