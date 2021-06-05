@@ -164,11 +164,11 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String name = editTextName.getText().toString().trim();
         String surname = editTextSurname.getText().toString().trim();
         String email = textViewemailname.getText().toString().trim();
-        String sex = editTextSex.toString().trim();
+        String sex = editTextSex.getSelectedItem().toString();
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
         int height = Integer.parseInt(editHeight.getText().toString());
         float weight = Float.parseFloat(editWeight.getText().toString());
-        String activity_level = editTextActivity_level.toString().trim();
+        String activity_level = editTextActivity_level.getSelectedItem().toString();
         UserInformation userinformation = new UserInformation(name,surname,email, sex, date,weight,height,activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
