@@ -49,6 +49,7 @@ public class Profile extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private ImageView profilePicImageView;
     private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
     Button LogoutButton;
     Button DeleteAccountButton;
 
@@ -75,8 +76,9 @@ public class Profile extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
+
         DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
-        StorageReference storageReference = firebaseStorage.getReference();
+        storageReference = firebaseStorage.getReference();
         // Get the image stored on Firebase via "User id/Images/Profile Pic.jpg".
         storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -396,6 +398,8 @@ public class Profile extends AppCompatActivity {
         // [START delete_user]
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference.child(user.getUid()).removeValue();
+        storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic").delete();
+
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
