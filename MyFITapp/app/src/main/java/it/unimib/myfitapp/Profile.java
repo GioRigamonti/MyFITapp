@@ -65,19 +65,21 @@ public class Profile extends AppCompatActivity {
         }
         databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         profilePicImageView = findViewById(R.id.user_image);
-        profileNameTextView = findViewById(R.id.user_name);
-        profileSurnameTextView = findViewById(R.id.user_surname);
-        profileIMC = findViewById(R.id.user_IMC);
-        profileActivityLevel = findViewById(R.id.user_activityLevel);
-        profileAge = findViewById(R.id.user_age);
-        profileSex = findViewById(R.id.user_sex);
-        profileWeight = findViewById(R.id.user_weight);
-        profileHeight = findViewById(R.id.user_heigh);
+        profileNameTextView = (TextView)findViewById(R.id.user_name);
+        profileSurnameTextView = (TextView)findViewById(R.id.user_surname);
+        profileIMC = (TextView)findViewById(R.id.user_IMC);
+        profileActivityLevel = (TextView)findViewById(R.id.user_activityLevel);
+        profileAge = (TextView)findViewById(R.id.user_age);
+        profileSex = (TextView)findViewById(R.id.user_sex);
+        profileWeight = (TextView)findViewById(R.id.user_weight);
+        profileHeight = (TextView)findViewById(R.id.user_height);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
+        databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
+
         storageReference = firebaseStorage.getReference();
         // Get the image stored on Firebase via "User id/Images/Profile Pic.jpg".
         storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -94,11 +96,12 @@ public class Profile extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), Login.class));
         }
         final FirebaseUser user = firebaseAuth.getCurrentUser();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileNameTextView.setText(userProfile.getUserName());
+                profileNameTextView.setText("userProfile.getUserName()");
                 profileSurnameTextView.setText(userProfile.getUserSurname());
                 profileActivityLevel.setText(userProfile.getUserActivity_level());
                 profileAge.setText(userProfile.getUserDate().toString());
@@ -106,8 +109,7 @@ public class Profile extends AppCompatActivity {
                 profileSex.setText(userProfile.getUserSex());
                 profileWeight.setText(Float.toString(userProfile.getUserWeight()));
                 profileIMC.setText(Float.toString(userProfile.getIMC()));
-
-
+                
                 textViewemailname = findViewById(R.id.user_email);
                 textViewemailname.setText(user.getEmail());
             }
