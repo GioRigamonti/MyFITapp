@@ -131,8 +131,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         FirebaseUser user=firebaseAuth.getCurrentUser();
 
         btnsave=(Button)findViewById(R.id.button_confirm);
-        btnsave.setClickable(false);
-        //btnsave.setOnClickListener(this);
+        btnsave.setOnClickListener(this);
 
 
 
