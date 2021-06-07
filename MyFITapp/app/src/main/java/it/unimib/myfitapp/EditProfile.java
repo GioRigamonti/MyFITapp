@@ -34,6 +34,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -54,7 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class EditProfile extends AppCompatActivity implements View.OnClickListener{
+public class EditProfile extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = EditProfile.class.getSimpleName();
 
     private TextView textViewDate;
@@ -106,15 +107,15 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        firebaseAuth=FirebaseAuth.getInstance();
-        if (firebaseAuth.getCurrentUser() == null){
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(),Login.class));
+            startActivity(new Intent(getApplicationContext(), Login.class));
         }
 
-        textViewDate = (TextView)findViewById(R.id.input_date_TextView);
-        picker = (DatePicker)findViewById(R.id.datePicker);
-        DateOfBirthButton = (Button)findViewById(R.id.calendarButton);
+        textViewDate = (TextView) findViewById(R.id.input_date_TextView);
+        picker = (DatePicker) findViewById(R.id.datePicker);
+        DateOfBirthButton = (Button) findViewById(R.id.calendarButton);
         DateOfBirthButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 buttonClickedCalendar(v);
@@ -122,20 +123,19 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         });
 
         databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
-        editTextName = (EditText)findViewById(R.id.input_name);
-        editTextSurname = (EditText)findViewById(R.id.input_surname);
-        editTextSex = (Spinner)findViewById(R.id.input_sex);
-        editTextActivity_level = (Spinner)findViewById(R.id.input_activityLevel);
-        editHeight = (EditText)findViewById(R.id.input_height);
-        editWeight = (EditText)findViewById(R.id.input_weight);
-        FirebaseUser user=firebaseAuth.getCurrentUser();
+        editTextName = (EditText) findViewById(R.id.input_name);
+        editTextSurname = (EditText) findViewById(R.id.input_surname);
+        editTextSex = (Spinner) findViewById(R.id.input_sex);
+        editTextActivity_level = (Spinner) findViewById(R.id.input_activityLevel);
+        editHeight = (EditText) findViewById(R.id.input_height);
+        editWeight = (EditText) findViewById(R.id.input_weight);
+        FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        btnsave=(Button)findViewById(R.id.button_confirm);
+        btnsave = (Button) findViewById(R.id.button_confirm);
         btnsave.setOnClickListener(this);
 
 
-
-        textViewemailname=(TextView)findViewById(R.id.view_email);
+        textViewemailname = (TextView) findViewById(R.id.view_email);
         textViewemailname.setText(user.getEmail());
         profileImageView = findViewById(R.id.addPhotoImage);
         firebaseStorage = FirebaseStorage.getInstance();
@@ -155,12 +155,15 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         switch (item.getItemId()) {
             case android.R.id.home:
+                user.delete();
                 finish();
+                Intent openPage = new Intent(EditProfile.this, Login.class);
+                startActivity(openPage);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -183,53 +186,53 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         float weight = Float.parseFloat(editWeight.getText().toString());
         String activity_level = editTextActivity_level.getSelectedItem().toString();
 
-        if(TextUtils.isEmpty(name)){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.name_empty),Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.name_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty(surname)){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.surname_empty),Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(surname)) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.surname_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty((CharSequence) date)){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.date_empty),Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty((CharSequence) date)) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if(date.after(dateObj)){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.date_not_valid),Toast.LENGTH_LONG).show();
+        if (date.after(dateObj)) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_not_valid), Toast.LENGTH_LONG).show();
             return;
         }
 
-        if(height == 0){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.height_empty),Toast.LENGTH_LONG).show();
+        if (height == 0) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.height_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if(height < 0){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.height_not_valid),Toast.LENGTH_LONG).show();
+        if (height < 0) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.height_not_valid), Toast.LENGTH_LONG).show();
             return;
         }
-        if(weight == 0){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.weight_empty),Toast.LENGTH_LONG).show();
+        if (weight == 0) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.weight_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if(weight < 0){
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.weight_not_valid),Toast.LENGTH_LONG).show();
+        if (weight < 0) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.weight_not_valid), Toast.LENGTH_LONG).show();
             return;
         }
-        UserInformation userinformation = new UserInformation(name,surname,email, sex, date,weight,height,activity_level);
+        UserInformation userinformation = new UserInformation(name, surname, email, sex, date, weight, height, activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
-        Toast.makeText(getApplicationContext(),getResources().getString(R.string.information_update),Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.information_update), Toast.LENGTH_LONG).show();
 
     }
 
 
     @Override
     public void onClick(View view) {
-        if (view == btnsave){
+        if (view == btnsave) {
             if (imagePath == null) {
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_baseline_account_circle_24);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_account_circle_24);
 
                 openSelectProfilePictureDialog();
                 try {
@@ -241,8 +244,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 sendUserData();
                 finish();
                 startActivity(new Intent(EditProfile.this, MainActivity.class));
-            }
-            else {
+            } else {
                 try {
                     userInformation();
                 } catch (ParseException e) {
@@ -255,7 +257,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void sendUserData(){
+    private void sendUserData() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         // Get "User UID" from Firebase > Authentification > Users.
         DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
@@ -288,7 +290,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         msg.setGravity(Gravity.CENTER_HORIZONTAL);
         msg.setTextColor(Color.BLACK);
         alertDialog.setView(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
@@ -321,7 +323,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                textViewDate.setText(dateOfBirth.getDayOfMonth()+"/"+ (dateOfBirth.getMonth() + 1)+"/"+dateOfBirth.getYear());
+                textViewDate.setText(dateOfBirth.getDayOfMonth() + "/" + (dateOfBirth.getMonth() + 1) + "/" + dateOfBirth.getYear());
             }
         });
         AlertDialog dialog = alert.create();
