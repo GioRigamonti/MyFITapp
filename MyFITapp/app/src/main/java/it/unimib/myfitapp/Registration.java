@@ -20,6 +20,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class Registration extends AppCompatActivity {
+    private static final String TAG = "Registration";
     EditText SignUpMail,SignUpPass;
     Button SignUpButton;
     private FirebaseAuth auth;
@@ -59,17 +61,17 @@ public class Registration extends AppCompatActivity {
                 String pass = SignUpPass.getText().toString();
 
                 if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(),"Please enter your E-mail address",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.email_empty),Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(TextUtils.isEmpty(pass)){
-                    Toast.makeText(getApplicationContext(),"Please enter your Password",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.pwd_empty),Toast.LENGTH_LONG).show();
                 }
                 if (pass.length() == 0){
-                    Toast.makeText(getApplicationContext(),"Please enter your Password",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.pwd_empty),Toast.LENGTH_LONG).show();
                 }
                 if (pass.length()<8){
-                    Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.pwd_length),Toast.LENGTH_LONG).show();
                 }
                 else{
                     auth.createUserWithEmailAndPassword(email,pass)
@@ -77,7 +79,7 @@ public class Registration extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                                     if (!task.isSuccessful()) {
-                                        Toast.makeText(Registration.this, "ERROR",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Registration.this,getResources().getString(R.string.error),Toast.LENGTH_LONG).show();
                                     }
                                     else {
                                         sendEmailVerification();
@@ -121,6 +123,7 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // Email sent
+                        Log.d(TAG, getResources().getString(R.string.email_sent));
                     }
                 });
         // [END send_email_verification]

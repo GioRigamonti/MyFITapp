@@ -84,6 +84,7 @@
     <string name="weekly_report">Weekly report</string>
     <string name="add_calories_consumed">Add calories consumed</string>
     <string name="email_empty">Please enter your Email</string>
+    <string name="email_sent">Email sent....</string>
     <string name="pwd_empty">Please enter your Password</string>
     <string name="pwd_length">Password must be more than 8 digit</string>
     <string name="error">ERROR</string>

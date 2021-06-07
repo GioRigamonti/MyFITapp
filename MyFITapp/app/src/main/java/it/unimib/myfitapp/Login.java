@@ -133,7 +133,7 @@ public class Login extends AppCompatActivity {
                 forgot_password.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 String email = forgot_password.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter your email!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 auth.sendPasswordResetEmail(email)
@@ -141,7 +141,7 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
+                            Log.d(TAG, getResources().getString(R.string.email_sent));
                         }
                     }
                 });

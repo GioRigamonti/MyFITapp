@@ -79,4 +79,5 @@
     <string name="pwd_empty">Password mancante, inseriscila</string>
     <string name="pwd_length">La Password deve avere almeno 8 caratteri</string>
     <string name="error">ERROR</string>
+    <string name="email_sent">Email inviata...</string>
 </resources>
