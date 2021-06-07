@@ -80,6 +80,7 @@
     <string name="pwd_length">La Password deve avere almeno 8 caratteri</string>
     <string name="error">ERROR</string>
     <string name="email_sent">Email inviata...</string>
+
     <string name="name_empty">Nome mancante, inseriscilo</string>
     <string name="surname_empty">Cognome mancante,inseriscilo</string>
     <string name="date_empty">Data di nascita mancante, inseriscila</string>
@@ -93,4 +94,14 @@
     <string name="profile_picture">Foto Profilo</string>
     <string name="picture_uploaded">Foto Profilo caricata</string>
     <string name="error_picture">Errore nel caricamento della Foto Profilo</string>
+
+    <string name="activity">Attività</string>
+    <string name="probability">Probabilità</string>
+    <string name="downstairs">Discesa delle scale</string>
+    <string name="jogging">Corsa</string>
+    <string name="sitting">Seduta</string>
+    <string name="standing">In piedi</string>
+    <string name="upstairs">Salita delle scale</string>
+    <string name="walking">Camminata</string>
+
 </resources>

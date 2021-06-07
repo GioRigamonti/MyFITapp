@@ -171,7 +171,7 @@ public class Profile extends AppCompatActivity {
 
                 case R.id.confidence:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage3 = new Intent(Profile.this, Settings.class);
+                Intent openPage3 = new Intent(Profile.this, Confidence.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage3);
                 break;
