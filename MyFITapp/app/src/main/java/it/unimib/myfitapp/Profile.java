@@ -101,7 +101,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileNameTextView.setText("userProfile.getUserName()");
+                profileNameTextView.setText(userProfile.getUserName());
                 profileSurnameTextView.setText(userProfile.getUserSurname());
                 profileActivityLevel.setText(userProfile.getUserActivity_level());
                 profileAge.setText(userProfile.getUserDate().toString());

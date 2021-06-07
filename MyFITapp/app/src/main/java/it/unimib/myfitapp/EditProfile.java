@@ -194,7 +194,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.surname_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if (TextUtils.isEmpty((CharSequence) date)) {
+        if (date==null) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_empty), Toast.LENGTH_LONG).show();
             return;
         }
