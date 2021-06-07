@@ -88,6 +88,19 @@
     <string name="pwd_empty">Please enter your Password</string>
     <string name="pwd_length">Password must be more than 8 digit</string>
     <string name="error">ERROR</string>
+    <string name="name_empty">Please enter your Name</string>
+    <string name="surname_empty">Please enter your Surname</string>
+    <string name="date_empty">Please enter your Date of birth</string>
+    <string name="date_not_valid">Date of birth non valid,Please enter your Date of birth</string>
+    <string name="height_empty">Please enter your Height</string>
+    <string name="weight_empty">Please enter your Weight</string>
+    <string name="weight_not_valid">Weight not valid, please enter your Weight</string>
+    <string name="height_not_valid">Height not valid, please enter your Height</string>
+    <string name="error_picture">Error: Uploading profile picture</string>
+    <string name="picture_uploaded">Profile picture uploaded</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="select_picture">Please select a profile picture or Tap the sample avatar logo</string>
+    <string name="information_update">User information updated</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 

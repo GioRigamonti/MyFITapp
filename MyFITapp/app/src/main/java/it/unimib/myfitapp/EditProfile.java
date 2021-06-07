@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,12 +23,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,7 +49,10 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = EditProfile.class.getSimpleName();
@@ -125,7 +131,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         FirebaseUser user=firebaseAuth.getCurrentUser();
 
         btnsave=(Button)findViewById(R.id.button_confirm);
-        btnsave.setOnClickListener(this);
+        btnsave.setClickable(false);
+        //btnsave.setOnClickListener(this);
+
+
 
         textViewemailname=(TextView)findViewById(R.id.view_email);
         textViewemailname.setText(user.getEmail());
@@ -142,6 +151,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 startActivityForResult(Intent.createChooser(profileIntent, "Select Image."), PICK_IMAGE);
             }
         });
+
     }
 
     @Override
@@ -161,19 +171,59 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
 
     private void userInformation() throws ParseException {
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar = Calendar.getInstance();
+        Date dateObj = calendar.getTime();
         String name = editTextName.getText().toString().trim();
         String surname = editTextSurname.getText().toString().trim();
         String email = textViewemailname.getText().toString().trim();
         String sex = editTextSex.getSelectedItem().toString();
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
+
         int height = Integer.parseInt(editHeight.getText().toString());
         float weight = Float.parseFloat(editWeight.getText().toString());
         String activity_level = editTextActivity_level.getSelectedItem().toString();
+
+        if(TextUtils.isEmpty(name)){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.name_empty),Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(TextUtils.isEmpty(surname)){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.surname_empty),Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(TextUtils.isEmpty((CharSequence) date)){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.date_empty),Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(date.after(dateObj)){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.date_not_valid),Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(height == 0){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.height_empty),Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(height < 0){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.height_not_valid),Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(weight == 0){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.weight_empty),Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(weight < 0){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.weight_not_valid),Toast.LENGTH_LONG).show();
+            return;
+        }
         UserInformation userinformation = new UserInformation(name,surname,email, sex, date,weight,height,activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
-        Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),getResources().getString(R.string.information_update),Toast.LENGTH_LONG).show();
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -215,12 +265,12 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EditProfile.this, "Error: Uploading profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfile.this, getResources().getString(R.string.error_picture), Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(EditProfile.this, "Profile picture uploaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfile.this, getResources().getString(R.string.picture_uploaded), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -228,18 +278,18 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     public void openSelectProfilePictureDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         TextView title = new TextView(this);
-        title.setText("Profile Picture");
+        title.setText(getResources().getString(R.string.profile_picture));
         title.setPadding(10, 10, 10, 10);   // Set Position
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.BLACK);
         title.setTextSize(20);
         alertDialog.setCustomTitle(title);
         TextView msg = new TextView(this);
-        msg.setText("Please select a profile picture \n Tap the sample avatar logo");
+        msg.setText(getResources().getString(R.string.select_picture));
         msg.setGravity(Gravity.CENTER_HORIZONTAL);
         msg.setTextColor(Color.BLACK);
         alertDialog.setView(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
@@ -278,4 +328,5 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
 }

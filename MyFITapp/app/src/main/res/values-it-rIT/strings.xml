@@ -80,4 +80,17 @@
     <string name="pwd_length">La Password deve avere almeno 8 caratteri</string>
     <string name="error">ERROR</string>
     <string name="email_sent">Email inviata...</string>
+    <string name="name_empty">Nome mancante, inseriscilo</string>
+    <string name="surname_empty">Cognome mancante,inseriscilo</string>
+    <string name="date_empty">Data di nascita mancante, inseriscila</string>
+    <string name="height_empty">Altezza mancante, inseriscila</string>
+    <string name="weight_empty">Peso mancante, inseriscilo</string>
+    <string name="weight_not_valid">Peso non valido, inserisci il tuo peso</string>
+    <string name="height_not_valid">Altezza non valida, inserisci la tua altezza</string>
+    <string name="date_not_valid">Data di nascita non valida, inserisci la tua data di nascita</string>
+    <string name="information_update">Le informazioni dell\'utente sono state caricate</string>
+    <string name="select_picture">Selezione una foto profilo</string>
+    <string name="profile_picture">Foto Profilo</string>
+    <string name="picture_uploaded">Foto Profilo caricata</string>
+    <string name="error_picture">Errore nel caricamento della Foto PRofilo</string>
 </resources>
