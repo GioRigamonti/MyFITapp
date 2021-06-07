@@ -36,7 +36,6 @@ public class CaloriesFragment extends Fragment {
 
     LineChart lineChart;
     LineData lineData;
-    LineDataSet lineDataSet;
     ArrayList lineEntries;
 
     private CaloriesViewModel notificationsViewModel;
@@ -55,28 +54,11 @@ public class CaloriesFragment extends Fragment {
         });*/
 
         drawPieChart(root);
-        lineChart = lineChart.findViewById(R.id.lineChart);
-        //getEntries();
-        lineDataSet = new LineDataSet(lineEntries, "");
-        lineData = new LineData(lineDataSet);
-        lineChart.setData(lineData);
-        lineDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        lineDataSet.setValueTextColor(Color.BLACK);
-        lineDataSet.setValueTextSize(18f);
+
 
         return root;
     }
 
-
-    /*private void getEntries() {
-        lineEntries = new ArrayList<>();
-        lineEntries.add(new Entry(2f, 0));
-        lineEntries.add(new Entry(4f, 1));
-        lineEntries.add(new Entry(6f, 1));
-        lineEntries.add(new Entry(8f, 3));
-        lineEntries.add(new Entry(7f, 4));
-        lineEntries.add(new Entry(3f, 3));
-    }*/
 
     public void drawPieChart(View v) {
         pieChart = (PieChart) v.findViewById(R.id.pieChart_calories);
