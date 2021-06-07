@@ -75,4 +75,8 @@
     <string name="add_calories_consumed">Aggiungi calorie assunte</string>
     <string name="food">Cibo</string>
     <string name="excercize">Esercizio</string>
+    <string name="email_empty">Email mancante, inseriscila</string>
+    <string name="pwd_empty">Password mancante, inseriscila</string>
+    <string name="pwd_length">La Password deve avere almeno 8 caratteri</string>
+    <string name="error">ERROR</string>
 </resources>

@@ -83,6 +83,10 @@
     <string name="weekly_activity_report">Weekly activity report</string>
     <string name="weekly_report">Weekly report</string>
     <string name="add_calories_consumed">Add calories consumed</string>
+    <string name="email_empty">Please enter your Email</string>
+    <string name="pwd_empty">Please enter your Password</string>
+    <string name="pwd_length">Password must be more than 8 digit</string>
+    <string name="error">ERROR</string>
     <!-- Strings used for fragments for navigation -->
     <!-- Strings used for fragments for navigation -->
 

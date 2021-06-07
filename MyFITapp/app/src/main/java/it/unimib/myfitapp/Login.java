@@ -64,11 +64,11 @@ public class Login extends AppCompatActivity {
                 String email = SignInMail.getText().toString();
                 final String password = SignInPass.getText().toString();
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter your mail address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter your password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),  getResources().getString(R.string.pwd_empty),Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //authenticate user
@@ -79,9 +79,9 @@ public class Login extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 8) {
-                                        Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.pwd_length),Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error),Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     Intent intent = new Intent(Login.this, MainActivity.class);
