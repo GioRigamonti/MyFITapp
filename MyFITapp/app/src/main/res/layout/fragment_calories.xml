@@ -61,10 +61,19 @@
                     android:textColor="@color/secondaryDarkColor_cobalto"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/add_calories"
+                    app:layout_constraintBottom_toTopOf="@+id/lineChart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/pieChart_calories" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    app:layout_constraintBottom_toTopOf="@+id/add_calories"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_report"/>
 
                 <TableRow
                     android:id="@+id/add_calories"

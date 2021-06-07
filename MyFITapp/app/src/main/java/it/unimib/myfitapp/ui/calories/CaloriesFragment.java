@@ -13,11 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,11 @@ public class CaloriesFragment extends Fragment {
     PieChart pieChart;
     PieData pieData;
     List<PieEntry> pieEntryList = new ArrayList<>();
+
+    LineChart lineChart;
+    LineData lineData;
+    LineDataSet lineDataSet;
+    ArrayList lineEntries;
 
     private CaloriesViewModel notificationsViewModel;
 
@@ -45,13 +55,34 @@ public class CaloriesFragment extends Fragment {
         });*/
 
         drawPieChart(root);
+        lineChart = lineChart.findViewById(R.id.lineChart);
+        //getEntries();
+        lineDataSet = new LineDataSet(lineEntries, "");
+        lineData = new LineData(lineDataSet);
+        lineChart.setData(lineData);
+        lineDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        lineDataSet.setValueTextColor(Color.BLACK);
+        lineDataSet.setValueTextSize(18f);
+
         return root;
     }
+
+
+    /*private void getEntries() {
+        lineEntries = new ArrayList<>();
+        lineEntries.add(new Entry(2f, 0));
+        lineEntries.add(new Entry(4f, 1));
+        lineEntries.add(new Entry(6f, 1));
+        lineEntries.add(new Entry(8f, 3));
+        lineEntries.add(new Entry(7f, 4));
+        lineEntries.add(new Entry(3f, 3));
+    }*/
 
     public void drawPieChart(View v) {
         pieChart = (PieChart) v.findViewById(R.id.pieChart_calories);
         pieChart.setUsePercentValues(true);
         pieChart.setDescription(null);
+        pieChart.getLegend().setEnabled(false);
         pieEntryList.add(new PieEntry(10, getResources().getString(R.string.food)));
         pieEntryList.add(new PieEntry(5, getResources().getString(R.string.excercize)));
 
@@ -59,7 +90,7 @@ public class CaloriesFragment extends Fragment {
         PieDataSet pieDataSet = new PieDataSet(pieEntryList, "");
         pieDataSet.setValueTextSize(14f);
         //pieDataSet.setValueTextColor(Color.WHITE);
-        pieDataSet.setColors(Color.RED, Color.BLUE);
+        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
         /*Description description = new Description();
         description.setText(getString(R.string.calories));
         pieChart.setDescription(description);*/
