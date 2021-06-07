@@ -155,6 +155,17 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activity_report_table" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barchart_activity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="357dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView_report_sett"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:layout_editor_absoluteX="0dp" />/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
