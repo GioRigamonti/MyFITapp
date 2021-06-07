@@ -111,5 +111,6 @@
     <string name="standing">Standing</string>
     <string name="upstairs">Up stairs</string>
     <string name="walking">Walking</string>
+    <string name="prediction_table_description">MyFITapp is based on the use of a library that predicts the activity carried out through the use of Machine Learning. The table shows the probabilities of the activity that is taking place</string>
 
 </resources>

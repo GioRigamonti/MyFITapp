@@ -101,7 +101,8 @@
     <string name="jogging">Corsa</string>
     <string name="sitting">Seduta</string>
     <string name="standing">In piedi</string>
-    <string name="upstairs">Salita delle scale</string>
+    <string name="upstairs">Salita scale</string>
     <string name="walking">Camminata</string>
+    <string name="prediction_table_description">MyFITapp è basata sull\'ultilizzo di una libreria in grado di predire l\'attività svolta mediante l\'uso del Machine Learning.Nella tabella sono riportate le probabilità dell\'attività che si sta svolgendo</string>
 
 </resources>

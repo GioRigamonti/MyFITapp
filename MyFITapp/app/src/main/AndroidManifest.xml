@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_myfitapp_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFITapp">
-        <activity android:name=".Confidence"></activity>
+        <activity
+            android:name=".Confidence"
+            android:label="@string/get_confidence" />
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"
