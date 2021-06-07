@@ -1,5 +1,6 @@
 package it.unimib.myfitapp.ui.calories;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import it.unimib.myfitapp.R;
 
 public class CaloriesFragment extends Fragment {
+    PieChart pieChart;
+    PieData pieData;
+    List<PieEntry> pieEntryList = new ArrayList<>();
 
     private CaloriesViewModel notificationsViewModel;
 
@@ -30,6 +43,30 @@ public class CaloriesFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+        drawPieChart(root);
         return root;
+    }
+
+    public void drawPieChart(View v) {
+        pieChart = (PieChart) v.findViewById(R.id.pieChart_calories);
+        pieChart.setUsePercentValues(true);
+        pieChart.setDescription(null);
+        pieEntryList.add(new PieEntry(10, getResources().getString(R.string.food)));
+        pieEntryList.add(new PieEntry(5, getResources().getString(R.string.excercize)));
+
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, "");
+        pieDataSet.setValueTextSize(14f);
+        //pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setColors(Color.RED, Color.BLUE);
+        /*Description description = new Description();
+        description.setText(getString(R.string.calories));
+        pieChart.setDescription(description);*/
+
+        pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+        pieChart.animateY(500);
     }
 }
