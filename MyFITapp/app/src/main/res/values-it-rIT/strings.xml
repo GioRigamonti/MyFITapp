@@ -104,5 +104,5 @@
     <string name="upstairs">Salita scale</string>
     <string name="walking">Camminata</string>
     <string name="prediction_table_description">MyFITapp è basata sull\'ultilizzo di una libreria in grado di predire l\'attività svolta mediante l\'uso del Machine Learning.Nella tabella sono riportate le probabilità dell\'attività che si sta svolgendo</string>
-
+    <string name="activity_done_daily">Attività giornaliera effettuata durante la settimana</string>
 </resources>

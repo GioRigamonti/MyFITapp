@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
         pieChart.animateY(5000);
     }
 
-    /*private void configureChartAppearance() {
+    private void configureChartAppearance() {
         chart.setDrawGridBackground(false);
         chart.setDrawValueAboveBar(false);
 
@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setDrawGridLines(false);
-    }*/
+    }
 
     private BarData createChartData() {
         ArrayList<BarEntry> values = new ArrayList<>();

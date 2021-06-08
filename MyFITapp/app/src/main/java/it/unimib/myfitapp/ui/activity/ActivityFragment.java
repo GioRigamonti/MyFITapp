@@ -2,6 +2,7 @@ package it.unimib.myfitapp.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class ActivityFragment extends Fragment {
         getBarEntries();
 
         // creating a new bar data set.
-        barDataSet = new BarDataSet(barEntriesArrayList, "Geeks for Geeks");
+        barDataSet = new BarDataSet(barEntriesArrayList, getResources().getString(R.string.activity_done_daily));
 
         // creating a new bar data and
         // passing our bar data set.
@@ -61,7 +62,7 @@ public class ActivityFragment extends Fragment {
         barChart.setData(barData);
 
         // adding color to our bar data set.
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setColors(Color.MAGENTA);
 
         // setting text color.
         barDataSet.setValueTextColor(Color.BLACK);
