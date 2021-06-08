@@ -3,6 +3,8 @@ package it.unimib.adl_library;
 import android.content.Context;
 import android.hardware.SensorManager;
 
+import java.util.Map;
+
 public abstract class ADLManager {
     private Context mContext;
     protected ADLModel mModelManager;
@@ -19,6 +21,6 @@ public abstract class ADLManager {
     public abstract boolean stopObserverRegistration(ADLObserver observer);
     public abstract void startReadingAccelerometer();
     public abstract void stopReadingAccelerometer();
-    public abstract String getLabel();
-    public abstract float getConfidence();
+    public abstract Map getLabel();
+    //public abstract float getConfidence();
 }
