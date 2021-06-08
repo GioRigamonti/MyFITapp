@@ -102,6 +102,7 @@ public class TFRecognizer extends ADLManager {
             probabilities = outputs.getProbabilitiesAsCategoryList();
             tflite = new Interpreter(adl_model.getModel());
             tflite.run(accelerometerCoordinates,outputs);
+            getLabel();
             tflite.close();
 
         }catch (Exception e){
@@ -109,7 +110,7 @@ public class TFRecognizer extends ADLManager {
         }
     }
 
-    public Map getLabel() {
+    public Map getLabel_Probabilities() {
         List<String> associatedAxisLabels = null;
         Map<String, Float> floatMap = null;
         try {
@@ -129,12 +130,19 @@ public class TFRecognizer extends ADLManager {
         return floatMap;
     }
 
+    public String getLabel() {
+        Map<String, Float> probMap = getLabel_Probabilities();
+
+    }
 
 
     /*public float getConfidence(){
 
     }*/
 
+
+    //getProbableActivity: scansione mappa
+        //setActivity di ADLInference
 
 
     private Runnable classificationRunnable = new Runnable() {

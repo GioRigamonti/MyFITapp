@@ -23,6 +23,7 @@ public abstract class ADLManager {
     public abstract void startReadingAccelerometer();
     public abstract void stopReadingAccelerometer();
     public abstract void doInference()throws Exception;
-    public abstract Map getLabel();
+    public abstract Map getLabel_Probabilities();
+    public abstract String getLabel();
     //public abstract float getConfidence();
 }
