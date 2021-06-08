@@ -2,9 +2,12 @@ package it.unimib.adl_library;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.os.Build;
 import android.os.Handler;
 import android.hardware.SensorManager;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.tensorflow.lite.DataType;
@@ -19,7 +22,10 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
+import java.security.Key;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +47,10 @@ public class TFRecognizer extends ADLManager {
     public TFRecognizer(Context context, long delay) throws Exception {
         super(context, delay);
         this.adl_model = new ADLModel(context);
-        doInference();
     }
 
 
-    public boolean initObserverRegistration(ADLObserver observer){
+    public boolean initObserverRegistration(ADLObserver observer) {
         boolean result = false;
 
         if (!accObserver.contains(observer)) {
@@ -59,7 +64,8 @@ public class TFRecognizer extends ADLManager {
         }
         return result;
     }
-    public boolean stopObserverRegistration(ADLObserver observer){
+
+    public boolean stopObserverRegistration(ADLObserver observer) {
         boolean result = false;
 
         if (accObserver.contains(observer)) {
@@ -74,7 +80,7 @@ public class TFRecognizer extends ADLManager {
         return result;
     }
 
-    public void startReadingAccelerometer(){
+    public void startReadingAccelerometer() {
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
             for (int i = 0; i < ls.size(); i++) {
@@ -87,25 +93,26 @@ public class TFRecognizer extends ADLManager {
         classificationHandler.postDelayed(classificationRunnable, sampling_delay);*/
 
     }
-    public void stopReadingAccelerometer(){
+
+    public void stopReadingAccelerometer() {
         mSensorManager.unregisterListener(accListener);
         //classificationHandler.removeCallbacks(classificationRunnable);
 
     }
 
-
-    public void doInference()throws Exception {
-        try{
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void doInference(ADLInstance instance) throws Exception {
+        try {
             AdlModel model = AdlModel.newInstance(context);
             accelerometerCoordinates.loadBuffer(adl_model.getModel());
             AdlModel.Outputs outputs = model.process(accelerometerCoordinates);
             probabilities = outputs.getProbabilitiesAsCategoryList();
             tflite = new Interpreter(adl_model.getModel());
-            tflite.run(accelerometerCoordinates,outputs);
-            getLabel();
+            tflite.run(accelerometerCoordinates, outputs);
+            instance.setActivity(getLabel());
             tflite.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -130,20 +137,14 @@ public class TFRecognizer extends ADLManager {
         return floatMap;
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getLabel() {
         Map<String, Float> probMap = getLabel_Probabilities();
-
+        String key = null;
+        key = Collections.max(probMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+        return key;
     }
-
-
-    /*public float getConfidence(){
-
-    }*/
-
-
-    //getProbableActivity: scansione mappa
-        //setActivity di ADLInference
-
 
     private Runnable classificationRunnable = new Runnable() {
         @Override
@@ -164,5 +165,5 @@ public class TFRecognizer extends ADLManager {
             //classificationHandler.postDelayed(classificationRunnable, sampling_delay);
         }
     };
-
 }
+

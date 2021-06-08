@@ -28,7 +28,7 @@ public class ADLListener implements SensorEventListener {
             adl_instance.setAccFeatures(event.values[0], event.values[1],event.values[2]);
         }
         try {
-            recognizer.doInference();
+            recognizer.doInference(adl_instance);
         } catch (Exception e) {
 
         }

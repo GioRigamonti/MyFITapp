@@ -22,8 +22,7 @@ public abstract class ADLManager {
     public abstract boolean stopObserverRegistration(ADLObserver observer);
     public abstract void startReadingAccelerometer();
     public abstract void stopReadingAccelerometer();
-    public abstract void doInference()throws Exception;
+    public abstract void doInference(ADLInstance instance)throws Exception;
     public abstract Map getLabel_Probabilities();
     public abstract String getLabel();
-    //public abstract float getConfidence();
 }
