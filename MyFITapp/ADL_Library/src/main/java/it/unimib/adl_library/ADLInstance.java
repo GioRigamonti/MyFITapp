@@ -1,36 +1,39 @@
 package it.unimib.adl_library;
 
+import java.util.List;
+
 public class ADLInstance {
     private String activity;
-    private float acc_x, acc_y, acc_z;
+    private static List<Float> acc_x, acc_y, acc_z;
     private long timestamp;
+
 
     public void setActivity(String activity) {
         this.activity = activity;
     }
 
-    public float getAcc_x() {
+    public List<Float> getAcc_x() {
         return acc_x;
     }
 
-    public void setAcc_x(float acc_x) {
-        this.acc_x = acc_x;
+    public void setAcc_x(float ax) {
+        this.acc_x.add(ax);
     }
 
-    public float getAcc_y() {
+    public List<Float> getAcc_y() {
         return acc_y;
     }
 
-    public void setAcc_y(float acc_y) {
-        this.acc_y = acc_y;
+    public void setAcc_y(float ay) {
+        this.acc_y.add(ay);
     }
 
-    public float getAcc_z() {
+    public List<Float> getAcc_z() {
         return acc_z;
     }
 
-    public void setAcc_z(float acc_z) {
-        this.acc_z = acc_z;
+    public void setAcc_z(float az) {
+        this.acc_z.add(az);
     }
 
     public void setAccFeatures(float x, float y, float z){
@@ -38,6 +41,7 @@ public class ADLInstance {
         setAcc_y(y);
         setAcc_z(z);
     }
+
     public long getTimestamp() {
         return timestamp;
     }

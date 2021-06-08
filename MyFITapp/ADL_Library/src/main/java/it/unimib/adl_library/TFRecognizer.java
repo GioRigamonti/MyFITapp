@@ -125,7 +125,6 @@ public class TFRecognizer extends ADLManager {
                     probabilityProcessor.process(accelerometerCoordinates));
             // Create a map to access the result based on label
             floatMap = labels.getMapWithFloatValue();
-
         }
         return floatMap;
     }

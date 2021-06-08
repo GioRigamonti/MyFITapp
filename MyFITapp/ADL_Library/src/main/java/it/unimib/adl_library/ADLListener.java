@@ -14,26 +14,26 @@ public class ADLListener implements SensorEventListener {
     private int readingDelay;
     private long lastReading;
     protected long samplingDelay = DEFAULT_SAMPLING_DELAY;
-    public ArrayList<Double> accArray = new ArrayList<Double>();
+    private ADLInstance adl_instance = new ADLInstance();
+    private ADLManager recognizer;
 
     public void ADLListener(int frequenza){
         readingDelay = frequenza;
     }
 
-    private static List<Float> ax = new ArrayList<>();
-    private static List<Float> ay = new ArrayList<>();
-    private static List<Float> az = new ArrayList<>();
-
     @Override
     public void onSensorChanged(SensorEvent event){
         Sensor sensor = event.sensor;
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            ax.add(event.values[0]);
-            ay.add(event.values[1]);
-            az.add(event.values[2]);
+            adl_instance.setAccFeatures(event.values[0], event.values[1],event.values[2]);
         }
+        try {
+            recognizer.doInference();
+        } catch (Exception e) {
 
         }
+
+    }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
 
@@ -42,11 +42,12 @@ public class ADLListener implements SensorEventListener {
     }
 
     public int getFrequenzaDiCampionamento(){
-
         return frequenza;
     }
 
     public void clearFeatures() {
-        accArray.clear();
+        adl_instance.getAcc_x().clear();
+        adl_instance.getAcc_y().clear();
+        adl_instance.getAcc_z().clear();
     }
 }
