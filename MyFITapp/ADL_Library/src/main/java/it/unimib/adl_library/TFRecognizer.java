@@ -12,6 +12,7 @@ import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.common.TensorProcessor;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
+import org.tensorflow.lite.support.label.Category;
 import org.tensorflow.lite.support.label.TensorLabel;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
@@ -22,21 +23,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import it.unimib.adl_library.ml.AdlModel;
+
 public class TFRecognizer extends ADLManager {
     final String ASSOCIATED_AXIS_LABELS = ADLModel.getLabelPath();
-
+    private Interpreter tflite;
     private ADLModel model;
     private ArrayList<ADLObserver> accObserver = new ArrayList<ADLObserver>();
+    private List<Category> probabilities;
+    TensorBuffer accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
 
-    TensorBuffer probabilityBuffer = TensorBuffer.createFixedSize(new int[]{1, 1001}, DataType.UINT8);
 
     //private Handler classificationHandler = new Handler();
     private ADLListener accListener = new ADLListener();
 
-    public TFRecognizer(Context context, long delay) throws IOException {
+    public TFRecognizer(Context context, long delay) throws IOException, IllegalArgumentException {
         super(context, delay);
         this.model = new ADLModel();
-        model.getModel();
+        try {
+
+            //tflite = new Interpreter(model.getModel());
+
+        }
+        catch (IllegalArgumentException ex){
+
+        }
+
     }
 
     public boolean initObserverRegistration(ADLObserver observer){
@@ -88,21 +100,14 @@ public class TFRecognizer extends ADLManager {
     }
 
 
-    public float doInference(String inputString) {
-        //input shape is 1
-        float[] inputVal = new float[1];
-        inputVal[0] = Float.parseFloat(inputString);
+    public float doInference(String inputString)throws IOException {
+        model = new ADLModel();
+        accelerometerCoordinates.loadBuffer(model.getModel());
 
-        //output shape is 1
-        float [] outputval = new float[1];
-
-        //Run inference passing the input shape and getting the output shape
-        model.getModel().run(inputVal, outputval);
-        //inferred value is at
-        float inferredValue = outputval[0];
-
-        return inferredValue;
-
+        AdlModel.Outputs outputs = model.process(accelerometerCoordinates);
+        probabilities = outputs.getProbabilitiesAsCategoryList();
+        tflite.close();
+        return ;
     }
 
     public String getLabel(Context context){
@@ -133,9 +138,7 @@ public class TFRecognizer extends ADLManager {
 
     }*/
 
-    public void interpreterClose(Interpreter interpreter){
-        interpreter.close();
-    }
+
 
     private Runnable classificationRunnable = new Runnable() {
         @Override
