@@ -12,14 +12,17 @@ import java.nio.channels.FileChannel;
 
 public class ADLModel {
     private Context context;
+    private MappedByteBuffer model;
     private final static String MODEL_FILE = "ADL_Model.tflite";
     private final static String LABEL_FILE = "labels.txt";
 
-    public MappedByteBuffer ADLModel(Context context) throws IOException {
+    public void ADLModel(Context context) throws IOException {
         this.context = context;
-        return loadModelFile(context);
     }
 
+    public MappedByteBuffer getModel() throws IOException {
+        return loadModelFile(context);
+    }
     public static String getModelPath() {
         return MODEL_FILE;
     }
