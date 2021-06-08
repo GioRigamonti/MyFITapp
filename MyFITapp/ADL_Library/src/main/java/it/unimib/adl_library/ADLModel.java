@@ -16,12 +16,15 @@ public class ADLModel {
     private final static String MODEL_FILE = "ADL_Model.tflite";
     private final static String LABEL_FILE = "labels.txt";
 
-    public void ADLModel(Context context) throws IOException {
+    public ADLModel(Context context) {
         this.context = context;
     }
 
+
+
+
     public MappedByteBuffer getModel() throws IOException {
-        return loadModelFile(context);
+        return loadModelFile();
     }
     public static String getModelPath() {
         return MODEL_FILE;
@@ -31,7 +34,7 @@ public class ADLModel {
         return LABEL_FILE;
     }
 
-    private MappedByteBuffer loadModelFile(Context context)throws IOException{
+    private MappedByteBuffer loadModelFile()throws IOException{
         //open the model using an input stream and memory map it load
         AssetFileDescriptor fileDescriptor = context.getAssets().openFd(getModelPath());
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
