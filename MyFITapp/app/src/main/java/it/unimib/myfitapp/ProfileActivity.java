@@ -106,12 +106,12 @@ public class ProfileActivity extends AppCompatActivity {
                     profileSurnameTextView.setText(userProfile.getSurname());
                     profileActivityLevel.setText(userProfile.getActivity_level());
                     if (userProfile.getDate() != null) {
-                        profileAge.setText(userProfile.getDate().toString());
+                        profileAge.setText(Integer.toString(userProfile.getAge()));
                     }
                     profileHeight.setText(Integer.toString(userProfile.getHeight()));
                     profileSex.setText(userProfile.getSex());
                     profileWeight.setText(Float.toString(userProfile.getWeight()));
-                    profileIMC.setText(Float.toString(userProfile.getIMC()));
+                    profileIMC.setText(Float.toString(userProfile.setIMC(userProfile.getWeight(),userProfile.getHeight())));
                     textViewemailname = findViewById(R.id.user_email);
                     textViewemailname.setText(user.getEmail());
                 }
