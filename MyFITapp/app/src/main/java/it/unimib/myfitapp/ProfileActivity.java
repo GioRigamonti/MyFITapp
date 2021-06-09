@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -78,8 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
-
+       // databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
         storageReference = firebaseStorage.getReference();
         // Get the image stored on Firebase via "User id/Images/Profile Pic.jpg".
         storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -97,24 +97,27 @@ public class ProfileActivity extends AppCompatActivity {
         }
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child(firebaseAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileNameTextView.setText(userProfile.getUserName());
-                profileSurnameTextView.setText(userProfile.getUserSurname());
-                profileActivityLevel.setText(userProfile.getUserActivity_level());
-                profileAge.setText(userProfile.getUserDate().toString());
-                profileHeight.setText(Integer.toString(userProfile.getUserHeight()));
-                profileSex.setText(userProfile.getUserSex());
-                profileWeight.setText(Float.toString(userProfile.getUserWeight()));
-                profileIMC.setText(Float.toString(userProfile.getIMC()));
-                
-                textViewemailname = findViewById(R.id.user_email);
-                textViewemailname.setText(user.getEmail());
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    UserInformation userProfile = task.getResult().getValue(UserInformation.class);
+                    profileNameTextView.setText(userProfile.getName());
+                    profileSurnameTextView.setText(userProfile.getSurname());
+                    profileActivityLevel.setText(userProfile.getActivity_level());
+                    if (userProfile.getDate() != null) {
+                        profileAge.setText(userProfile.getDate().toString());
+                    }
+                    profileHeight.setText(Integer.toString(userProfile.getHeight()));
+                    profileSex.setText(userProfile.getSex());
+                    profileWeight.setText(Float.toString(userProfile.getWeight()));
+                    profileIMC.setText(Float.toString(userProfile.getIMC()));
+                    textViewemailname = findViewById(R.id.user_email);
+                    textViewemailname.setText(user.getEmail());
+                }
             }
 
-            @Override
+            //@Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }

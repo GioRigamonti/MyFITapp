@@ -28,7 +28,7 @@ public class UserInformation {
         this.email = email;
         this.sex = sex;
         this.date = date;
-        this.age = setUserAge(date);
+        this.age = setAge(date);
         this.weight = weight;
         this.height = height;
         this.activity_level = activity_level;
@@ -46,23 +46,25 @@ public class UserInformation {
         this.activity_level = activity_level;
         this.IMC = setIMC(weight,height);
     }
-    public String getUserName(){
+
+
+    public String getName(){
         return name;
     }
-    public String getUserSurname(){
+    public String getSurname(){
         return surname;
     }
-    public String getUserEmail(){
+    public String getEmail(){
         return email;
     }
-    public String getUserSex(){
+    public String getSex(){
         return sex;
     }
     public int getAge(){return age;}
-    public Date getUserDate(){
+    public Date getDate(){
         return date;
     }
-    public int setUserAge(Date date){
+    public int setAge(Date date){
         GregorianCalendar today = new GregorianCalendar();
         GregorianCalendar bday = new GregorianCalendar();
         GregorianCalendar bdayThisYear = new GregorianCalendar();
@@ -99,13 +101,13 @@ public class UserInformation {
         }*/
         return age;
     }
-    public float getUserWeight(){
+    public float getWeight(){
         return weight;
     }
-    public int getUserHeight(){
+    public int getHeight(){
         return height;
     }
-    public String getUserActivity_level(){
+    public String getActivity_level(){
         return activity_level;
     }
     public float getIMC(){
