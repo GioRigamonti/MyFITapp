@@ -38,10 +38,11 @@ public class TFRecognizer extends ADLManager {
     private ADLModel adl_model;
     private Context context;
     private ArrayList<ADLObserver> accObserver = new ArrayList<ADLObserver>();
-    private List<Category> probabilities;
     private Map<String, Float> floatMap;
-    TensorBuffer accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
-    private List<String>outputLabels;
+    private List<String> outputLabels;
+    private Object[] inputVal;
+    private float[] outputval;
+
 
     //private Handler classificationHandler = new Handler();
     private ADLListener accListener = new ADLListener();
@@ -101,50 +102,32 @@ public class TFRecognizer extends ADLManager {
         //classificationHandler.removeCallbacks(classificationRunnable);
 
     }
-    Object[] inputVal;
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void doInference(ADLInstance instance) throws Exception {
-        try {
-            /*AdlModel model = AdlModel.newInstance(context);
-            accelerometerCoordinates.loadBuffer(adl_model.getModel());*/
-            tflite = new Interpreter(adl_model.getModel()); // spostare
+    public void doInference(ADLInstance instance) throws IOException {
+        try{
+            if (tflite == null){
+                initInterpreter(instance);
+            }
+            tflite.run(inputVal, outputval);
+            instance.setActivity(getLabel());
+            close_interpreter();
+        }catch(IOException e){}
+    }
+
+    private void initInterpreter(ADLInstance instance) throws IOException {
+            tflite = new Interpreter(adl_model.getModel());
             inputVal = instance.getAccFeatures().toArray();
-            //List<String>outputLabels = null;
             try {
                 outputLabels = FileUtil.loadLabels(this.context, ASSOCIATED_AXIS_LABELS);
             } catch (IOException e) {
                 Log.e("tfliteSupport", "Error reading label file", e);
             }
-
-            float [] outputval = new float[]{outputLabels.size()};
-            //AdlModel.Outputs outputs = model.process(accelerometerCoordinates);
-            //probabilities = outputs.getProbabilitiesAsCategoryList();
-
-            tflite.run(inputVal, outputval);
-            instance.setActivity(getLabel());
-            tflite.close();
-
-        } catch (Exception e) {
+            outputval = new float[]{outputLabels.size()};
 
     }
-
-    private Map getLabel_Probabilities() {
-            TensorProcessor probabilityProcessor = new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
-        if (null !=  outputLabels) {
-            // Map of labels and their corresponding probability
-            TensorLabel labels = new TensorLabel(outputLabels,
-                    probabilityProcessor.process(accelerometerCoordinates));
-            // Create a map to access the result based on label
-            floatMap = labels.getMapWithFloatValue();
-        }
-        return floatMap;
-    }
-
-        public Map getProbabilityMap(){
-        Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
-        return probabilityMap;
-    }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getLabel() {
@@ -153,14 +136,39 @@ public class TFRecognizer extends ADLManager {
         return key;
     }
 
-    /*private Runnable classificationRunnable = new Runnable() {
+    private Map<String, Float> getLabel_Probabilities() {
+        for (int i = 0; i < outputLabels.size(); i++) {
+            String label = outputLabels.get(i);
+            floatMap.put(label, outputval[i]);
+
+        }
+        return floatMap;
+    }
+
+
+    public Map getProbabilityMap() {
+        Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
+        return probabilityMap;
+    }
+
+    private void close_interpreter() {
+        if (tflite != null) {
+            tflite.close();
+            tflite = null;
+        }
+    }
+}
+
+
+
+/*private Runnable classificationRunnable = new Runnable() {
         @Override
         public void run() {
             ADLInstance instance = new ADLInstance();
             instance.setTimestamp(System.currentTimeMillis());
             /*instance.setAccFeatures( //features );*/
 
-            // Send the new instance to the observers
+        // Send the new instance to the observers
             /*for (ADLObserver o : accObserver) {
                 o.onNewInstance(instance);
             }
@@ -172,5 +180,10 @@ public class TFRecognizer extends ADLManager {
             //classificationHandler.postDelayed(classificationRunnable, sampling_delay);
         }
     };*/
-}
+
+
+
+
+
+
 
