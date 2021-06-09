@@ -39,7 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "Profile";
     private DatabaseReference databaseReference;
     private TextView profileNameTextView, profileSurnameTextView,textViewemailname;
@@ -93,7 +93,7 @@ public class Profile extends AppCompatActivity {
         });
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), Login.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -116,7 +116,7 @@ public class Profile extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Profile.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
         LogoutButton = (Button) findViewById(R.id.button_logout);
@@ -155,7 +155,7 @@ public class Profile extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_options:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage1 = new Intent(Profile.this, Settings.class);
+                Intent openPage1 = new Intent(ProfileActivity.this, SettingsActivity.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage1);
                 break;
@@ -164,14 +164,14 @@ public class Profile extends AppCompatActivity {
             case android.R.id.home:
                 //finish();
                 //return true;
-                Intent openPage2 = new Intent(Profile.this, MainActivity.class);
+                Intent openPage2 = new Intent(ProfileActivity.this, MainActivity.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage2);
                 break;
 
                 case R.id.confidence:
                 // definisco l'intenzione di aprire l'Activity "Page2.java"
-                Intent openPage3 = new Intent(Profile.this, Confidence.class);
+                Intent openPage3 = new Intent(ProfileActivity.this, ConfidenceActivity.class);
                 // passo all'attivazione dell'activity page2.java
                 startActivity(openPage3);
                 break;
@@ -183,7 +183,7 @@ public class Profile extends AppCompatActivity {
 
     public void navigateLogOut(View v){
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -387,7 +387,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteUser();
-                Intent openPage = new Intent(Profile.this, Login.class);
+                Intent openPage = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(openPage);
             }
         });

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Confidence extends AppCompatActivity {
+public class ConfidenceActivity extends AppCompatActivity {
     private TextView downstairsTextView;
     private TextView joggingTextView;
     private TextView sittingTextView;

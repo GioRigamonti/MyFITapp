@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Splash_Screen extends AppCompatActivity {
+public class Splash_ScreenActivity extends AppCompatActivity {
     private final int DISPLAY_LENGTH = 10000;
 
     @Override
@@ -20,7 +20,7 @@ public class Splash_Screen extends AppCompatActivity {
         //Check current user
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(authStateListener);
-        startActivity(new Intent(this, Login.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
@@ -31,12 +31,12 @@ public class Splash_Screen extends AppCompatActivity {
             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
             if (firebaseUser == null) {
-                Intent intent = new Intent(Splash_Screen.this, Login.class);
+                Intent intent = new Intent(Splash_ScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
             if (firebaseUser != null) {
-                Intent intent = new Intent(Splash_Screen.this, MainActivity.class);
+                Intent intent = new Intent(Splash_ScreenActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

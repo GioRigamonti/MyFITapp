@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -26,10 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-public class Registration extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
     private static final String TAG = "Registration";
     EditText SignUpMail,SignUpPass;
     Button SignUpButton;
@@ -75,15 +71,15 @@ public class Registration extends AppCompatActivity {
                 }
                 else{
                     auth.createUserWithEmailAndPassword(email,pass)
-                            .addOnCompleteListener(Registration.this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                                     if (!task.isSuccessful()) {
-                                        Toast.makeText(Registration.this,getResources().getString(R.string.error),Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegistrationActivity.this,getResources().getString(R.string.error),Toast.LENGTH_LONG).show();
                                     }
                                     else {
                                         sendEmailVerification();
-                                        startActivity(new Intent(Registration.this, EditProfile.class));
+                                        startActivity(new Intent(RegistrationActivity.this, EditProfileActivity.class));
                                         finish();
                                     }
                                 }

@@ -1,6 +1,5 @@
 package it.unimib.myfitapp;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,7 +21,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,10 +31,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -50,13 +45,11 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
-public class EditProfile extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = EditProfile.class.getSimpleName();
+public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = EditProfileActivity.class.getSimpleName();
 
     private TextView textViewDate;
     Button DateOfBirthButton;
@@ -79,7 +72,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     Uri imagePath;
     private StorageReference storageReference;
 
-    public EditProfile() {
+    public EditProfileActivity() {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -110,7 +103,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), Login.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         textViewDate = (TextView) findViewById(R.id.input_date_TextView);
@@ -160,7 +153,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             case android.R.id.home:
                 user.delete();
                 finish();
-                Intent openPage = new Intent(EditProfile.this, Login.class);
+                Intent openPage = new Intent(EditProfileActivity.this, LoginActivity.class);
                 startActivity(openPage);
                 return true;
         }
@@ -243,7 +236,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
                 sendUserData();
                 finish();
-                startActivity(new Intent(EditProfile.this, MainActivity.class));
+                startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
             } else {
                 try {
                     userInformation();
@@ -252,7 +245,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 }
                 sendUserData();
                 finish();
-                startActivity(new Intent(EditProfile.this, MainActivity.class));
+                startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
             }
         }
     }
@@ -266,12 +259,12 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EditProfile.this, getResources().getString(R.string.error_picture), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.error_picture), Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(EditProfile.this, getResources().getString(R.string.picture_uploaded), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.picture_uploaded), Toast.LENGTH_SHORT).show();
             }
         });
     }
