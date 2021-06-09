@@ -35,16 +35,14 @@ import it.unimib.adl_library.ml.AdlModel;
 public class TFRecognizer extends ADLManager {
     final String ASSOCIATED_AXIS_LABELS = ADLModel.getLabelPath();
     private Interpreter tflite;
-    private ADLModel adl_model;
+    //private ADLModel adl_model;
     private Context context;
     private ArrayList<ADLObserver> accObserver = new ArrayList<ADLObserver>();
     private Map<String, Float> floatMap;
     private List<String> outputLabels;
     private Object[] inputVal;
     private float[] outputval;
-
-
-    //private Handler classificationHandler = new Handler();
+    private Handler classificationHandler = new Handler();
     private ADLListener accListener = new ADLListener();
 
     public TFRecognizer(Context context, long delay) throws Exception {
@@ -52,6 +50,25 @@ public class TFRecognizer extends ADLManager {
         this.adl_model = new ADLModel(context);
     }
 
+    private Runnable classificationRunnable = new Runnable() {
+        @Override
+        public void run() {
+            ADLInstance instance = new ADLInstance();
+            instance.setTimestamp(System.currentTimeMillis());
+            /*instance.setAccFeatures( //features );*/
+
+            // Send the new instance to the observers
+            for (ADLObserver o : accObserver) {
+                o.onNewInstance(instance);
+            }
+
+            // clear readings arrays
+            accListener.clearFeatures();
+
+            // Reset delayed runnable
+            classificationHandler.postDelayed(classificationRunnable, sampling_delay);
+        }
+    };
 
     public boolean initObserverRegistration(ADLObserver observer) {
         boolean result = false;
@@ -88,19 +105,18 @@ public class TFRecognizer extends ADLManager {
             List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
             for (int i = 0; i < ls.size(); i++) {
                 Sensor s_i = ls.get(i);
-                mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_NORMAL);
+                mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_FASTEST);
             }
         }
 
-        /*classificationHandler.removeCallbacks(classificationRunnable);
-        classificationHandler.postDelayed(classificationRunnable, sampling_delay);*/
+        classificationHandler.removeCallbacks(classificationRunnable);
+        classificationHandler.postDelayed(classificationRunnable, sampling_delay);
 
     }
 
     public void stopReadingAccelerometer() {
         mSensorManager.unregisterListener(accListener);
-        //classificationHandler.removeCallbacks(classificationRunnable);
-
+        classificationHandler.removeCallbacks(classificationRunnable);
     }
 
 
@@ -145,7 +161,6 @@ public class TFRecognizer extends ADLManager {
         return floatMap;
     }
 
-
     public Map getProbabilityMap() {
         Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
         return probabilityMap;
@@ -158,32 +173,6 @@ public class TFRecognizer extends ADLManager {
         }
     }
 }
-
-
-
-/*private Runnable classificationRunnable = new Runnable() {
-        @Override
-        public void run() {
-            ADLInstance instance = new ADLInstance();
-            instance.setTimestamp(System.currentTimeMillis());
-            /*instance.setAccFeatures( //features );*/
-
-        // Send the new instance to the observers
-            /*for (ADLObserver o : accObserver) {
-                o.onNewInstance(instance);
-            }
-
-            // clear readings arrays
-            accListener.clearFeatures();
-
-            // Reset delayed runnable
-            //classificationHandler.postDelayed(classificationRunnable, sampling_delay);
-        }
-    };*/
-
-
-
-
 
 
 
