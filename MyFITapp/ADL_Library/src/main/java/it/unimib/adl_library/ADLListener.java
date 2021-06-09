@@ -46,8 +46,7 @@ public class ADLListener implements SensorEventListener {
     }
 
     public void clearFeatures() {
-        adl_instance.getAcc_x().clear();
-        adl_instance.getAcc_y().clear();
-        adl_instance.getAcc_z().clear();
+        adl_instance.getAccFeatures().clear();
+
     }
 }

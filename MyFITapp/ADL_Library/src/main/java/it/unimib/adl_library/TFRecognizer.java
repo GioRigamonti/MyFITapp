@@ -41,7 +41,7 @@ public class TFRecognizer extends ADLManager {
     private List<Category> probabilities;
     private Map<String, Float> floatMap;
     TensorBuffer accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
-
+    private List<String>outputLabels;
 
     //private Handler classificationHandler = new Handler();
     private ADLListener accListener = new ADLListener();
@@ -101,43 +101,46 @@ public class TFRecognizer extends ADLManager {
         //classificationHandler.removeCallbacks(classificationRunnable);
 
     }
-
+    Object[] inputVal;
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void doInference(ADLInstance instance) throws Exception {
         try {
-            AdlModel model = AdlModel.newInstance(context);
-            accelerometerCoordinates.loadBuffer(adl_model.getModel());
-            AdlModel.Outputs outputs = model.process(accelerometerCoordinates);
-            probabilities = outputs.getProbabilitiesAsCategoryList();
-            //tflite = new Interpreter(adl_model.getModel());
-            tflite.run(accelerometerCoordinates, outputs);
+            /*AdlModel model = AdlModel.newInstance(context);
+            accelerometerCoordinates.loadBuffer(adl_model.getModel());*/
+            tflite = new Interpreter(adl_model.getModel()); // spostare
+            inputVal = instance.getAccFeatures().toArray();
+            //List<String>outputLabels = null;
+            try {
+                outputLabels = FileUtil.loadLabels(this.context, ASSOCIATED_AXIS_LABELS);
+            } catch (IOException e) {
+                Log.e("tfliteSupport", "Error reading label file", e);
+            }
+
+            float [] outputval = new float[]{outputLabels.size()};
+            //AdlModel.Outputs outputs = model.process(accelerometerCoordinates);
+            //probabilities = outputs.getProbabilitiesAsCategoryList();
+
+            tflite.run(inputVal, outputval);
             instance.setActivity(getLabel());
             tflite.close();
 
         } catch (Exception e) {
 
-        }
     }
 
     private Map getLabel_Probabilities() {
-        List<String> associatedAxisLabels = null;
-        try {
-            associatedAxisLabels = FileUtil.loadLabels(this.context, ASSOCIATED_AXIS_LABELS);
-        } catch (IOException e) {
-            Log.e("tfliteSupport", "Error reading label file", e);
-        }
-        TensorProcessor probabilityProcessor =
-                new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
-        if (null != associatedAxisLabels) {
+            TensorProcessor probabilityProcessor = new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
+        if (null !=  outputLabels) {
             // Map of labels and their corresponding probability
-            TensorLabel labels = new TensorLabel(associatedAxisLabels,
+            TensorLabel labels = new TensorLabel(outputLabels,
                     probabilityProcessor.process(accelerometerCoordinates));
             // Create a map to access the result based on label
             floatMap = labels.getMapWithFloatValue();
         }
         return floatMap;
     }
-    public Map getProbabilityMap(){
+
+        public Map getProbabilityMap(){
         Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
         return probabilityMap;
     }
