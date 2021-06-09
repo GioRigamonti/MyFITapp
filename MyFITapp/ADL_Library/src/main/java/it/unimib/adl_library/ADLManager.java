@@ -23,6 +23,5 @@ public abstract class ADLManager {
     public abstract void startReadingAccelerometer();
     public abstract void stopReadingAccelerometer();
     public abstract void doInference(ADLInstance instance)throws Exception;
-    public abstract Map getLabel_Probabilities();
     public abstract String getLabel();
 }

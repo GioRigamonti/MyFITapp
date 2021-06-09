@@ -7,9 +7,9 @@ import android.os.Handler;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.common.FileUtil;
@@ -26,6 +26,7 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class TFRecognizer extends ADLManager {
     private Context context;
     private ArrayList<ADLObserver> accObserver = new ArrayList<ADLObserver>();
     private List<Category> probabilities;
+    private Map<String, Float> floatMap;
     TensorBuffer accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
 
 
@@ -107,7 +109,7 @@ public class TFRecognizer extends ADLManager {
             accelerometerCoordinates.loadBuffer(adl_model.getModel());
             AdlModel.Outputs outputs = model.process(accelerometerCoordinates);
             probabilities = outputs.getProbabilitiesAsCategoryList();
-            tflite = new Interpreter(adl_model.getModel());
+            //tflite = new Interpreter(adl_model.getModel());
             tflite.run(accelerometerCoordinates, outputs);
             instance.setActivity(getLabel());
             tflite.close();
@@ -117,9 +119,8 @@ public class TFRecognizer extends ADLManager {
         }
     }
 
-    public Map getLabel_Probabilities() {
+    private Map getLabel_Probabilities() {
         List<String> associatedAxisLabels = null;
-        Map<String, Float> floatMap = null;
         try {
             associatedAxisLabels = FileUtil.loadLabels(this.context, ASSOCIATED_AXIS_LABELS);
         } catch (IOException e) {
@@ -136,17 +137,20 @@ public class TFRecognizer extends ADLManager {
         }
         return floatMap;
     }
+    public Map getProbabilityMap(){
+        Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
+        return probabilityMap;
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getLabel() {
         Map<String, Float> probMap = getLabel_Probabilities();
-        String key = null;
-        key = Collections.max(probMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+        String key = Collections.max(probMap.entrySet(), Map.Entry.comparingByValue()).getKey();
         return key;
     }
 
-    private Runnable classificationRunnable = new Runnable() {
+    /*private Runnable classificationRunnable = new Runnable() {
         @Override
         public void run() {
             ADLInstance instance = new ADLInstance();
@@ -154,7 +158,7 @@ public class TFRecognizer extends ADLManager {
             /*instance.setAccFeatures( //features );*/
 
             // Send the new instance to the observers
-            for (ADLObserver o : accObserver) {
+            /*for (ADLObserver o : accObserver) {
                 o.onNewInstance(instance);
             }
 
@@ -164,6 +168,6 @@ public class TFRecognizer extends ADLManager {
             // Reset delayed runnable
             //classificationHandler.postDelayed(classificationRunnable, sampling_delay);
         }
-    };
+    };*/
 }
 
