@@ -12,7 +12,6 @@ public class ADLListener implements SensorEventListener {
     protected static final int READING_DELAY = 150;
     private int readingDelay;
     private long lastReading;
-    protected long samplingDelay = READING_DELAY;
     private ADLInstance adl_instance = new ADLInstance();
     private ADLManager recognizer;
 
