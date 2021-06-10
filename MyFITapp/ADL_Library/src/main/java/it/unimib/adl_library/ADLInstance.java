@@ -8,6 +8,9 @@ public class ADLInstance {
     List<float[]> acc_Features;
     private long timestamp;
 
+    public ADLInstance() {
+    }
+
     public void setActivity(String activity) {
         this.activity = activity;
     }

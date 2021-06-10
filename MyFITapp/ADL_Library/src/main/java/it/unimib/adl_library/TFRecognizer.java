@@ -43,7 +43,7 @@ public class TFRecognizer extends ADLManager {
     private Object[] inputVal;
     private float[] outputval;
     private Handler classificationHandler = new Handler();
-    private ADLListener accListener = new ADLListener();
+    private ADLListener accListener = new ADLListener(ADLListener.READING_DELAY);
 
     public TFRecognizer(Context context, long delay) throws Exception {
         super(context, delay);
@@ -108,7 +108,9 @@ public class TFRecognizer extends ADLManager {
                 Sensor s_i = ls.get(i);
                 mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_FASTEST);
             }
+
         }
+        accListener.startGenerating();
         /* ACCELEROMETRO SENZA GRAVITA'
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null) {
             List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
@@ -125,6 +127,7 @@ public class TFRecognizer extends ADLManager {
 
     public void stopReadingAccelerometer() {
         mSensorManager.unregisterListener(accListener);
+        accListener.stopGenerating();
         classificationHandler.removeCallbacks(classificationRunnable);
     }
 
