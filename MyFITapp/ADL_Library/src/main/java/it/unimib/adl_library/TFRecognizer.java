@@ -35,9 +35,9 @@ import it.unimib.adl_library.ml.AdlModel;
 public class TFRecognizer extends ADLManager {
     final String ASSOCIATED_AXIS_LABELS = ADLModel.getLabelPath();
     private Interpreter tflite;
-    //private ADLModel adl_model;
     private Context context;
     private ArrayList<ADLObserver> accObserver = new ArrayList<ADLObserver>();
+    private ADLModel adl_model;
     private Map<String, Float> floatMap;
     private List<String> outputLabels;
     private Object[] inputVal;
@@ -101,6 +101,7 @@ public class TFRecognizer extends ADLManager {
     }
 
     public void startReadingAccelerometer() {
+        //ACCELEROMETRO CON GRAVITA'
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
             for (int i = 0; i < ls.size(); i++) {
@@ -108,6 +109,14 @@ public class TFRecognizer extends ADLManager {
                 mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_FASTEST);
             }
         }
+        /* ACCELEROMETRO SENZA GRAVITA'
+        if (mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null) {
+            List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
+            for (int i = 0; i < ls.size(); i++) {
+                Sensor s_i = ls.get(i);
+                mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_FASTEST);
+            }
+        }*/
 
         classificationHandler.removeCallbacks(classificationRunnable);
         classificationHandler.postDelayed(classificationRunnable, sampling_delay);

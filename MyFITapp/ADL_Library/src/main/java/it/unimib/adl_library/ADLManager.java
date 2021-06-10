@@ -8,7 +8,6 @@ import java.util.Map;
 public abstract class ADLManager {
     public static final int DEFAULT_SAMPLING_DELAY = 5000;
     private Context mContext;
-    protected ADLModel adl_model;
     protected SensorManager mSensorManager;
     protected long sampling_delay = DEFAULT_SAMPLING_DELAY;
 

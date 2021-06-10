@@ -24,9 +24,14 @@ public class ADLListener implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event){
         Sensor sensor = event.sensor;
+        //ACCELEROMETRO CON GRAVITA'
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             adl_instance.setAccFeatures(event.values[0], event.values[1],event.values[2]);
         }
+        /* ACCELEROMETRO SENZA GRAVITA'
+        if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+            adl_instance.setAccFeatures(event.values[0], event.values[1],event.values[2]);
+        }*/
         try {
             recognizer.doInference(adl_instance);
         } catch (Exception e) {
