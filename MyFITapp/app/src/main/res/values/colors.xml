@@ -11,4 +11,5 @@
     <!--Colore testo-->
     <color name="primaryTextColor_white">#ffffff</color>
     <color name="black">#FF000000</color>
+    <color name="colorTransparent">#00FFFFFF</color>
 </resources>

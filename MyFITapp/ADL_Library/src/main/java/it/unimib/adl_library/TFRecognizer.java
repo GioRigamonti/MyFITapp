@@ -38,7 +38,7 @@ public class TFRecognizer extends ADLManager {
     private Context context;
     private ArrayList<ADLObserver> accObserver = new ArrayList<ADLObserver>();
     private ADLModel adl_model;
-    private Map<String, Float> floatMap;
+    private static Map<String, Float> floatMap;
     private List<String> outputLabels;
     private Object[] inputVal;
     private float[] outputval;
@@ -165,7 +165,7 @@ public class TFRecognizer extends ADLManager {
         return floatMap;
     }
 
-    public Map getProbabilityMap() {
+    public static Map getProbabilityMap() {
         Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
         return probabilityMap;
     }
