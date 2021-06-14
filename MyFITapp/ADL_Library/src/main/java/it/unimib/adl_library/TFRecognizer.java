@@ -111,14 +111,6 @@ public class TFRecognizer extends ADLManager {
 
         }
         accListener.startGenerating();
-        /* ACCELEROMETRO SENZA GRAVITA'
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null) {
-            List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
-            for (int i = 0; i < ls.size(); i++) {
-                Sensor s_i = ls.get(i);
-                mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_FASTEST);
-            }
-        }*/
 
         classificationHandler.removeCallbacks(classificationRunnable);
         classificationHandler.postDelayed(classificationRunnable, sampling_delay);

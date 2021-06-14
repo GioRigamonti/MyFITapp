@@ -6,7 +6,7 @@ import android.hardware.SensorManager;
 import java.util.Map;
 
 public abstract class ADLManager {
-    public static final int DEFAULT_SAMPLING_DELAY = 5000;
+    public static final int DEFAULT_SAMPLING_DELAY = 50000; //50*1000 = 50000 millis
     private Context mContext;
     protected SensorManager mSensorManager;
     protected long sampling_delay = DEFAULT_SAMPLING_DELAY;
