@@ -15,7 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Map;
-//import ADL_Library;
+
+import it.unimib.adl_library.*;
 
 public class ConfidenceActivity extends AppCompatActivity {
     private TextView downstairsTextView;
@@ -65,15 +66,16 @@ public class ConfidenceActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 
-    /*private void setProbabilities() {
-        Map<String, float> =
-        downstairsTextView.setText(Float.toString(round(results[1], 2)));
+    private void setProbabilities() {
+        Map map = TFRecognizer.getProbabilityMap();
+        /*downstairsTextView.setText(Float.toString(round(results[1], 2)));
         joggingTextView.setText(Float.toString(round(results[2], 2)));
         sittingTextView.setText(Float.toString(round(results[3], 2)));
         standingTextView.setText(Float.toString(round(results[4], 2)));
