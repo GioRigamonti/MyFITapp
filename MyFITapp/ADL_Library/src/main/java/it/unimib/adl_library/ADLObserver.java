@@ -1,10 +1,10 @@
 package it.unimib.adl_library;
 
-public interface ADLObserver {
+import java.util.Map;
 
-    public void onNewInstance(ADLInstance instance);
+public interface ADLObserver {
 
     public String activityIndentified();
 
-    public float[] activityConfidence();
+    public Map activityConfidence();
 }

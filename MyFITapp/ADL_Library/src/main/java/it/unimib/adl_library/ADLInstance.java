@@ -1,18 +1,35 @@
 package it.unimib.adl_library;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ADLInstance {
     private String activity;
+    private Map<String, Float> map;
     List<float[]> acc_Features;
-    private long timestamp;
 
     public ADLInstance() {
+        this.acc_Features = new ArrayList<float[]>();
+        this.activity = null;
+        this.map = new HashMap<>();
     }
 
     public void setActivity(String activity) {
         this.activity = activity;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setMap(Map probabilityMap) {
+        this.map = probabilityMap;
+    }
+
+    public Map<String, Float> getMap() {
+        return map;
     }
 
     public void setAccFeatures(float ax, float ay, float az){
@@ -25,11 +42,5 @@ public class ADLInstance {
         return acc_Features;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
 
-    public void setTimestamp(long timestamps) {
-        this.timestamp = timestamps;
-    }
 }

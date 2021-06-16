@@ -20,9 +20,6 @@ public class ADLModel {
         this.context = context;
     }
 
-
-
-
     public MappedByteBuffer getModel() throws IOException {
         return loadModelFile();
     }

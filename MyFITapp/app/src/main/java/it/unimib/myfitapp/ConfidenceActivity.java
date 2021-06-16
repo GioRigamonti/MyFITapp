@@ -4,7 +4,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,8 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 
 import it.unimib.adl_library.*;
 
@@ -58,6 +56,7 @@ public class ConfidenceActivity extends AppCompatActivity {
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,8 +73,10 @@ public class ConfidenceActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setProbabilities() {
-        Map <String, Float> map = TFRecognizer.getProbabilityMap();
+    private void setProbabilities() throws Exception {
+        Observer observer= new Observer(getApplicationContext());
+        HashMap<String, Float> map = new HashMap<>(observer.activityConfidence());
+
         downstairsTextView.setText(Float.toString(round(map.get("stairs down"), 2)));
         joggingTextView.setText(Float.toString(round(map.get("jogging"), 2)));
         sittingTextView.setText(Float.toString(round(map.get("sitting"), 2)));
