@@ -6,6 +6,7 @@ import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,13 @@ import it.unimib.myfitapp.R;
 public class ActivityFragment extends Fragment {
 
     private ActivityViewModel activityViewModel;
-
     BarChart barChart;
     BarData barData;
     BarDataSet barDataSet;
     ArrayList barEntriesArrayList;
+    TextView onActivity;
+    Button startButton;
+    boolean start = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,13 +48,39 @@ public class ActivityFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+        onActivity = root.findViewById(R.id.text_start_activity);
+        startButton = (Button) root.findViewById(R.id.button_start_activity);
+        startButton.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
+        startButton.setOnClickListener(mButton);
+
         barChart = (BarChart) root.findViewById(R.id.barchart_activity);
-
-        // calling method to get bar entries.
         getBarEntries();
+        setBarData(barEntriesArrayList,getResources().getString(R.string.activity_done_daily));
 
+        return root;
+    }
+
+    final View.OnClickListener mButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // change your button background
+            if (!start) {
+                v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
+                onActivity.setText(getResources().getString(R.string.start_activity));
+
+            } else {
+               // v.cancel();
+                v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
+                //v.vibrate(50000);
+                onActivity.setText("Stop activity");
+            }
+            start = !start; // reverse
+        }
+    };
+
+    private void setBarData(ArrayList barEntriesArrayList, String string) {
         // creating a new bar data set.
-        barDataSet = new BarDataSet(barEntriesArrayList, getResources().getString(R.string.activity_done_daily));
+        barDataSet = new BarDataSet(barEntriesArrayList, string);
 
         // creating a new bar data and
         // passing our bar data set.
@@ -70,8 +99,6 @@ public class ActivityFragment extends Fragment {
         // setting text size
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
-
-        return root;
     }
 
 
