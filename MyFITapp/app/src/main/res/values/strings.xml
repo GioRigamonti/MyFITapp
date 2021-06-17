@@ -74,8 +74,8 @@
     <string name="deleteAccount">Do you want delete your Account?</string>
     <string name="calorie_count">Calorie count</string>
     <string name="start_activity">Start a new activity</string>
-    <string name="daily_activity">Daily activity</string>
-    <string name="walking_distance">Walking distance</string>
+    <string name="daily_activity">"Activity "</string>
+    <string name="walking_distance">Distance</string>
     <string name="cycling_distance">Cycling distance</string>
     <string name="steps">Steps</string>
     <string name="food">food</string>

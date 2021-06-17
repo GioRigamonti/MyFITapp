@@ -66,8 +66,8 @@
     <string name="reset">Reset Password</string>
     <string name="calorie_count">Conteggio calorie</string>
     <string name="start_activity">Comincia una nuova attività</string>
-    <string name="daily_activity">Attività giornaliera</string>
-    <string name="walking_distance">Distanza a piedi</string>
+    <string name="daily_activity">Attività effettuata</string>
+    <string name="walking_distance">Distanza</string>
     <string name="cycling_distance">Distanza in bicicletta</string>
     <string name="steps">Dislivello</string>
     <string name="weekly_activity_report">Report attività settimanale</string>
