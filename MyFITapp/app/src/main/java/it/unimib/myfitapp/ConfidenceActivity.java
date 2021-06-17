@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import it.unimib.adl_library.*;
+import it.unimib.myfitapp.ui.BackgroundAccelerometerService;
 
 public class ConfidenceActivity extends AppCompatActivity {
     private TextView downstairsTextView;
@@ -32,6 +34,8 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow standingTableRow;
     private TableRow upstairsTableRow;
     private TableRow walkingTableRow;
+
+    private Observer observer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,15 @@ public class ConfidenceActivity extends AppCompatActivity {
         standingTableRow = (TableRow) findViewById(R.id.standing_row);
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
+
+        Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
+        startService(i);
+
+        try {
+            setProbabilities();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -74,9 +87,10 @@ public class ConfidenceActivity extends AppCompatActivity {
     }
 
     private void setProbabilities() throws Exception {
-        Observer observer= new Observer(getApplicationContext());
-        HashMap<String, Float> map = new HashMap<>(observer.activityConfidence());
-
+        observer = new BackgroundAccelerometerService().getObserver();
+        HashMap<String, Float> map = new HashMap<String, Float>(observer.activityConfidence());
+        String index = observer.activityIndentified();
+        setRowsColor(index);
         downstairsTextView.setText(Float.toString(round(map.get("stairs down"), 2)));
         joggingTextView.setText(Float.toString(round(map.get("jogging"), 2)));
         sittingTextView.setText(Float.toString(round(map.get("sitting"), 2)));
