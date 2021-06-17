@@ -1,16 +1,22 @@
-package it.unimib.myfitapp.ui;
+package it.unimib.myfitapp;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import it.unimib.adl_library.*;
 
-public class BackgroundAccelerometerService extends Service {
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+public class BackgroundAccelerometerService extends Service{
     private Observer observer;
 
     public BackgroundAccelerometerService() throws Exception {
@@ -48,5 +54,4 @@ public class BackgroundAccelerometerService extends Service {
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
 
     }
-
 }

@@ -4,21 +4,25 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 
 import it.unimib.adl_library.*;
-import it.unimib.myfitapp.ui.BackgroundAccelerometerService;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.util.Log;
+
 
 public class ConfidenceActivity extends AppCompatActivity {
     private TextView downstairsTextView;
@@ -72,7 +76,6 @@ public class ConfidenceActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -127,5 +130,4 @@ public class ConfidenceActivity extends AppCompatActivity {
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
-
 }
