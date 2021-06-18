@@ -8,46 +8,47 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import it.unimib.myfitapp.R;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class ActivityFragment extends Fragment {
 
     private ActivityViewModel activityViewModel;
-    BarChart barChart;
-    BarData barData;
-    BarDataSet barDataSet;
-    ArrayList barEntriesArrayList;
-    TextView onActivity;
-    Button startButton;
+    private BarChart barChart;
+    private BarData barData;
+    private BarDataSet barDataSet;
+    private ArrayList barEntriesArrayList;
+    private TextView onActivity;
+    private Button startButton;
     boolean start = false;
-    SensorManager sensorManager;
-    TextView steps;
+    private SensorManager sensorManager;
+    private TextView steps;
     private double MagnitudePrevious = 0;
     private int stepCount = 0;
+    private TextView timerText;
+    private Timer timer;
+    private TimerTask timerTask;
+    private Double time = 0.0;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,39 +63,69 @@ public class ActivityFragment extends Fragment {
             }
         });*/
         onActivity = root.findViewById(R.id.text_start_activity);
-        steps = root.findViewById(R.id.textView_num_piedi);
-        sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        SensorEventListener stepDetector = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                if(sensorEvent != null){
-                    float x_acceleration = sensorEvent.values[0];
-                    float y_acceleration = sensorEvent.values[1];
-                    float z_acceleration = sensorEvent.values[2];
-
-                    double Magnitude = Math.sqrt(x_acceleration*x_acceleration +
-                            y_acceleration*y_acceleration + z_acceleration*z_acceleration);
-                    double MagnitudeDelta = Magnitude-MagnitudePrevious;
-                    MagnitudePrevious = Magnitude;
-
-                    if (MagnitudeDelta > 6){
-                        stepCount++;
-                    }
-                    steps.setText(Integer.toString(stepCount));
-                }
-            }
-
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-        sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        steps = root.findViewById(R.id.textView_num_passi);
+        timerText = (TextView) root.findViewById(R.id.textView_timer);
+        timer = new Timer();
+        timerText.setText(getResources().getString(R.string.timer));
         startButton = (Button) root.findViewById(R.id.button_start_activity);
         startButton.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
-        startButton.setOnClickListener(mButton);
+        steps.setText(Integer.toString(stepCount));
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // change your button background
+                if (!start) {
+                    // v.cancel();
+                    v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
+                    //v.vibrate(50000);
+                    onActivity.setText(getResources().getString(R.string.stop));
+
+                    startTimer();
+                    stepCount = 0;
+                    steps.setText(Integer.toString(stepCount));
+                    sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+                    Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+                    SensorEventListener stepDetector = new SensorEventListener() {
+                        @Override
+                        public void onSensorChanged(SensorEvent sensorEvent) {
+                            if(sensorEvent != null){
+                                float x_acceleration = sensorEvent.values[0];
+                                float y_acceleration = sensorEvent.values[1];
+                                float z_acceleration = sensorEvent.values[2];
+
+                                double Magnitude = Math.sqrt(x_acceleration*x_acceleration +
+                                        y_acceleration*y_acceleration + z_acceleration*z_acceleration);
+                                double MagnitudeDelta = Magnitude-MagnitudePrevious;
+                                MagnitudePrevious = Magnitude;
+
+                                if (MagnitudeDelta > 6){
+                                    stepCount++;
+                                }
+                                steps.setText(Integer.toString(stepCount));
+                            }
+                        }
+
+
+                        @Override
+                        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+                        }
+                    };
+                    sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+                } else {
+                    v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
+                    onActivity.setText(getResources().getString(R.string.start_activity));
+                    timerTask.cancel();
+                    timerTask.cancel();
+
+                }
+                start = !start; // reverse
+            }
+        });
+
+
+
 
         barChart = (BarChart) root.findViewById(R.id.barchart_activity);
         getBarEntries();
@@ -167,23 +198,41 @@ public class ActivityFragment extends Fragment {
         barEntriesArrayList.add(new BarEntry(6f, 1));
         barEntriesArrayList.add(new BarEntry(7f, 1));
     }
-    final View.OnClickListener mButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // change your button background
-            if (!start) {
-                v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
-                onActivity.setText(getResources().getString(R.string.start_activity));
-
-            } else {
-                // v.cancel();
-                v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
-                //v.vibrate(50000);
-                onActivity.setText("Stop activity");
+    private void startTimer()
+    {   time = 0.0;
+        timerTask = new TimerTask() {
+            @Override
+            public void run()
+            {
+                getActivity().runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run() {
+                        time++;
+                        timerText.setText(getTimerText());
+                    }
+                });
             }
-            start = !start; // reverse
-        }
-    };
+
+        };
+        timer.scheduleAtFixedRate(timerTask, 0 ,1000);
+    }
+    private String getTimerText()
+    {
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = ((rounded % 86400) / 3600);
+
+        return formatTime(seconds, minutes, hours);
+    }
+
+    private String formatTime(int seconds, int minutes, int hours)
+    {
+        return String.format("%02d",hours) + " : " + String.format("%02d",minutes) + " : " + String.format("%02d",seconds);
+    }
+
 
 
 }

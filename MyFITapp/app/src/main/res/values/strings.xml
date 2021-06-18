@@ -112,4 +112,7 @@
     <string name="prediction_table_description">MyFITapp is based on the use of a library that predicts the activity carried out through the use of Machine Learning. The table shows the probabilities of the activity that is taking place</string>
     <string name="activity_done_daily">Daily activity carried out during the week</string>
     <string name="time">Time</string>
+    <string name="stop">Stop activity</string>
+    <string name="timer">00:00:00</string>
+    <string name="distance">distance</string>
 </resources>
