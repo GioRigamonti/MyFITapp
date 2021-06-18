@@ -12,4 +12,8 @@
     <color name="primaryTextColor_white">#ffffff</color>
     <color name="black">#FF000000</color>
     <color name="colorTransparent">#00FFFFFF</color>
+    <color name="rose1">#F436DB</color>
+    <color name="rose2">#F776DA</color>
+    <color name="rose3">#FDBEEF</color>
+    <color name="rose5">#C0169B</color>
 </resources>
