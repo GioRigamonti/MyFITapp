@@ -36,11 +36,11 @@
 
                 <TableLayout
                     android:id="@+id/tableLayout2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="30dp"
                     app:layout_constraintBottom_toTopOf="@id/button_logout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -54,18 +54,24 @@
                         <TextView
                             android:id="@+id/name"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/name" />
+                            android:layout_height="match_parent"
+                            android:gravity="fill_vertical"
+                            android:text="@string/name"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="50" />
+                            android:layout_weight="4"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_name"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <Button
                             android:id="@+id/buttonEditName"
@@ -89,18 +95,24 @@
                         <TextView
                             android:id="@+id/surname"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:text="@string/surname" />
+                            android:layout_height="match_parent"
+                            android:gravity="fill_vertical"
+                            android:text="@string/surname"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_surname"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <Button
                             android:id="@+id/buttonEditSurname"
@@ -119,69 +131,91 @@
                     <TableRow
                         android:id="@+id/email_row"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:minHeight="50dp">
 
                         <TextView
                             android:id="@+id/email"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/prompt_email" />
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="@string/prompt_email"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="50" />
+                            android:minWidth="10dp" />
 
                         <TextView
                             android:id="@+id/user_email"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     </TableRow>
 
                     <TableRow
                         android:id="@+id/sex_row"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_gravity="fill_vertical"
+                        android:minHeight="50dp">
 
                         <TextView
                             android:id="@+id/sex"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="@string/sex" />
+                            android:gravity="fill_vertical"
+                            android:text="@string/sex"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="50" />
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_sex"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     </TableRow>
 
                     <TableRow
                         android:id="@+id/age_row"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:minHeight="50dp">
 
                         <TextView
                             android:id="@+id/age"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:text="@string/age" />
+                            android:layout_height="match_parent"
+                            android:gravity="fill_vertical"
+                            android:text="@string/age"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_age"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     </TableRow>
 
@@ -193,17 +227,25 @@
                         <TextView
                             android:id="@+id/weight"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/weight" />
+                            android:layout_height="match_parent"
+                            android:gravity="fill_vertical"
+                            android:text="@string/weight"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_weight"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <Button
                             android:id="@+id/buttonEditWeight"
@@ -229,17 +271,23 @@
                             android:id="@+id/heigh"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/height" />
+                            android:gravity="fill_vertical"
+                            android:text="@string/height"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="50" />
+                            android:layout_weight="4"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_height"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <Button
                             android:id="@+id/buttonEditHeight"
@@ -258,22 +306,29 @@
                     <TableRow
                         android:id="@+id/IMC_row"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:minHeight="50dp">
 
                         <TextView
                             android:id="@+id/IMC"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/IMC" />
+                            android:layout_height="match_parent"
+                            android:gravity="fill_vertical"
+                            android:text="@string/IMC"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_IMC"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     </TableRow>
 
@@ -285,18 +340,25 @@
                         <TextView
                             android:id="@+id/activityLevel"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/activity_level" />
+                            android:layout_height="match_parent"
+                            android:gravity="fill_vertical"
+                            android:text="@string/activity_level"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/secondaryDarkColor_cobalto" />
 
                         <Space
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="50" />
+                            android:layout_weight="4"
+                            android:minWidth="20dp" />
 
                         <TextView
                             android:id="@+id/user_activityLevel"
-                            android:layout_width="232dp"
-                            android:layout_height="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <Button
                             android:id="@+id/buttonEditActivityLevel"
@@ -320,7 +382,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
                     android:text="@string/logout"
                     app:layout_constraintEnd_toEndOf="parent"
