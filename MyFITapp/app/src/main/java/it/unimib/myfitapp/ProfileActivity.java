@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -209,18 +210,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = etName.getText().toString().trim();
-                String surname = profileSurnameTextView.getText().toString().trim();
-                String email = textViewemailname.getText().toString().trim();
-                String sex = profileSex.getText().toString().trim();
-                int age = Integer.parseInt(profileAge.getText().toString().trim());
-                int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
-                String activity_level = profileActivityLevel.getText().toString().trim();
-                UserInformation userinformation = new UserInformation(name, surname, email, sex,
-                        age, weight, height, activity_level);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).child("name").setValue(name);
                 etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
@@ -246,19 +237,9 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = profileNameTextView.getText().toString().trim();
                 String surname = etSurname.getText().toString().trim();
-                String email = textViewemailname.getText().toString().trim();
-                String sex = profileSex.getText().toString().trim();
-                int age = Integer.parseInt(profileAge.getText().toString().trim());
-                int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
-                String activity_level = profileActivityLevel.getText().toString().trim();
-                UserInformation userinformation = new UserInformation(name, surname, email, sex,
-                        age, weight, height, activity_level);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).child("surname").setValue(surname);
                 etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
@@ -283,19 +264,9 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = profileNameTextView.getText().toString().trim();
-                String surname = profileSurnameTextView.getText().toString().trim();
-                String email = textViewemailname.getText().toString().trim();
-                String sex = profileSex.getText().toString().trim();
-                int age = Integer.parseInt(profileAge.getText().toString().trim());
-                int height = Integer.parseInt(profileHeight.getText().toString().trim());
                 double weight = Double.parseDouble(etWeight.getText().toString().trim());
-                String activity_level = profileActivityLevel.getText().toString().trim();
-                UserInformation userinformation = new UserInformation(name, surname, email, sex,
-                        age, weight, height, activity_level);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).child("weight").setValue(weight);
                 etWeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
@@ -320,19 +291,9 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = profileNameTextView.getText().toString().trim();
-                String surname = profileSurnameTextView.getText().toString().trim();
-                String email = textViewemailname.getText().toString().trim();
-                String sex = profileSex.getText().toString().trim();
-                int age = Integer.parseInt(profileAge.getText().toString().trim());
                 int height = Integer.parseInt(etHeight.getText().toString().trim());
-                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
-                String activity_level = profileActivityLevel.getText().toString().trim();
-                UserInformation userinformation = new UserInformation(name, surname, email, sex,
-                        age, weight, height, activity_level);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).child("height").setValue(height);
                 etHeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
@@ -357,19 +318,10 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = profileNameTextView.getText().toString().trim();
-                String surname = profileSurnameTextView.getText().toString().trim();
-                String email = textViewemailname.getText().toString().trim();
-                String sex = profileSex.getText().toString().trim();
-                int age = Integer.parseInt(profileAge.getText().toString().trim());
-                int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
-                String activity_level = etActivityLevel.getText().toString().trim();
-                UserInformation userinformation = new UserInformation(name, surname, email, sex,
-                        age, weight, height, activity_level);
+                Spinner act= (Spinner) findViewById(R.id.activity_level);
+                String activity_level = act.getSelectedItem().toString();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userinformation);
-                databaseReference.child(user.getUid()).setValue(userinformation);
+                databaseReference.child(user.getUid()).child("activity_level").setValue(activity_level);
                 etActivityLevel.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });

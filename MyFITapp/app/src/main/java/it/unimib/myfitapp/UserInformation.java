@@ -36,19 +36,6 @@ public class UserInformation {
         this.imc = setIMC(weight, height);
     }
 
-    public UserInformation(String name,String surname, String email, String sex,
-                           int age, double weight, int height, String activity_level) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.sex = sex;
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
-        this.activity_level = activity_level;
-        this.imc = setIMC(weight, height);
-    }
-
     public String getName(){
         return name;
     }
