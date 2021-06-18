@@ -1,6 +1,12 @@
 package it.unimib.myfitapp.ui.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.LayoutInflater;
@@ -8,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +32,8 @@ import java.util.ArrayList;
 
 import it.unimib.myfitapp.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ActivityFragment extends Fragment {
 
     private ActivityViewModel activityViewModel;
@@ -35,6 +44,10 @@ public class ActivityFragment extends Fragment {
     TextView onActivity;
     Button startButton;
     boolean start = false;
+    SensorManager sensorManager;
+    TextView steps;
+    private double MagnitudePrevious = 0;
+    private int stepCount = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +62,36 @@ public class ActivityFragment extends Fragment {
             }
         });*/
         onActivity = root.findViewById(R.id.text_start_activity);
+        steps = root.findViewById(R.id.textView_num_piedi);
+        sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        SensorEventListener stepDetector = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                if(sensorEvent != null){
+                    float x_acceleration = sensorEvent.values[0];
+                    float y_acceleration = sensorEvent.values[1];
+                    float z_acceleration = sensorEvent.values[2];
+
+                    double Magnitude = Math.sqrt(x_acceleration*x_acceleration +
+                            y_acceleration*y_acceleration + z_acceleration*z_acceleration);
+                    double MagnitudeDelta = Magnitude-MagnitudePrevious;
+                    MagnitudePrevious = Magnitude;
+
+                    if (MagnitudeDelta > 6){
+                        stepCount++;
+                    }
+                    steps.setText(Integer.toString(stepCount));
+                }
+            }
+
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+        sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         startButton = (Button) root.findViewById(R.id.button_start_activity);
         startButton.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
         startButton.setOnClickListener(mButton);
@@ -59,24 +102,32 @@ public class ActivityFragment extends Fragment {
 
         return root;
     }
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sharedPreferences =  this.getActivity().getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putInt("stepCount", stepCount);
+        editor.apply();
+    }
 
-    final View.OnClickListener mButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // change your button background
-            if (!start) {
-                v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
-                onActivity.setText(getResources().getString(R.string.start_activity));
+    public void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences =  this.getActivity().getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putInt("stepCount", stepCount);
+        editor.apply();
+    }
 
-            } else {
-               // v.cancel();
-                v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
-                //v.vibrate(50000);
-                onActivity.setText("Stop activity");
-            }
-            start = !start; // reverse
-        }
-    };
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences =  this.getActivity().getPreferences(MODE_PRIVATE);
+        stepCount = sharedPreferences.getInt("stepCount", 0);
+    }
+
+
 
     private void setBarData(ArrayList barEntriesArrayList, String string) {
         // creating a new bar data set.
@@ -116,4 +167,23 @@ public class ActivityFragment extends Fragment {
         barEntriesArrayList.add(new BarEntry(6f, 1));
         barEntriesArrayList.add(new BarEntry(7f, 1));
     }
+    final View.OnClickListener mButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // change your button background
+            if (!start) {
+                v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
+                onActivity.setText(getResources().getString(R.string.start_activity));
+
+            } else {
+                // v.cancel();
+                v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
+                //v.vibrate(50000);
+                onActivity.setText("Stop activity");
+            }
+            start = !start; // reverse
+        }
+    };
+
+
 }
