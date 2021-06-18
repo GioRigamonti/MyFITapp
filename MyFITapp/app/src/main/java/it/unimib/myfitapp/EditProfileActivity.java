@@ -65,12 +65,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private FirebaseStorage firebaseStorage;
     private EditText editHeight;
     private EditText editWeight;
-    //private EditText editDate;
     private Spinner editTextSex;
     private Spinner editTextActivity_level;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
     private StorageReference storageReference;
+    boolean puoiCaricareIDati=false;
 
     public EditProfileActivity() {
     }
@@ -116,6 +116,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         });
 
         databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+
         editTextName = (EditText) findViewById(R.id.input_name);
         editTextSurname = (EditText) findViewById(R.id.input_surname);
         editTextSex = (Spinner) findViewById(R.id.input_sex);
@@ -125,6 +126,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         btnsave = (Button) findViewById(R.id.button_confirm);
+        btnsave.setEnabled(false);
+        puoiCaricareIDati=false;
         btnsave.setOnClickListener(this);
 
 
@@ -166,20 +169,55 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
 
     private void userInformation() throws ParseException {
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        //SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
         Date dateObj = calendar.getTime();
-        String name = editTextName.getText().toString().trim();
-        String surname = editTextSurname.getText().toString().trim();
+        String name = null, surname = null;
+        int height = 0;
+        double weight = 0;
+        Date date = null;
+        boolean controlli = false;
+
+        /*if (editTextName.getText().toString().isEmpty()) {
+            editTextName.setError("Please insert name");
+            controlli=false;
+        }else{
+            name = editTextName.getText().toString().trim();
+            controlli=true;
+        }
+        if (controlli && editTextSurname.getText().toString().isEmpty()) {
+            editTextSurname.setError("Please insert surname");
+            controlli=false;
+        } else {
+            surname = editTextSurname.getText().toString().trim();
+            controlli=true;
+        }
         String email = textViewemailname.getText().toString().trim();
         String sex = editTextSex.getSelectedItem().toString();
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
-
-        int height = Integer.parseInt(editHeight.getText().toString());
-        float weight = Float.parseFloat(editWeight.getText().toString());
+        if (controlli && textViewDate.getText().toString().isEmpty()) {
+            textViewDate.setError("Please choose a date");
+            controlli=false;
+        } else{
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
+            controlli=true;
+        }
+        if (controlli && editHeight.getText().toString().isEmpty()) {
+            editHeight.setError("Please insert height");
+            controlli=false;
+        } else{
+            height = Integer.parseInt(editHeight.getText().toString());
+            controlli=true;
+        }
+        if (controlli && editWeight.getText().toString().isEmpty()) {
+            editWeight.setError("Please insert height");
+            controlli=false;
+        } else{
+            weight = Double.parseDouble(editWeight.getText().toString());
+            controlli=true;
+        }
         String activity_level = editTextActivity_level.getSelectedItem().toString();
-
-        if (TextUtils.isEmpty(name)) {
+*/
+        /*if (TextUtils.isEmpty(name)) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.name_empty), Toast.LENGTH_LONG).show();
             return;
         }
@@ -187,7 +225,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.surname_empty), Toast.LENGTH_LONG).show();
             return;
         }
-        if (date==null) {
+        if (textViewDate.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.date_empty), Toast.LENGTH_LONG).show();
             return;
         }
@@ -211,12 +249,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (weight < 0) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.weight_not_valid), Toast.LENGTH_LONG).show();
             return;
+        }*/
+        /*if(controlli)
+            puoiCaricareIDati = controlli;
+        else
+            puoiCaricareIDati = false;
+
+        if(puoiCaricareIDati){
+            btnsave.setEnabled(true);
+            btnsave.setOnClickListener(this);
         }
         UserInformation userinformation = new UserInformation(name, surname, email, sex, date, weight, height, activity_level);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.information_update), Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.information_update), Toast.LENGTH_LONG).show();*/
     }
 
 
@@ -227,7 +273,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_baseline_account_circle_24);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_account_circle_24);
 
-                openSelectProfilePictureDialog();
+                //openSelectProfilePictureDialog();
                 try {
                     userInformation();
                 } catch (ParseException e) {
@@ -254,22 +300,25 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         // Get "User UID" from Firebase > Authentification > Users.
         DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
-        StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic"); //User id/Images/Profile Pic.jpg
-        UploadTask uploadTask = imageReference.putFile(imagePath);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.error_picture), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.picture_uploaded), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(imagePath != null) {
+            StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic"); //User id/Images/Profile Pic.jpg
+            UploadTask uploadTask = imageReference.putFile(imagePath);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.error_picture), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.picture_uploaded), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else
+            Toast.makeText(EditProfileActivity.this, "No picture insert", Toast.LENGTH_LONG).show();
     }
 
-    public void openSelectProfilePictureDialog() {
+    /*public void openSelectProfilePictureDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         TextView title = new TextView(this);
         title.setText(getResources().getString(R.string.profile_picture));
@@ -296,7 +345,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         okBT.setPadding(50, 10, 10, 10);   // Set Position
         okBT.setTextColor(Color.BLUE);
         okBT.setLayoutParams(neutralBtnLP);
-    }
+    }*/
 
     public void buttonClickedCalendar(View view) {
         LayoutInflater inflater = getLayoutInflater();

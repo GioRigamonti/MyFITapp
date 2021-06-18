@@ -106,12 +106,13 @@ public class ProfileActivity extends AppCompatActivity {
                     profileSurnameTextView.setText(userProfile.getSurname());
                     profileActivityLevel.setText(userProfile.getActivity_level());
                     if (userProfile.getDate() != null) {
-                        profileAge.setText(Integer.toString(userProfile.getAge()));
+                        profileAge.setText(String.valueOf(userProfile.getAge()));
                     }
-                    profileHeight.setText(Integer.toString(userProfile.getHeight()));
+                    profileHeight.setText(String.valueOf(userProfile.getHeight()));
                     profileSex.setText(userProfile.getSex());
-                    profileWeight.setText(Float.toString(userProfile.getWeight()));
-                    profileIMC.setText(Float.toString(userProfile.setIMC(userProfile.getWeight(),userProfile.getHeight())));
+                    profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                    //profileIMC.setText(Float.toString(userProfile.setIMC(userProfile.getWeight(),userProfile.getHeight())));
+                    profileIMC.setText(String.valueOf(userProfile.getIMC()));
                     textViewemailname = findViewById(R.id.user_email);
                     textViewemailname.setText(user.getEmail());
                 }
@@ -214,7 +215,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String sex = profileSex.getText().toString().trim();
                 int age = Integer.parseInt(profileAge.getText().toString().trim());
                 int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
                 String activity_level = profileActivityLevel.getText().toString().trim();
                 UserInformation userinformation = new UserInformation(name, surname, email, sex,
                         age, weight, height, activity_level);
@@ -252,7 +253,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String sex = profileSex.getText().toString().trim();
                 int age = Integer.parseInt(profileAge.getText().toString().trim());
                 int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
                 String activity_level = profileActivityLevel.getText().toString().trim();
                 UserInformation userinformation = new UserInformation(name, surname, email, sex,
                         age, weight, height, activity_level);
@@ -289,7 +290,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String sex = profileSex.getText().toString().trim();
                 int age = Integer.parseInt(profileAge.getText().toString().trim());
                 int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                float weight = Float.parseFloat(etWeight.getText().toString().trim());
+                double weight = Double.parseDouble(etWeight.getText().toString().trim());
                 String activity_level = profileActivityLevel.getText().toString().trim();
                 UserInformation userinformation = new UserInformation(name, surname, email, sex,
                         age, weight, height, activity_level);
@@ -326,7 +327,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String sex = profileSex.getText().toString().trim();
                 int age = Integer.parseInt(profileAge.getText().toString().trim());
                 int height = Integer.parseInt(etHeight.getText().toString().trim());
-                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
                 String activity_level = profileActivityLevel.getText().toString().trim();
                 UserInformation userinformation = new UserInformation(name, surname, email, sex,
                         age, weight, height, activity_level);
@@ -363,7 +364,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String sex = profileSex.getText().toString().trim();
                 int age = Integer.parseInt(profileAge.getText().toString().trim());
                 int height = Integer.parseInt(profileHeight.getText().toString().trim());
-                float weight = Float.parseFloat(profileWeight.getText().toString().trim());
+                double weight = Double.parseDouble(profileWeight.getText().toString().trim());
                 String activity_level = etActivityLevel.getText().toString().trim();
                 UserInformation userinformation = new UserInformation(name, surname, email, sex,
                         age, weight, height, activity_level);
