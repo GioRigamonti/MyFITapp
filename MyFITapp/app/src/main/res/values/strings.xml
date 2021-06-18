@@ -24,10 +24,8 @@
     <!-- Messages Preferences -->
 
     <!-- Sync Preferences -->
-    <string name="height">Height</string>
-    <string name="heigh">Height</string>
-    <string name="weight">Weight</string>
-    <string name="distance">Distance</string>
+    <string name="height">Height (in cm)</string>
+    <string name="weight">Weight (in kg)</string>
     <string name="speed">Speed</string>
     <string name="calories">Calories</string>
     <string name="notifications">Notifications</string>
@@ -113,4 +111,5 @@
     <string name="walking">Walking</string>
     <string name="prediction_table_description">MyFITapp is based on the use of a library that predicts the activity carried out through the use of Machine Learning. The table shows the probabilities of the activity that is taking place</string>
     <string name="activity_done_daily">Daily activity carried out during the week</string>
+    <string name="time">Time</string>
 </resources>

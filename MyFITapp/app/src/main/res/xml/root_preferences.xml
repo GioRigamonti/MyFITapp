@@ -7,8 +7,8 @@
             app:defaultValue="false"
             app:entries="@array/um_altezza"
             app:entryValues="@array/um_altezza"
-            app:key="@string/heigh"
-            app:title="@string/heigh"
+            app:key="@string/height"
+            app:title="@string/height"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference

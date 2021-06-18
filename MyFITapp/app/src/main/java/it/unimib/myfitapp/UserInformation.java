@@ -2,6 +2,7 @@ package it.unimib.myfitapp;
 
 import android.util.Log;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -16,7 +17,7 @@ public class UserInformation {
     private double weight;
     private int height;
     private String activity_level;
-    private double IMC;
+    private double imc;
 
     public UserInformation(){
     }
@@ -32,8 +33,9 @@ public class UserInformation {
         this.weight = weight;
         this.height = height;
         this.activity_level = activity_level;
-        this.IMC = setIMC(weight, height);
+        this.imc = setIMC(weight, height);
     }
+
     public UserInformation(String name,String surname, String email, String sex,
                            int age, double weight, int height, String activity_level) {
         this.name = name;
@@ -44,7 +46,7 @@ public class UserInformation {
         this.weight = weight;
         this.height = height;
         this.activity_level = activity_level;
-        this.IMC = setIMC(weight, height);
+        this.imc = setIMC(weight, height);
     }
 
     public String getName(){
@@ -63,11 +65,11 @@ public class UserInformation {
         return sex;
     }
 
-    public int getAge(){return age;}
-
     public Date getDate(){
         return date;
     }
+
+    public int getAge(){return age;}
 
     public int setAge(Date date){
         GregorianCalendar today = new GregorianCalendar();
@@ -86,7 +88,7 @@ public class UserInformation {
     }
 
     public double getWeight(){
-        return weight;
+        return truncateTo(weight,1);
     }
 
     public int getHeight(){
@@ -98,12 +100,16 @@ public class UserInformation {
     }
 
     public double getIMC(){
-        return IMC;
+       return imc;
     }
 
     public double setIMC(double weight, int height){
-        double imc = (weight/(Math.pow(height*0.01,2)));
-        Log.d("USER", String.valueOf(imc));
-        return imc;
+        return truncateTo(weight/(Math.pow(height*0.01,2)), 1);
+    }
+
+    static double truncateTo( double unroundedNumber, int decimalPlaces ){
+        int truncatedNumberInt = (int) (unroundedNumber * Math.pow(10, decimalPlaces));
+        double truncatedNumber = (double)(truncatedNumberInt / Math.pow( 10, decimalPlaces));
+        return truncatedNumber;
     }
 }

@@ -111,7 +111,6 @@ public class ProfileActivity extends AppCompatActivity {
                     profileHeight.setText(String.valueOf(userProfile.getHeight()));
                     profileSex.setText(userProfile.getSex());
                     profileWeight.setText(String.valueOf(userProfile.getWeight()));
-                    //profileIMC.setText(Float.toString(userProfile.setIMC(userProfile.getWeight(),userProfile.getHeight())));
                     profileIMC.setText(String.valueOf(userProfile.getIMC()));
                     textViewemailname = findViewById(R.id.user_email);
                     textViewemailname.setText(user.getEmail());
