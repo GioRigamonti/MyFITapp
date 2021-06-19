@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,8 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "Profile";
@@ -123,6 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
+
         LogoutButton = (Button) findViewById(R.id.button_logout);
 
         LogoutButton.setOnClickListener(new View.OnClickListener() {
@@ -217,6 +222,17 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog dialog = alert.create();
         dialog.show();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot dataSnapshot) {
+                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                profileNameTextView.setText(userProfile.getName());
+            }
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void buttonClickedEditSurname(View view) {
@@ -245,8 +261,20 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog dialog = alert.create();
         dialog.show();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot dataSnapshot) {
+                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                profileSurnameTextView.setText(userProfile.getSurname());
+            }
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     public void buttonClickedEditWeight(View view) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_weight, null);
         final EditText etWeight = alertLayout.findViewById(R.id.et_weight);
@@ -272,7 +300,67 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog dialog = alert.create();
         dialog.show();
+        databaseReference.child(user.getUid()).child("weight").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                UserInformation userProfile = snapshot.getValue(UserInformation.class);
+                profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                Toast.makeText(ProfileActivity.this, String.valueOf(userProfile.getWeight()), Toast.LENGTH_LONG).show();
+                /*userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
+                profileIMC.setText(String.valueOf(userProfile.getIMC()));*/
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+            /*    new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);*/
+                /*profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                Toast.makeText(ProfileActivity.this, String.valueOf(userProfile.getWeight()), Toast.LENGTH_LONG).show();*/
+                //profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                        /*userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
+                        profileIMC.setText(String.valueOf(userProfile.getIMC()));*/
+                /*FirebaseUser user = firebaseAuth.getCurrentUser();
+                profileNameTextView.setText(userProfile.getName());
+                profileSurnameTextView.setText(userProfile.getSurname());
+                profileActivityLevel.setText(userProfile.getActivity_level());
+                if (userProfile.getDate() != null) {
+                    profileAge.setText(String.valueOf(userProfile.getAge()));
+                }
+                profileHeight.setText(String.valueOf(userProfile.getHeight()));
+                profileSex.setText(userProfile.getSex());
+                profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                profileIMC.setText(String.valueOf(userProfile.getIMC()));
+                textViewemailname = findViewById(R.id.user_email);
+                textViewemailname.setText(user.getEmail());
+            }
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
+
     public void buttonClickedEditHeight(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_height, null);
@@ -299,6 +387,19 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog dialog = alert.create();
         dialog.show();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot dataSnapshot) {
+                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                profileHeight.setText(String.valueOf(userProfile.getHeight()));
+                userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
+                profileIMC.setText(String.valueOf(userProfile.getIMC()));
+            }
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     public void buttonClickedEditActivityLevel(View view) {
         LayoutInflater inflater = getLayoutInflater();
@@ -327,6 +428,17 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog dialog = alert.create();
         dialog.show();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot dataSnapshot) {
+                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                profileActivityLevel.setText(userProfile.getActivity_level());
+            }
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void buttonClickedDelete(View view) {
