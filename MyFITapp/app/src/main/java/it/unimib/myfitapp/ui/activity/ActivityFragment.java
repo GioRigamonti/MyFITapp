@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -24,9 +25,14 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.unimib.myfitapp.PerformanceDao;
+import it.unimib.myfitapp.PerformanceDatabase;
+import it.unimib.myfitapp.PerformanceRegistration;
 import it.unimib.myfitapp.R;
 import static android.content.Context.MODE_PRIVATE;
 
@@ -48,6 +54,19 @@ public class ActivityFragment extends Fragment {
     private Timer timer;
     private TimerTask timerTask;
     private Double time = 0.0;
+    //private int day = Calendar.DAY_OF_WEEK;
+    private int uid = 0;
+    private PerformanceDatabase db;
+    private PerformanceRegistration performanceRegistration;
+
+    private PerformanceDatabase getDatabaseManager()
+    {
+        if (db==null)
+            db=PerformanceDatabase.getInMemoryDatabase(this.getContext());
+        return db;
+    }
+
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -70,6 +89,10 @@ public class ActivityFragment extends Fragment {
         startButton = (Button) root.findViewById(R.id.button_start_activity);
         startButton.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
         steps.setText(Integer.toString(stepCount));
+        /*AppDatabase db = Room.databaseBuilder(getContext().getApplicationContext(),
+                    AppDatabase.class, "attività settimanale").build();
+        PerformanceDao performanceDao = db.performanceDao();*/
+        //List<Performance> performanceList = performanceDao.getAll();
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +102,6 @@ public class ActivityFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
                     //v.vibrate(50000);
                     onActivity.setText(getResources().getString(R.string.stop));
-
                     startTimer();
                     stepCount = 0;
                     steps.setText(Integer.toString(stepCount));
@@ -117,8 +139,8 @@ public class ActivityFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
                     onActivity.setText(getResources().getString(R.string.start_activity));
                     timerTask.cancel();
-                    timerTask.cancel();
-
+                    performanceRegistration = new PerformanceRegistration(uid, stepCount, time);
+                    getDatabaseManager().performanceDao().insertPerformance(performanceRegistration);
                 }
                 start = !start; // reverse
             }
@@ -199,7 +221,15 @@ public class ActivityFragment extends Fragment {
         barEntriesArrayList.add(new BarEntry(7f, 1));
     }
     private void startTimer()
-    {   time = 0.0;
+    {
+        if (time != 0.0) {
+            /*AppDatabase db = Room.databaseBuilder(getContext().getApplicationContext(),
+                    AppDatabase.class, "attività settimanale").build();
+            PerformanceDao performanceDao = db.performanceDao();
+            List<Performance> performanceList = performanceDao.getAll();*/
+            time = 0.0;
+        }
+        uid ++;
         timerTask = new TimerTask() {
             @Override
             public void run()
