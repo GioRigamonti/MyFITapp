@@ -218,21 +218,24 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).child("name").setValue(name);
                 etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange( DataSnapshot dataSnapshot) {
+                        UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                        profileNameTextView.setText(userProfile.getName());
+                        databaseReference.removeEventListener(this);
+                    }
+                    @Override
+                    public void onCancelled( DatabaseError databaseError) {
+                        Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                    }
+
+                });
             }
         });
         AlertDialog dialog = alert.create();
         dialog.show();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
-                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileNameTextView.setText(userProfile.getName());
-            }
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     public void buttonClickedEditSurname(View view) {
@@ -257,24 +260,25 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).child("surname").setValue(surname);
                 etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange( DataSnapshot dataSnapshot) {
+                        UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                        profileSurnameTextView.setText(userProfile.getSurname());
+                        databaseReference.removeEventListener(this);
+                    }
+                    @Override
+                    public void onCancelled( DatabaseError databaseError) {
+                        Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         AlertDialog dialog = alert.create();
         dialog.show();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
-                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileSurnameTextView.setText(userProfile.getSurname());
-            }
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
     public void buttonClickedEditWeight(View view) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_weight, null);
         final EditText etWeight = alertLayout.findViewById(R.id.et_weight);
@@ -292,44 +296,28 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                double weight = Double.parseDouble(etWeight.getText().toString().trim());
+                int weight = Integer.parseInt(etWeight.getText().toString().trim());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).child("weight").setValue(weight);
                 etWeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange( DataSnapshot dataSnapshot) {
+                        UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                        profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                        databaseReference.removeEventListener(this);
+                    }
+                    @Override
+                    public void onCancelled( DatabaseError databaseError) {
+                        Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         AlertDialog dialog = alert.create();
         dialog.show();
-        databaseReference.child(user.getUid()).child("weight").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                UserInformation userProfile = snapshot.getValue(UserInformation.class);
-                profileWeight.setText(String.valueOf(userProfile.getWeight()));
-                Toast.makeText(ProfileActivity.this, String.valueOf(userProfile.getWeight()), Toast.LENGTH_LONG).show();
-                /*userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
-                profileIMC.setText(String.valueOf(userProfile.getIMC()));*/
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    }
 
             /*    new ValueEventListener() {
             @Override
@@ -359,7 +347,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });*/
-    }
+
 
     public void buttonClickedEditHeight(View view) {
         LayoutInflater inflater = getLayoutInflater();
@@ -383,23 +371,25 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).child("height").setValue(height);
                 etHeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange( DataSnapshot dataSnapshot) {
+                        UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                        profileHeight.setText(String.valueOf(userProfile.getHeight()));
+                        userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
+                        profileIMC.setText(String.valueOf(userProfile.getIMC()));
+                        databaseReference.removeEventListener(this);
+                    }
+                    @Override
+                    public void onCancelled( DatabaseError databaseError) {
+                        Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         AlertDialog dialog = alert.create();
         dialog.show();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
-                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileHeight.setText(String.valueOf(userProfile.getHeight()));
-                userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
-                profileIMC.setText(String.valueOf(userProfile.getIMC()));
-            }
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
     public void buttonClickedEditActivityLevel(View view) {
         LayoutInflater inflater = getLayoutInflater();
