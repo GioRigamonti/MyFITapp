@@ -296,7 +296,7 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int weight = Integer.parseInt(etWeight.getText().toString().trim());
+                double weight = Double.parseDouble(etWeight.getText().toString().trim());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).child("weight").setValue(weight);
                 etWeight.onEditorAction(EditorInfo.IME_ACTION_DONE);

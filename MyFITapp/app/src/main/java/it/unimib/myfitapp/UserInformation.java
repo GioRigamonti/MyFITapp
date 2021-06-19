@@ -30,7 +30,7 @@ public class UserInformation {
         this.sex = sex;
         this.date = date;
         this.age = setAge(date);
-        this.weight = weight;
+        this.weight = truncateTo(weight,1);
         this.height = height;
         this.activity_level = activity_level;
         this.imc = setIMC(weight, height);
@@ -75,7 +75,7 @@ public class UserInformation {
     }
 
     public double getWeight(){
-        return truncateTo(weight,1);
+        return weight;
     }
 
     public int getHeight(){
