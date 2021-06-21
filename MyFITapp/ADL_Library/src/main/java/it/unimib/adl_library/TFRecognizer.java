@@ -35,7 +35,6 @@ import it.unimib.adl_library.ml.AdlModel;
 import static java.security.AccessController.getContext;
 
 public class TFRecognizer extends ADLManager {
-    private final String ASSOCIATED_AXIS_LABELS = ADLModel.getLabelPath();
     private Interpreter tflite;
     private ADLModel adl_model;
     private Map<String, Float> floatMap;
@@ -101,11 +100,9 @@ public class TFRecognizer extends ADLManager {
             //model.close();
             //instance.setActivity(setLabel());
             //instance.setMap(setProbabilityMap());
-           try {
-              outputLabels = FileUtil.loadLabels(this.context,ASSOCIATED_AXIS_LABELS);
-            } catch (IOException e) {
-               Log.e("tfliteSupport", "Error reading label file", e);
-           }
+
+            outputLabels = adl_model.getLabelRead();
+
             instance.setActivity(setLabel());
             instance.setMap(setProbabilityMap());
             close_interpreter();
