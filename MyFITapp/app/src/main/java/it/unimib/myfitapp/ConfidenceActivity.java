@@ -22,6 +22,7 @@ import it.unimib.adl_library.Observer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class ConfidenceActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow upstairsTableRow;
     private TableRow walkingTableRow;
 
-    private Observer observer;
+    //private Observer observer;
 
     private HashMap<String, Float> map;
     private String index;
@@ -68,10 +69,13 @@ public class ConfidenceActivity extends AppCompatActivity {
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
 
+
         try {
-            observer = new Observer(getApplicationContext(), "TF"); //index è il tipo di recognizer che si vuole usare, scelto da app
+            Observer observer = new Observer(getApplicationContext(), "TF"); //index è il tipo di recognizer che si vuole usare, scelto da app
+            Toast.makeText(getApplicationContext(), "observer_created", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "observer_exc", Toast.LENGTH_LONG).show();
         }
         Intent i = new Intent(ConfidenceActivity.this, Observer.class);
         startService(i);

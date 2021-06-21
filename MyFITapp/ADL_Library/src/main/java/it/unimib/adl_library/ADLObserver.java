@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface ADLObserver {
 
-    public String activityIndentified();
+    public String activityIdentified();
 
     public Map activityConfidence();
 }

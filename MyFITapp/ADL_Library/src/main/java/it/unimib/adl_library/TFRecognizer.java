@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.os.Build;
 import android.hardware.SensorManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -29,25 +30,12 @@ public class TFRecognizer extends ADLManager {
 
     public TFRecognizer(Context context, ADLInstance adlInst) throws Exception {
         super(context);
+        Toast.makeText(context, "TFrec_created", Toast.LENGTH_LONG).show();
         this.adl_model = new ADLModel(context);
+        Toast.makeText(context, "model_init", Toast.LENGTH_LONG).show();
         accListener = new ADLListener(adlInst);
-    }
+        Toast.makeText(context, "list_init", Toast.LENGTH_LONG).show();
 
-    public void startReadingAccelerometer() {
-        accListener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
-        //ACCELEROMETRO CON GRAVITA'
-        if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
-            for (int i = 0; i < ls.size(); i++) {
-                Sensor s_i = ls.get(i);
-                mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_GAME);
-            }
-        }
-    }
-
-    public void stopReadingAccelerometer() {
-        mSensorManager.unregisterListener(accListener);
-        accListener.clearFeatures(); //pulizia delle letture precedenti
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -100,6 +88,10 @@ public class TFRecognizer extends ADLManager {
             tflite.close();
             tflite = null;
         }
+    }
+
+    public ADLListener getAccListener(){
+        return accListener;
     }
 }
 

@@ -3,6 +3,8 @@ package it.unimib.adl_library;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
+import android.widget.Toast;
 
 public class ADLListener implements SensorEventListener {
     protected static final int SAMPLE_PER_SEC = 50;
@@ -15,7 +17,7 @@ public class ADLListener implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        while (adl_instance.getAccFeatures().size() < SAMPLE_PER_SEC) {   //lista ha dim_finale = 50, si sono letti 50 campioni/sec
+        if (adl_instance.getAccFeatures().size() < SAMPLE_PER_SEC) {   //lista ha dim_finale = 50, si sono letti 50 campioni/sec
             Sensor sensor = event.sensor;
             //ACCELEROMETRO CON GRAVITA'
             if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
