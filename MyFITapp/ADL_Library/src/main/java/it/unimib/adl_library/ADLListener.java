@@ -11,8 +11,9 @@ public class ADLListener implements SensorEventListener {
     private ADLInstance adl_instance;
     private ADLManager recognizer;
 
-    public ADLListener(ADLInstance inst) throws Exception {
+    public ADLListener(ADLInstance inst, ADLManager rec) throws Exception {
         this.adl_instance = inst;
+        this.recognizer = rec;
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ADLListener implements SensorEventListener {
             if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 adl_instance.setAccFeatures(event.values[0], event.values[1], event.values[2]);
             }
-        }
+        } else
         try {
             recognizer.doInference(adl_instance);
         } catch (Exception e) {}
