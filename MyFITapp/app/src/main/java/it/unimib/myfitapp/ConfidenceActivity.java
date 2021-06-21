@@ -17,7 +17,7 @@ import android.widget.TextView;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import it.unimib.adl_library.*;
+import it.unimib.adl_library.Observer;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -40,6 +40,10 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow walkingTableRow;
 
     private Observer observer;
+
+    private HashMap<String, Float> map;
+    private String index;
+    private SensorsValuesBroadcastReceiver mSensorsValuesBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +68,13 @@ public class ConfidenceActivity extends AppCompatActivity {
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
 
-        Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
+        try {
+            observer = new Observer(getApplicationContext(), "TF"); //index è il tipo di recognizer che si vuole usare, scelto da app
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Intent i = new Intent(ConfidenceActivity.this, Observer.class);
         startService(i);
-
         try {
             setProbabilities();
         } catch (Exception e) {
@@ -90,10 +98,7 @@ public class ConfidenceActivity extends AppCompatActivity {
     }
 
     private void setProbabilities() throws Exception {
-        observer = new BackgroundAccelerometerService().getObserver();
-        HashMap<String, Float> map = new HashMap<String, Float>(observer.activityConfidence());
-        String index = observer.activityIndentified();
-        setRowsColor(index);
+        //setRowsColor(index);
         downstairsTextView.setText(Float.toString(round(map.get("stairs down"), 2)));
         joggingTextView.setText(Float.toString(round(map.get("jogging"), 2)));
         sittingTextView.setText(Float.toString(round(map.get("sitting"), 2)));
@@ -102,14 +107,13 @@ public class ConfidenceActivity extends AppCompatActivity {
         walkingTextView.setText(Float.toString(round(map.get("walking"), 2)));
     }
 
-    private void setRowsColor(String idx) {
+    /*private void setRowsColor(String idx) {
         downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         joggingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         sittingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         standingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         upstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
-
 
         if (idx.equalsIgnoreCase("stairs down"))
             downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
@@ -123,11 +127,34 @@ public class ConfidenceActivity extends AppCompatActivity {
             upstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
         else if (idx.equalsIgnoreCase("walking"))
             walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
-    }
+    }*/
 
     private static float round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
+    }
+
+    public class SensorsValuesBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            map = (HashMap<String, Float>) intent.getSerializableExtra("confidence");
+            index = intent.getStringExtra("label");
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSensorsValuesBroadcastReceiver = new SensorsValuesBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("it.unimib.myfitapp");
+        registerReceiver(mSensorsValuesBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(mSensorsValuesBroadcastReceiver);
     }
 }
