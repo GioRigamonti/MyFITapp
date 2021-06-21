@@ -70,14 +70,14 @@ public class ConfidenceActivity extends AppCompatActivity {
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
 
 
-        try {
-            Observer observer = new Observer(getApplicationContext(), "TF"); //index è il tipo di recognizer che si vuole usare, scelto da app
-            Toast.makeText(getApplicationContext(), "observer_created", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "observer_exc", Toast.LENGTH_LONG).show();
-        }
-        Intent i = new Intent(ConfidenceActivity.this, Observer.class);
+        Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
+        //try {
+        //    Observer observer = new Observer(getApplicationContext(),"TF");
+        //} catch (Exception e) {
+         //   e.printStackTrace();
+        //}
+        //Intent i = new Intent(ConfidenceActivity.this, Observer.class);
+
         startService(i);
         try {
             setProbabilities();
@@ -102,7 +102,7 @@ public class ConfidenceActivity extends AppCompatActivity {
     }
 
     private void setProbabilities() throws Exception {
-        //setRowsColor(index);
+        setRowsColor(index);
         downstairsTextView.setText(Float.toString(round(map.get("stairs down"), 2)));
         joggingTextView.setText(Float.toString(round(map.get("jogging"), 2)));
         sittingTextView.setText(Float.toString(round(map.get("sitting"), 2)));
@@ -111,7 +111,7 @@ public class ConfidenceActivity extends AppCompatActivity {
         walkingTextView.setText(Float.toString(round(map.get("walking"), 2)));
     }
 
-    /*private void setRowsColor(String idx) {
+    private void setRowsColor(String idx) {
         downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         joggingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         sittingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
@@ -131,7 +131,7 @@ public class ConfidenceActivity extends AppCompatActivity {
             upstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
         else if (idx.equalsIgnoreCase("walking"))
             walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
-    }*/
+    }
 
     private static float round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));

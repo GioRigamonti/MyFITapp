@@ -18,9 +18,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class BackgroundAccelerometerService extends Service{
     private Observer observer;
+    protected SensorManager mSensorManager;
 
-    public BackgroundAccelerometerService() throws Exception {
-        this.observer = new Observer(getApplicationContext());
+    public BackgroundAccelerometerService() {
     }
 
     @Nullable
@@ -29,29 +29,29 @@ public class BackgroundAccelerometerService extends Service{
         return null;
     }
 
-    public Observer getObserver() {
-        return observer;
-    }
-
     @Override
     public void onCreate() {
+        try {
+            observer = new Observer(getApplicationContext(), "TF");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, "The new Service was Created", Toast.LENGTH_LONG)
                 .show();
-
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Start Detecting", Toast.LENGTH_LONG).show();
-        observer.getRecognizer().startReadingAccelerometer();
-        return Service.START_STICKY;
-    }
-    public void startForeground() {
-        startForeground(1, null);
+        Toast.makeText(getApplicationContext(), "Start Detecting", Toast.LENGTH_LONG).show();
+        observer.startReadingAccelerometer(mSensorManager);
+
+        return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getApplicationContext(), "Service Destroyed", Toast.LENGTH_LONG).show();
+        observer.stopReadingAccelerometer(mSensorManager);
+        sendBroadcast(observer.probability());
     }
 }
