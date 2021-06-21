@@ -141,6 +141,7 @@ public class ActivityFragment extends Fragment {
                     timerTask.cancel();
                     performanceRegistration = new PerformanceRegistration(uid, stepCount, time);
                     getDatabaseManager().performanceDao().insertPerformance(performanceRegistration);
+
                 }
                 start = !start; // reverse
             }

@@ -394,7 +394,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void buttonClickedEditActivityLevel(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_activity_level, null);
-        final EditText etActivityLevel = alertLayout.findViewById(R.id.et_activity_level);
+        final Spinner etActivityLevel = alertLayout.findViewById(R.id.et_activity_level);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(getResources().getString(R.string.edit_activity_level));
         // this is set the view from XML inside AlertDialog
@@ -409,26 +409,25 @@ public class ProfileActivity extends AppCompatActivity {
         alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Spinner act= (Spinner) findViewById(R.id.activity_level);
-                String activity_level = act.getSelectedItem().toString();
+                String activity_level = etActivityLevel.getSelectedItem().toString();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).child("activity_level").setValue(activity_level);
-                etActivityLevel.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange( DataSnapshot dataSnapshot) {
+                        UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
+                        profileActivityLevel.setText(userProfile.getActivity_level());
+                    }
+                    @Override
+                    public void onCancelled( DatabaseError databaseError) {
+                        Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         AlertDialog dialog = alert.create();
         dialog.show();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
-                UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
-                profileActivityLevel.setText(userProfile.getActivity_level());
-            }
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-                Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     public void buttonClickedDelete(View view) {
