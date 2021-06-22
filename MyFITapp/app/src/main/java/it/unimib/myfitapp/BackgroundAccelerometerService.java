@@ -16,7 +16,7 @@ import it.unimib.adl_library.*;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class BackgroundAccelerometerService extends Service{
+public class BackgroundAccelerometerService extends Service implements SensorEventListener{
     private Observer observer;
     protected SensorManager mSensorManager;
 
@@ -43,7 +43,11 @@ public class BackgroundAccelerometerService extends Service{
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(getApplicationContext(), "Start Detecting", Toast.LENGTH_LONG).show();
-        observer.startReadingAccelerometer(mSensorManager);
+        try {
+            observer.startReadingAccelerometer(mSensorManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return START_STICKY;
     }
@@ -52,6 +56,17 @@ public class BackgroundAccelerometerService extends Service{
     public void onDestroy() {
         Toast.makeText(getApplicationContext(), "Service Destroyed", Toast.LENGTH_LONG).show();
         observer.stopReadingAccelerometer(mSensorManager);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        observer.getListener().onSensorChanged(event);
         sendBroadcast(observer.probability());
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
