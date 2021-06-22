@@ -28,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -126,8 +127,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         btnsave = (Button) findViewById(R.id.button_confirm);
-        btnsave.setEnabled(false);
-        puoiCaricareIDati=false;
+        btnsave.setClickable(false);
+        /*puoiCaricareIDati=false;*/
         btnsave.setOnClickListener(this);
 
 
@@ -167,7 +168,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         return true;
     }
 
-
+    boolean[] controlli= new boolean[]{false, false, true, true, false, false, false, true};
+    
     private void userInformation() throws ParseException {
         //SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
@@ -176,47 +178,57 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         int height = 0;
         double weight = 0;
         Date date = null;
-        boolean controlli = false;
 
-        /*if (editTextName.getText().toString().isEmpty()) {
+        if (editTextName.getText().toString().isEmpty()) {
             editTextName.setError("Please insert name");
-            controlli=false;
+            controlli[0]=false;
         }else{
             name = editTextName.getText().toString().trim();
-            controlli=true;
+            controlli[0]=true;
         }
-        if (controlli && editTextSurname.getText().toString().isEmpty()) {
+        if (editTextSurname.getText().toString().isEmpty()) {
             editTextSurname.setError("Please insert surname");
-            controlli=false;
+            controlli[1]=false;
         } else {
             surname = editTextSurname.getText().toString().trim();
-            controlli=true;
+            controlli[1]=true;
         }
         String email = textViewemailname.getText().toString().trim();
         String sex = editTextSex.getSelectedItem().toString();
-        if (controlli && textViewDate.getText().toString().isEmpty()) {
+        if (textViewDate.getText().toString().isEmpty()) {
             textViewDate.setError("Please choose a date");
-            controlli=false;
+            controlli[4]=false;
         } else{
             date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
-            controlli=true;
+            controlli[4]=true;
         }
-        if (controlli && editHeight.getText().toString().isEmpty()) {
+        if (editHeight.getText().toString().isEmpty()) {
             editHeight.setError("Please insert height");
-            controlli=false;
+            controlli[5]=false;
         } else{
             height = Integer.parseInt(editHeight.getText().toString());
-            controlli=true;
+            controlli[5]=true;
         }
-        if (controlli && editWeight.getText().toString().isEmpty()) {
+        if (editWeight.getText().toString().isEmpty()) {
             editWeight.setError("Please insert height");
-            controlli=false;
+            controlli[6]=false;
         } else{
             weight = Double.parseDouble(editWeight.getText().toString());
-            controlli=true;
+            controlli[6]=true;
         }
         String activity_level = editTextActivity_level.getSelectedItem().toString();
-*/
+
+        if(false) {
+            btnsave.setClickable(true);
+            //btnsave.setOnClickListener(this);
+            UserInformation userinformation = new UserInformation(name, surname, email, sex, date, weight, height, activity_level);
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            databaseReference.child(user.getUid()).setValue(userinformation);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.information_update), Toast.LENGTH_LONG).show();
+        } /*else{
+            startActivity(new Intent(EditProfileActivity.this, EditProfileActivity.class));
+        }*/
+
         /*if (TextUtils.isEmpty(name)) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.name_empty), Toast.LENGTH_LONG).show();
             return;
@@ -250,19 +262,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.weight_not_valid), Toast.LENGTH_LONG).show();
             return;
         }*/
-        /*if(controlli)
-            puoiCaricareIDati = controlli;
-        else
-            puoiCaricareIDati = false;
 
-        if(puoiCaricareIDati){
-            btnsave.setEnabled(true);
-            btnsave.setOnClickListener(this);
-        }
-        UserInformation userinformation = new UserInformation(name, surname, email, sex, date, weight, height, activity_level);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(userinformation);
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.information_update), Toast.LENGTH_LONG).show();*/
+        /*if(puoiCaricareIDati){
+            btnsave.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    btnsave.setEnabled(true);
+                }
+            });
+            //btnsave.setOnClickListener(this);
+        }*/
     }
 
 
@@ -282,7 +290,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
                 sendUserData();
                 finish();
-                startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
             } else {
                 try {
                     userInformation();
@@ -291,7 +299,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 }
                 sendUserData();
                 finish();
-                startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
             }
         }
     }
