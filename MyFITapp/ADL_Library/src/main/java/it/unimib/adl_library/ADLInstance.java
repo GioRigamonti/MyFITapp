@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ADLInstance {
+    private final int OVERLAP = 100;
+    private final int FRAME = 150;
     private String activity;
     private Map<String, Float> map;
     List<float[]> acc_Features;
+    private int i = 0;
+    private List<float[]> frame;
 
     public ADLInstance() {
         this.acc_Features = new ArrayList<float[]>();
@@ -34,7 +38,6 @@ public class ADLInstance {
 
     public void setAccFeatures(float ax, float ay, float az){
         float[] acc = new float[]{ax, ay, az};
-
         acc_Features.add(acc);
     }
 
@@ -42,5 +45,17 @@ public class ADLInstance {
         return acc_Features;
     }
 
+    public void setFrame(){
+        if(i == 0) {
+            frame=acc_Features.subList(i, i + FRAME);
+        }else {
+            frame=acc_Features.subList(i - OVERLAP, i + FRAME - OVERLAP);
+        }
+        i = i + FRAME;
+    }
+
+    public List<float[]> getFrame(){
+        return frame;
+    }
 
 }
