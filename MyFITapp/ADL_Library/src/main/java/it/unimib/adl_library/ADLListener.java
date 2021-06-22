@@ -24,7 +24,7 @@ public class ADLListener implements SensorEventListener {
         int rilevazioniAcc = adl_instance.getAccFeatures().size();
 
         if (rilevazioniAcc >= SAMPLE_PER_SEC && rilevazioniAcc % SAMPLE_PER_SEC == 0) {  //lista ha dim_finale = 150, si sono letti 50 campioni/sec
-            adl_instance.setFrame();
+            adl_instance.setFrame(rilevazioniAcc);   //crea finestre di lettura da 150 campioni
             try {
                 recognizer.doInference(adl_instance);
             } catch (Exception e) {}

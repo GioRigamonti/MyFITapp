@@ -11,7 +11,6 @@ public class ADLInstance {
     private String activity;
     private Map<String, Float> map;
     List<float[]> acc_Features;
-    private int i = 0;
     private List<float[]> frame;
 
     public ADLInstance() {
@@ -45,13 +44,12 @@ public class ADLInstance {
         return acc_Features;
     }
 
-    public void setFrame(){
-        if(i == 0) {
-            frame=acc_Features.subList(i, i + FRAME);
+    public void setFrame(int index){
+        if(index == FRAME) {  //index = 150
+            frame = acc_Features.subList(index -  FRAME, index);  // [0, 150]
         }else {
-            frame=acc_Features.subList(i - OVERLAP, i + FRAME - OVERLAP);
+            frame = acc_Features.subList(index - OVERLAP, index + FRAME - OVERLAP);
         }
-        i = i + FRAME;
     }
 
     public List<float[]> getFrame(){
