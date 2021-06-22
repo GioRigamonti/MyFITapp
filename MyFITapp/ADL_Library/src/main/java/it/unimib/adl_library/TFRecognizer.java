@@ -44,11 +44,10 @@ public class TFRecognizer extends ADLManager {
     public void doInference(ADLInstance instance) throws IOException {
         try{
             AdlModel model = AdlModel.newInstance(context);
-
-            // Creates inputs for reference.
-            if (accelerometerCoordinates == null){
+            if (accelerometerCoordinates == null) {
                 accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
-                accelerometerCoordinates.loadBuffer(adl_model.getModel());}
+                accelerometerCoordinates = (TensorBuffer) instance.getFrame();
+            }
 
             // Runs model inference and gets result.
             outputs = model.process(accelerometerCoordinates);
