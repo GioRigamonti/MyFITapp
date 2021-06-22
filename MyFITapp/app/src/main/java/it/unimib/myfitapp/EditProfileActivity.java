@@ -71,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private static int PICK_IMAGE = 123;
     Uri imagePath;
     private StorageReference storageReference;
-    boolean puoiCaricareIDati=false;
+    boolean caricamento = true;
 
     public EditProfileActivity() {
     }
@@ -199,8 +199,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             textViewDate.setError("Please choose a date");
             controlli[4]=false;
         } else{
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
-            controlli[4]=true;
+        date = new SimpleDateFormat("dd/MM/yyyy").parse(textViewDate.getText().toString());
+        controlli[4]=true;
         }
         if (editHeight.getText().toString().isEmpty()) {
             editHeight.setError("Please insert height");
@@ -217,8 +217,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             controlli[6]=true;
         }
         String activity_level = editTextActivity_level.getSelectedItem().toString();
+        for (int i = 0; i < controlli.length; i++){
+            if (controlli[i] == true && caricamento == true){
+                caricamento = true;
+            }else{
+                caricamento = false;
+            }
 
-        if(false) {
+        }
+        if(caricamento) {
             btnsave.setClickable(true);
             //btnsave.setOnClickListener(this);
             UserInformation userinformation = new UserInformation(name, surname, email, sex, date, weight, height, activity_level);
@@ -287,19 +294,24 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                if(caricamento){
+                    sendUserData();
+                    finish();
+                    startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
+                }
 
-                sendUserData();
-                finish();
-                startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
             } else {
                 try {
                     userInformation();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                sendUserData();
-                finish();
-                startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
+                if(caricamento){
+                    sendUserData();
+                    finish();
+                    startActivity(new Intent(EditProfileActivity.this, LoginActivity.class));
+                }
+
             }
         }
     }
