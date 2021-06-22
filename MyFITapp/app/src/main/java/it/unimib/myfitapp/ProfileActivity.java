@@ -305,6 +305,9 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
                         profileWeight.setText(String.valueOf(userProfile.getWeight()));
+                        databaseReference.child(user.getUid()).child("imc").setValue(
+                                userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight()));
+                        profileIMC.setText(String.valueOf(userProfile.getIMC()));
                         databaseReference.removeEventListener(this);
                     }
                     @Override
@@ -376,7 +379,8 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
                         profileHeight.setText(String.valueOf(userProfile.getHeight()));
-                        userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight());
+                        databaseReference.child(user.getUid()).child("imc").setValue(
+                                userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight()));
                         profileIMC.setText(String.valueOf(userProfile.getIMC()));
                         databaseReference.removeEventListener(this);
                     }
