@@ -16,7 +16,7 @@ import it.unimib.adl_library.*;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class BackgroundAccelerometerService extends Service implements SensorEventListener{
+public class BackgroundAccelerometerService extends Service{
     private Observer observer;
     protected SensorManager mSensorManager;
 
@@ -58,7 +58,7 @@ public class BackgroundAccelerometerService extends Service implements SensorEve
         observer.stopReadingAccelerometer(mSensorManager);
     }
 
-    @Override
+    /*@Override
     public void onSensorChanged(SensorEvent event) {
         observer.getListener().onSensorChanged(event);
         sendBroadcast(observer.probability());
@@ -68,5 +68,5 @@ public class BackgroundAccelerometerService extends Service implements SensorEve
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
+    }*/
 }

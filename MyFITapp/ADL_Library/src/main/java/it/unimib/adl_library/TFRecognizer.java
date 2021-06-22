@@ -46,7 +46,7 @@ public class TFRecognizer extends ADLManager {
             AdlModel model = AdlModel.newInstance(context);
             if (accelerometerCoordinates == null) {
                 accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
-                accelerometerCoordinates = (TensorBuffer) instance.getFrame();
+                accelerometerCoordinates = (TensorBuffer) instance.getAccFeatures();
             }
 
             // Runs model inference and gets result.
