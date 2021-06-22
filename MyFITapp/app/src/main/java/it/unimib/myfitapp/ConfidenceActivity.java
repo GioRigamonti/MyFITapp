@@ -17,11 +17,10 @@ import android.widget.TextView;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import it.unimib.adl_library.Observer;
+import it.unimib.adl_library.*;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import android.util.Log;
 import android.widget.Toast;
 
 
@@ -39,8 +38,6 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow standingTableRow;
     private TableRow upstairsTableRow;
     private TableRow walkingTableRow;
-
-    //private Observer observer;
 
     private HashMap<String, Float> map;
     private String index;
@@ -71,13 +68,6 @@ public class ConfidenceActivity extends AppCompatActivity {
 
 
         Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
-        //try {
-        //    Observer observer = new Observer(getApplicationContext(),"TF");
-        //} catch (Exception e) {
-         //   e.printStackTrace();
-        //}
-        //Intent i = new Intent(ConfidenceActivity.this, Observer.class);
-
         startService(i);
         try {
             setProbabilities();

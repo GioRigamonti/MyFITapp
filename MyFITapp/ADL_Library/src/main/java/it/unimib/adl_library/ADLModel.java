@@ -36,7 +36,7 @@ public class ADLModel {
 
     private List<String> loadLabelsFile(){
         List<String> labels = new ArrayList<>();
-        try (InputStream ins = context.getAssets().open(getLabelPath());
+        try (InputStream ins = context.getAssets().open(LABEL_FILE);
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins))) {
             while (bufferedReader.ready()) {
                 labels.add(bufferedReader.readLine());
@@ -47,17 +47,9 @@ public class ADLModel {
         return labels;
     }
 
-    public static String getModelPath() {
-        return MODEL_FILE;
-    }
-
-    public static String getLabelPath() {
-        return LABEL_FILE;
-    }
-
     private MappedByteBuffer loadModelFile()throws IOException{
         //open the model using an input stream and memory map it load
-        AssetFileDescriptor fileDescriptor = context.getAssets().openFd(getModelPath());
+        AssetFileDescriptor fileDescriptor = context.getAssets().openFd(MODEL_FILE);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         Long startOffset = fileDescriptor.getStartOffset();
@@ -65,6 +57,13 @@ public class ADLModel {
         return  fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 
+    /*public static String getModelPath() {
+        return MODEL_FILE;
+    }
+
+    public static String getLabelPath() {
+        return LABEL_FILE;
+    }*/
 
 
 }

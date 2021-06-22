@@ -3,8 +3,6 @@ package it.unimib.adl_library;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
-import android.widget.Toast;
 
 public class ADLListener implements SensorEventListener {
     protected static final int SAMPLE_PER_SEC = 50;

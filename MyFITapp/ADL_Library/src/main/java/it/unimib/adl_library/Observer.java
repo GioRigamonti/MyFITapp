@@ -109,23 +109,20 @@ import android.hardware.SensorManager;
 import android.widget.Toast;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 public class Observer  implements ADLObserver{
     private ADLInstance instance;
-    private TFRecognizer recognizer;
+    private ADLManager recognizer;
     private ADLListener listener;
 
     public Observer(Context context, String index) throws Exception {
-        Toast.makeText(context.getApplicationContext(), "inObserver constr", Toast.LENGTH_LONG).show();
         instance = new ADLInstance();
         switch (index.toUpperCase()){
             case "TF":
                 recognizer = new TFRecognizer(context, instance);
                 break;
-            //default:
-                //throw new Exception();
+            /*default: ??? */
         }
         listener = recognizer.getAccListener();
     }
@@ -148,22 +145,32 @@ public class Observer  implements ADLObserver{
         return intent;
     }
 
-    public void startReadingAccelerometer(SensorManager mSensorManager) {
+    @Override
+    public void startReadingAccelerometer(SensorManager mSensorManager) throws Exception {
         listener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
         //ACCELEROMETRO CON GRAVITA'
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
+            /*List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
             for (int i = 0; i < ls.size(); i++) {
                 Sensor s_i = ls.get(i);
-                mSensorManager.registerListener(listener, s_i, SensorManager.SENSOR_DELAY_GAME);
-            }
+                mSensorManager.registerListener(listener, s_i, SensorManager.SENSOR_DELAY_GAME);*/
+            mSensorManager.registerListener(listener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            /*if(instance.getAccFeatures().size()<=50)
+                recognizer.doInference(instance);
+            else
+                stopReadingAccelerometer(mSensorManager);*/
         }
     }
 
+    @Override
     public void stopReadingAccelerometer(SensorManager mSensorManager) {
         mSensorManager.unregisterListener(listener);
         listener.clearFeatures(); //pulizia delle letture precedenti
     }
 
+    public ADLListener getListener() {
+        return listener;
+    }
 }
 
