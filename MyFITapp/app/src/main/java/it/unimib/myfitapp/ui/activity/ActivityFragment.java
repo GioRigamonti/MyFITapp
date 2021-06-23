@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
@@ -24,6 +26,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,6 +40,7 @@ import it.unimib.myfitapp.PerformanceRegistration;
 import it.unimib.myfitapp.R;
 import static android.content.Context.MODE_PRIVATE;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class ActivityFragment extends Fragment {
 
     private ActivityViewModel activityViewModel;
@@ -55,7 +60,8 @@ public class ActivityFragment extends Fragment {
     private TimerTask timerTask;
     private Double time = 0.0;
     //private int day = Calendar.DAY_OF_WEEK;
-    private int uid = 0;
+    DayOfWeek day = LocalDate.now().getDayOfWeek();
+    //private int uid = 0;
     private PerformanceDatabase db;
     private PerformanceRegistration performanceRegistration;
 
@@ -139,7 +145,7 @@ public class ActivityFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
                     onActivity.setText(getResources().getString(R.string.start_activity));
                     timerTask.cancel();
-                    performanceRegistration = new PerformanceRegistration(uid, stepCount, time);
+                    performanceRegistration = new PerformanceRegistration(day, stepCount, time);
                     getDatabaseManager().performanceDao().insertPerformance(performanceRegistration);
 
                 }
@@ -230,7 +236,7 @@ public class ActivityFragment extends Fragment {
             List<Performance> performanceList = performanceDao.getAll();*/
             time = 0.0;
         }
-        uid ++;
+        //uid ++;
         timerTask = new TimerTask() {
             @Override
             public void run()

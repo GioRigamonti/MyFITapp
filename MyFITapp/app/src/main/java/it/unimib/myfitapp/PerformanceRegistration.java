@@ -1,20 +1,25 @@
 package it.unimib.myfitapp;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 @Entity(tableName = "attività settimanale")
 public class PerformanceRegistration {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     @ColumnInfo(name = "day")
-    public int day;
+    public DayOfWeek day;
 
     @ColumnInfo(name = "steps")
     public int step;
@@ -27,10 +32,10 @@ public class PerformanceRegistration {
         this.step = step;
         this.time = time;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Ignore
-    public PerformanceRegistration(int id, int step, double time) {
-        this.id = id;
-        this.day = Calendar.DAY_OF_WEEK;
+    public PerformanceRegistration(DayOfWeek day, int step, double time) {
+        this.day = day;
         this.step = step;
         this.time = time;
     }
@@ -43,11 +48,11 @@ public class PerformanceRegistration {
         this.id = id;
     }
 
-    public int getDay() {
+    public DayOfWeek getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(DayOfWeek day) {
         this.day = day;
     }
 
