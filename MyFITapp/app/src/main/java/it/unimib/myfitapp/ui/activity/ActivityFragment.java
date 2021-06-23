@@ -28,6 +28,7 @@ import com.github.mikephil.charting.data.BarEntry;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -39,6 +40,7 @@ import it.unimib.myfitapp.PerformanceDatabase;
 import it.unimib.myfitapp.PerformanceRegistration;
 import it.unimib.myfitapp.R;
 import static android.content.Context.MODE_PRIVATE;
+import static java.time.DayOfWeek.SUNDAY;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ActivityFragment extends Fragment {
@@ -58,16 +60,16 @@ public class ActivityFragment extends Fragment {
     private TextView timerText;
     private Timer timer;
     private TimerTask timerTask;
-    private Double time = 0.0;
+    private int time = 0; // misurazione del tempo in s
     DayOfWeek day = LocalDate.now().getDayOfWeek();
     private PerformanceDatabase db;
     private PerformanceRegistration performanceRegistration;
-    //Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-    SensorEventListener stepDetector;
+    private SensorEventListener stepDetector;
 
     private PerformanceDatabase getDatabaseManager()
     {
         if (db==null)
+            db = PerformanceDatabase.buildDatabase(this.getContext());
             db=PerformanceDatabase.getInMemoryDatabase(this.getContext());
         return db;
     }
@@ -108,15 +110,13 @@ public class ActivityFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
                     //v.vibrate(50000);
                     onActivity.setText(getResources().getString(R.string.stop));
-                    //stepCount = 0;
+                    stepCount = 0;
                     startTimer();
-                    //steps.setText(Integer.toString(stepCount));
                     sensorManager  = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
                     Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
                     stepDetector = new SensorEventListener() {
                         @Override
                         public void onSensorChanged(SensorEvent sensorEvent) {
-                            steps.setText(Integer.toString(stepCount));
                             if(sensorEvent != null){
                                 float x_acceleration = sensorEvent.values[0];
                                 float y_acceleration = sensorEvent.values[1];
@@ -128,8 +128,10 @@ public class ActivityFragment extends Fragment {
                                 if (MagnitudeDelta > 6){
                                     stepCount++;
                                 }
+
                             }
-                            //steps.setText(Integer.toString(stepCount));
+                            steps.setText(Integer.toString(stepCount));
+
                         }
 
                         @Override
@@ -148,6 +150,10 @@ public class ActivityFragment extends Fragment {
                 start = !start; // reverse
             }
         });
+        if (LocalTime.now().getHour() == 00 && LocalTime.now().getMinute() == 00
+                && LocalTime.now().getSecond() == 00 && day.compareTo(SUNDAY)==0){
+            getDatabaseManager().performanceDao().deleteAll();
+        }
         barChart = (BarChart) root.findViewById(R.id.barchart_activity);
         getBarEntries();
         setBarData(barEntriesArrayList,getResources().getString(R.string.activity_done_daily));
@@ -202,22 +208,22 @@ public class ActivityFragment extends Fragment {
         barEntriesArrayList = new ArrayList<>();
         // adding new entry to our array list with bar
         // entry and passing x and y axis value to it.
-        barEntriesArrayList.add(new BarEntry(1f, 4));
-        barEntriesArrayList.add(new BarEntry(2f, 6));
-        barEntriesArrayList.add(new BarEntry(3f, 8));
-        barEntriesArrayList.add(new BarEntry(4f, 2));
-        barEntriesArrayList.add(new BarEntry(5f, 4));
-        barEntriesArrayList.add(new BarEntry(6f, 1));
-        barEntriesArrayList.add(new BarEntry(7f, 1));
+        barEntriesArrayList.add(new BarEntry(1, getDatabaseManager().performanceDao().readSteps1()));
+        barEntriesArrayList.add(new BarEntry(2, getDatabaseManager().performanceDao().readSteps2()));
+        barEntriesArrayList.add(new BarEntry(3, getDatabaseManager().performanceDao().readSteps3()));
+        barEntriesArrayList.add(new BarEntry(4, getDatabaseManager().performanceDao().readSteps4()));
+        barEntriesArrayList.add(new BarEntry(5, getDatabaseManager().performanceDao().readSteps5()));
+        barEntriesArrayList.add(new BarEntry(6, getDatabaseManager().performanceDao().readSteps6()));
+        barEntriesArrayList.add(new BarEntry(7, getDatabaseManager().performanceDao().readSteps7()));
     }
 
     private void startTimer() {
-        if (time != 0.0) {
+        if (time != 0 ) {
             /*AppDatabase db = Room.databaseBuilder(getContext().getApplicationContext(),
                     AppDatabase.class, "attività settimanale").build();
             PerformanceDao performanceDao = db.performanceDao();
             List<Performance> performanceList = performanceDao.getAll();*/
-            time = 0.0;
+            time = 0;
         }
         timerTask = new TimerTask() {
             @Override
