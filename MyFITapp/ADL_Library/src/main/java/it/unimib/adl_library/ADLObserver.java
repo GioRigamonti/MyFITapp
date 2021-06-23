@@ -6,13 +6,11 @@ import java.util.Map;
 
 public interface ADLObserver {
 
-    /*public String activityIdentified();
+    public String activityIdentified();
 
     public Map activityConfidence();
 
     public void startReadingAccelerometer(SensorManager mSensorManager) throws Exception;
 
-    public void stopReadingAccelerometer(SensorManager mSensorManager);*/
-
-    void onNewInstance(ADLInstance instance);
+    public void stopReadingAccelerometer(SensorManager mSensorManager);
 }

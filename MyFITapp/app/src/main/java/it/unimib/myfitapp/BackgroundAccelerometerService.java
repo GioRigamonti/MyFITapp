@@ -16,9 +16,6 @@ import it.unimib.adl_library.*;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import java.io.Serializable;
-import java.util.Map;
-
 public class BackgroundAccelerometerService extends Service{
     private Observer observer;
     protected SensorManager mSensorManager;
@@ -61,16 +58,6 @@ public class BackgroundAccelerometerService extends Service{
         observer.stopReadingAccelerometer(mSensorManager);
     }
 
-    private ADLObserver ado = new ADLObserver() {
-        @Override
-        public void onNewInstance(ADLInstance instance) {
-            Intent intent = new Intent();
-            intent.setAction("it.unimib.adl_library");
-            intent.putExtra("label", observer.activityIdentified());
-            intent.putExtra("confidence", (Serializable) observer.activityConfidence());
-            sendBroadcast(intent);
-        }
-    }
     /*@Override
     public void onSensorChanged(SensorEvent event) {
         observer.getListener().onSensorChanged(event);
