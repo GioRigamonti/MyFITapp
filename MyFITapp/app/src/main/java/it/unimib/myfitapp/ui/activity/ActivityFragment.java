@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -40,7 +41,13 @@ import it.unimib.myfitapp.PerformanceDatabase;
 import it.unimib.myfitapp.PerformanceRegistration;
 import it.unimib.myfitapp.R;
 import static android.content.Context.MODE_PRIVATE;
+import static java.time.DayOfWeek.FRIDAY;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
+import static java.time.DayOfWeek.THURSDAY;
+import static java.time.DayOfWeek.TUESDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ActivityFragment extends Fragment {
@@ -69,11 +76,10 @@ public class ActivityFragment extends Fragment {
     private PerformanceDatabase getDatabaseManager()
     {
         if (db==null)
-            db = PerformanceDatabase.buildDatabase(this.getContext());
+            //db = PerformanceDatabase.buildDatabase(this.getContext());
             db=PerformanceDatabase.getInMemoryDatabase(this.getContext());
         return db;
     }
-
 
 
 
@@ -201,21 +207,34 @@ public class ActivityFragment extends Fragment {
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
     }
+    DayOfWeek[] days = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
+    int step[] = new int [days.length] ;
+
+    public int[] setEntry(){
+        for (int j= 0 ; j < days.length; j++){
+            int steptot = 0;
+            if(getDatabaseManager().performanceDao().readSteps(days[j]).length >= 1){
+                for (int i = 0; i < getDatabaseManager().performanceDao().readSteps(days[j]).length; i++){
+                    steptot +=  getDatabaseManager().performanceDao().readSteps(days[j])[i];
+                }
+            }
+            step[j] = steptot;
+        }
+     return step;
+    }
 
 
     private void getBarEntries() {
+        int[] setEntries = setEntry();
         // creating a new array list
         barEntriesArrayList = new ArrayList<>();
-        // adding new entry to our array list with bar
-        // entry and passing x and y axis value to it.
-        barEntriesArrayList.add(new BarEntry(1, getDatabaseManager().performanceDao().readSteps1()));
-        barEntriesArrayList.add(new BarEntry(2, getDatabaseManager().performanceDao().readSteps2()));
-        barEntriesArrayList.add(new BarEntry(3, getDatabaseManager().performanceDao().readSteps3()));
-        barEntriesArrayList.add(new BarEntry(4, getDatabaseManager().performanceDao().readSteps4()));
-        barEntriesArrayList.add(new BarEntry(5, getDatabaseManager().performanceDao().readSteps5()));
-        barEntriesArrayList.add(new BarEntry(6, getDatabaseManager().performanceDao().readSteps6()));
-        barEntriesArrayList.add(new BarEntry(7, getDatabaseManager().performanceDao().readSteps7()));
+        for (int i = 0; i < setEntries.length; i++) {
+            // adding new entry to our array list with bar
+            // entry and passing x and y axis value to it.*/
+            barEntriesArrayList.add(new BarEntry(i + 1, setEntries[i]));
+        }
     }
+
 
     private void startTimer() {
         if (time != 0 ) {
