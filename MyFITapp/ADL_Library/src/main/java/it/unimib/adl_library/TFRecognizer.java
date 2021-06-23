@@ -1,7 +1,10 @@
 package it.unimib.adl_library;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -15,32 +18,129 @@ import org.tensorflow.lite.support.label.TensorLabel;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 import it.unimib.adl_library.ml.AdlModel;
 
 public class TFRecognizer extends ADLManager {
-    private Interpreter tflite;
+    /*private Interpreter tflite;
     private ADLModel adl_model;
     private Map<String, Float> floatMap;
-    private List<String> outputLabels;
+    private List<String> outputLabels;*/
     /*private Object[] inputVal;
     private float[] outputval;
     private TensorBuffer probabilityBuffer;*/
-    private ADLListener accListener;
+    /*private ADLListener accListener;
     private TensorBuffer accelerometerCoordinates;
-    private AdlModel.Outputs outputs;
+    private AdlModel.Outputs outputs;*/
 
-    public TFRecognizer(Context context, ADLInstance adlInst) throws Exception {
-        super(context);
-        this.adl_model = new ADLModel(context);
-        accListener = new ADLListener(adlInst, this);
+    private ArrayList<ADLObserver> mObservers = new ArrayList<ADLObserver>();
+    private Handler classificationHandler = new Handler();
+    private ADLListener accelListener = new ADLListener();
+
+    private Runnable classificationRunnable = new Runnable() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void run() {
+            // Create the instance and classify it
+            ADLInstance instance = new ADLInstance();
+            instance.setAccFeatures(accelListener.getAx(), accelListener.getAy(), accelListener.getAz());
+            List<float[]> accelFeatures = instance.getAccFeatures();
+            instance.setTimestamp(System.currentTimeMillis());
+            try {
+                mModelManager.doInference(instance);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Send the new instance to the observers
+            for (ADLObserver o : mObservers) {
+                o.onNewInstance(instance);
+            }
+
+            // clear readings arrays
+            accelListener.clearFeatures();
+
+            // Reset delayed runnable
+            classificationHandler.postDelayed(classificationRunnable, default_sampling_delay);
+        }
+    };
+
+    public TFRecognizer(Context context, ADLModel model) throws Exception {
+        super(context, model);
+        //this.adl_model = new ADLModel(context);
+        //accListener = new ADLListener(adlInst, this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean registerVehicleObserver(ADLObserver observer) throws Exception {
+        boolean result = false;
+
+        if (!mObservers.contains(observer)) {
+            int initialSize = mObservers.size();
+            mObservers.add(observer);
+
+            if (initialSize == 0) {
+                startReadingAccelerometer();
+            }
+
+            result = true;
+        }
+
+        return result;
+    }
+
+    public boolean unregisterVehicleObserver(ADLObserver observer) {
+        boolean result = false;
+
+        if (mObservers.contains(observer)) {
+            mObservers.remove(observer);
+            int currentSize = mObservers.size();
+
+            if (currentSize == 0) {
+                stopReadingAccelerometer();
+            }
+
+            result = true;
+        }
+
+        return result;
+    }
+
+    public void startReadingAccelerometer() throws Exception {
+        //listener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
+        //ACCELEROMETRO CON GRAVITA'
+        if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+            List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
+            for (int i = 0; i < ls.size(); i++) {
+                Sensor s_i = ls.get(i);
+                mSensorManager.registerListener(accelListener, s_i, SensorManager.SENSOR_DELAY_GAME);
+                /*mSensorManager.registerListener(listener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                        SensorManager.SENSOR_DELAY_NORMAL);*/
+            }
+        }
+        accelListener.startGenerating();
+            /*if(instance.getAccFeatures().size()<=50)
+                recognizer.doInference(instance);
+            else
+                stopReadingAccelerometer(mSensorManager);*/
+        classificationHandler.removeCallbacks(classificationRunnable);
+        classificationHandler
+                .postDelayed(classificationRunnable, default_sampling_delay);
+    }
+
+    public void stopReadingAccelerometer() {
+        mSensorManager.unregisterListener(accelListener);
+        accelListener.stopGenerating();
+        classificationHandler.removeCallbacks(classificationRunnable);
+        //listener.clearFeatures(); //pulizia delle letture precedenti
+    }
+
+    /*@RequiresApi(api = Build.VERSION_CODES.N)
     public void doInference(ADLInstance instance) throws IOException {
         try{
             AdlModel model = AdlModel.newInstance(context);
@@ -79,13 +179,13 @@ public class TFRecognizer extends ADLManager {
             floatMap = labels.getMapWithFloatValue();
         }
         return floatMap;
-    }
+    }*/
 
 
-    protected Map setProbabilityMap() {
+    /*protected Map setProbabilityMap() {
         Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
         return probabilityMap;
-    }
+    }*/
 
     /*private void close_interpreter() {
         if (tflite != null) {
@@ -94,9 +194,9 @@ public class TFRecognizer extends ADLManager {
         }
     }*/
 
-    public ADLListener getAccListener(){
+    /*public ADLListener getAccListener(){
         return accListener;
-    }
+    }*/
 }
 
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
 import it.unimib.adl_library.*;
 
@@ -25,6 +26,17 @@ import android.widget.Toast;
 
 
 public class ConfidenceActivity extends AppCompatActivity {
+    private Map<String, Float> map = new HashMap<>();
+    private String index;
+
+    public class SensorsValuesBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            map = (Map<String, Float>) intent.getSerializableExtra("confidence");
+            index = intent.getStringExtra("label");
+        }
+    };
+
     private TextView downstairsTextView;
     private TextView joggingTextView;
     private TextView sittingTextView;
@@ -39,8 +51,7 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow upstairsTableRow;
     private TableRow walkingTableRow;
 
-    private HashMap<String, Float> map;
-    private String index;
+
     private SensorsValuesBroadcastReceiver mSensorsValuesBroadcastReceiver;
 
     @Override
@@ -65,7 +76,6 @@ public class ConfidenceActivity extends AppCompatActivity {
         standingTableRow = (TableRow) findViewById(R.id.standing_row);
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
-
 
         Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
         startService(i);
@@ -93,6 +103,7 @@ public class ConfidenceActivity extends AppCompatActivity {
 
     private void setProbabilities() throws Exception {
         setRowsColor(index);
+        //setRowsColor("stairs down");
         downstairsTextView.setText(Float.toString(round(map.get("stairs down"), 2)));
         joggingTextView.setText(Float.toString(round(map.get("jogging"), 2)));
         sittingTextView.setText(Float.toString(round(map.get("sitting"), 2)));
@@ -102,12 +113,12 @@ public class ConfidenceActivity extends AppCompatActivity {
     }
 
     private void setRowsColor(String idx) {
-        downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
+        /*downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         joggingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         sittingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         standingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         upstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
-        walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
+        walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));*/
 
         if (idx.equalsIgnoreCase("stairs down"))
             downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
@@ -128,14 +139,6 @@ public class ConfidenceActivity extends AppCompatActivity {
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
-
-    public class SensorsValuesBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            map = (HashMap<String, Float>) intent.getSerializableExtra("confidence");
-            index = intent.getStringExtra("label");
-        }
-    };
 
     @Override
     protected void onStart() {
