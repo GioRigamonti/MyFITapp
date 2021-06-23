@@ -102,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        databaseReference.child(firebaseAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        databaseReference.child(firebaseAuth.getUid()).child("profile").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -216,9 +216,9 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String name = etName.getText().toString().trim();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).child("name").setValue(name);
+                databaseReference.child(user.getUid()).child("profile").child("name").setValue(name);
                 etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                databaseReference.child(user.getUid()).child("profile").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
@@ -258,9 +258,9 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String surname = etSurname.getText().toString().trim();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).child("surname").setValue(surname);
+                databaseReference.child(user.getUid()).child("profile").child("surname").setValue(surname);
                 etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                databaseReference.child(user.getUid()).child("profile").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
@@ -298,14 +298,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 double weight = Double.parseDouble(etWeight.getText().toString().trim());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).child("weight").setValue(weight);
+                databaseReference.child(user.getUid()).child("profile").child("weight").setValue(weight);
                 etWeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                databaseReference.child(user.getUid()).child("profile").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
                         profileWeight.setText(String.valueOf(userProfile.getWeight()));
-                        databaseReference.child(user.getUid()).child("imc").setValue(
+                        databaseReference.child(user.getUid()).child("profile").child("imc").setValue(
                                 userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight()));
                         profileIMC.setText(String.valueOf(userProfile.getIMC()));
                         databaseReference.removeEventListener(this);
@@ -372,14 +372,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 int height = Integer.parseInt(etHeight.getText().toString().trim());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).child("height").setValue(height);
+                databaseReference.child(user.getUid()).child("profile").child("height").setValue(height);
                 etHeight.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                databaseReference.child(user.getUid()).child("profile").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
                         profileHeight.setText(String.valueOf(userProfile.getHeight()));
-                        databaseReference.child(user.getUid()).child("imc").setValue(
+                        databaseReference.child(user.getUid()).child("profile").child("imc").setValue(
                                 userProfile.setIMC(userProfile.getWeight(), userProfile.getHeight()));
                         profileIMC.setText(String.valueOf(userProfile.getIMC()));
                         databaseReference.removeEventListener(this);
@@ -415,8 +415,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String activity_level = etActivityLevel.getSelectedItem().toString();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).child("activity_level").setValue(activity_level);
-                databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                databaseReference.child(user.getUid()).child("profile").child("activity_level").setValue(activity_level);
+                databaseReference.child(user.getUid()).child("profile").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange( DataSnapshot dataSnapshot) {
                         UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
