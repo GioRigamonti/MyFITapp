@@ -99,8 +99,8 @@ public class CaloriesFragment extends Fragment {
                         String foodName = etCalFood.getText().toString().trim();
                         int cal = Integer.parseInt(etCalPer100.getText().toString().trim());
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        databaseReference.child(user.getUid()).child("calories").setValue(foodName);
-                        databaseReference.child(user.getUid()).child("calories").child(foodName).setValue(cal);
+                        databaseReference.child(user.getUid()).child("calories").child(foodName).setValue(foodName);
+                        databaseReference.child(user.getUid()).child("calories").child(foodName).child("numCal").setValue(cal);
                         etCalFood.onEditorAction(EditorInfo.IME_ACTION_DONE);
                         etCalPer100.onEditorAction(EditorInfo.IME_ACTION_DONE);
                     }

@@ -29,14 +29,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="16dp"
                     android:text="@string/calorie_count"
                     android:textColor="@color/secondaryDarkColor_cobalto"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/pieChart_calories"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart_calories"
@@ -44,12 +47,11 @@
                     android:layout_height="300dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginBottom="120dp"
                     app:layout_constraintBottom_toTopOf="@id/add_calories"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.492"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_counter_calories" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TableRow
                     android:id="@+id/add_calories"
@@ -68,20 +70,18 @@
                         android:text="@string/add_calories_consumed"
                         android:textSize="20sp" />
 
-                    <Space
-                        android:layout_width="16dp"
-                        android:layout_height="match_parent" />
-
                     <Button
                         android:id="@+id/button_add_calories"
                         style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
-                        android:layout_width="37dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="49dp"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="1dp"
                         android:layout_marginBottom="6dp"
                         android:layout_toRightOf="@+id/user_name"
-                        app:icon="@drawable/ic_baseline_edit_24"
-                        app:iconTint="#82000000"/>
+                        android:insetLeft="6dp"
+                        android:insetRight="6dp"
+                        app:icon="@drawable/ic_baseline_add_box_24"
+                        app:iconTint="@color/primaryLightColor_blue" />
 
                 </TableRow>
 
