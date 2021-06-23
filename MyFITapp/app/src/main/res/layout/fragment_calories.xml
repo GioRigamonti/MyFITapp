@@ -74,14 +74,14 @@
 
                     <Button
                         android:id="@+id/button_add_calories"
-                        android:layout_width="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                        android:layout_width="37dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:clickable="false"
-                        app:fabCustomSize="40dp"
-                        app:fabSize="auto"
-                        app:srcCompat="@drawable/ic_baseline_add_24"
-                        android:onClick="buttonClickedAddCalories" />
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_toRightOf="@+id/user_name"
+                        app:icon="@drawable/ic_baseline_edit_24"
+                        app:iconTint="#82000000"/>
 
                 </TableRow>
 

@@ -1,5 +1,6 @@
 package it.unimib.myfitapp.ui.calories;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -67,44 +68,48 @@ public class CaloriesFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        //addCalories = (Button) root.findViewById(R.id.button_add_calories);
         drawPieChart(root);
 
 
+        Button btn = (Button) root.findViewById(R.id.button_add_calories);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                LayoutInflater inflater = LayoutInflater.from(v.getContext());
+                View alertLayout = inflater.inflate(R.layout.layout_custum_dialog_add_calories, null);
+                final EditText etCalFood = alertLayout.findViewById(R.id.et_calFromFood);
+                final EditText etCalPer100 = alertLayout.findViewById(R.id.et_calPer100);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                alert.setTitle(getResources().getString(R.string.add_calories_consumed));
+                // this is set the view from XML inside AlertDialog
+                alert.setView(alertLayout);
+                // disallow cancel of AlertDialog on click of back button and outside touch
+                alert.setCancelable(false);
+                alert.setNegativeButton(getResources().getString(R.string.annulla), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String foodName = etCalFood.getText().toString().trim();
+                        int cal = Integer.parseInt(etCalPer100.getText().toString().trim());
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        databaseReference.child(user.getUid()).child("calories").setValue(foodName);
+                        databaseReference.child(user.getUid()).child("calories").child(foodName).setValue(cal);
+                        etCalFood.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                        etCalPer100.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                    }
+                });
+                AlertDialog dialog = alert.create();
+                dialog.show();
+            }
+        });
         return root;
-    }
-
-    public void buttonClickedAddCalories(View view) {
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.layout_custum_dialog_add_calories, null);
-        final EditText etCalFood = alertLayout.findViewById(R.id.et_calFromFood);
-        final EditText etCalPer100 = alertLayout.findViewById(R.id.et_calPer100);
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity().getApplicationContext());
-        alert.setTitle(getResources().getString(R.string.add_calories_consumed));
-        // this is set the view from XML inside AlertDialog
-        alert.setView(alertLayout);
-        // disallow cancel of AlertDialog on click of back button and outside touch
-        alert.setCancelable(false);
-        alert.setNegativeButton(getResources().getString(R.string.annulla), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String foodName = etCalFood.getText().toString().trim();
-                int cal = Integer.parseInt(etCalPer100.getText().toString().trim());
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                databaseReference.child(user.getUid()).child("calories").setValue(foodName);
-                databaseReference.child(user.getUid()).child("calories").child(foodName).setValue(cal);
-                etCalFood.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                etCalPer100.onEditorAction(EditorInfo.IME_ACTION_DONE);
-            }
-        });
-        AlertDialog dialog = alert.create();
-        dialog.show();
-
     }
 
     public void drawPieChart(View v) {
