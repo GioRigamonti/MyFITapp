@@ -70,7 +70,7 @@
     <string name="delete">Delete your Account</string>
     <string name="reset">Reset Password</string>
     <string name="deleteAccount">Do you want delete your Account?</string>
-    <string name="calorie_count">Calorie count</string>
+    <string name="calorie_count">Calories count</string>
     <string name="start_activity">Start a new activity</string>
     <string name="daily_activity">"Activity "</string>
     <string name="walking_distance">Distance</string>
@@ -115,7 +115,7 @@
     <string name="stop">Stop activity</string>
     <string name="timer">00:00:00</string>
     <string name="distance">Distance</string>
-    <string name="insert_calorie">Insert what you eat</string>
+    <string name="insert_calorie">Insert what you ate</string>
     <string name="cal_per100g">Calories per 100g</string>
     <string name="totCalorie">Total calories</string>
     <string name="calBruciate">Consumed calories</string>
