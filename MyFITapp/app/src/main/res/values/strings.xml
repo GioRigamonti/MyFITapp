@@ -66,7 +66,7 @@
     <string name="pause">Pause</string>
     <string name="play">Play</string>
     <string name="daily_steps_string">Daily steps</string>
-    <string name="rimanenti">remaining</string>
+    <string name="rimanenti">Remaining</string>
     <string name="delete">Delete your Account</string>
     <string name="reset">Reset Password</string>
     <string name="deleteAccount">Do you want delete your Account?</string>
@@ -76,7 +76,7 @@
     <string name="walking_distance">Distance</string>
     <string name="cycling_distance">Cycling distance</string>
     <string name="steps">Steps</string>
-    <string name="food">food</string>
+    <string name="food">Food</string>
     <string name="excercize">Excercize</string>
     <string name="weekly_activity_report">Weekly activity report</string>
     <string name="weekly_report">Weekly report</string>
@@ -114,5 +114,7 @@
     <string name="time">Time</string>
     <string name="stop">Stop activity</string>
     <string name="timer">00:00:00</string>
-    <string name="distance">distance</string>
+    <string name="distance">Distance</string>
+    <string name="insert_calorie">Insert what you eat</string>
+    <string name="cal_per100g">Calories per 100g</string>
 </resources>

@@ -16,7 +16,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
     <string name="welcome">Benvenuto!</string>
-    <string name="invalid_username">username non valido</string>
+    <string name="invalid_username">Username non valido</string>
     <string name="invalid_password">Password deve avere almeno 5 caratteri</string>
     <string name="login_failed">Login fallito</string>
     <string name="title_activity_settings">Opzioni</string>
@@ -58,7 +58,7 @@
     <string name="pause">Pausa</string>
     <string name="play">Avvia</string>
     <string name="daily_steps_string">Passi giornalieri</string>
-    <string name="rimanenti">rimanenti</string>
+    <string name="rimanenti">Rimanenti</string>
     <string name="delete">Elimina il tuo Account</string>
     <string name="deleteAccount">Vuoi eliminare il tuo Account?</string>
     <string name="reset">Reset Password</string>
@@ -106,5 +106,7 @@
     <string name="time">Tempo</string>
     <string name="stop">Stop attività</string>
     <string name="timer">00:00:00</string>
-    <string name="distance">distanza</string>
+    <string name="distance">Distanza</string>
+    <string name="insert_calorie">Inserisci cos\'hai mangiato</string>
+    <string name="cal_per100g">Calorie per 100g</string>
 </resources>
