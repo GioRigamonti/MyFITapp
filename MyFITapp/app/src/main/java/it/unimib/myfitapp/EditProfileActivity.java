@@ -230,7 +230,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             //btnsave.setOnClickListener(this);
             UserInformation userinformation = new UserInformation(name, surname, email, sex, date, weight, height, activity_level);
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            databaseReference.child(user.getUid()).setValue(userinformation);
+            databaseReference.child(user.getUid()).child("profile").setValue(userinformation);
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.information_update), Toast.LENGTH_LONG).show();
         } /*else{
             startActivity(new Intent(EditProfileActivity.this, EditProfileActivity.class));
