@@ -109,4 +109,7 @@
     <string name="distance">Distanza</string>
     <string name="insert_calorie">Inserisci cos\'hai mangiato</string>
     <string name="cal_per100g">Calorie per 100g</string>
+    <string name="totCalorie">Calorie totali</string>
+    <string name="calBruciate">Calorie bruciate</string>
+    <string name="calAssunte">Calorie assunte</string>
 </resources>

@@ -53,6 +53,64 @@
                     app:layout_constraintHorizontal_bias="0.492"
                     app:layout_constraintStart_toStartOf="parent" />
 
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toTopOf="@id/add_calories"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pieChart_calories">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView_cal_totali"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/totCalorie" />
+
+                        <TextView
+                                android:id="@+id/calorie_totali"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView_cal_bruciate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/calBruciate" />
+
+                        <TextView
+                            android:id="@+id/calorie_bruciate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView_cal_assunte"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/calAssunte" />
+
+                        <TextView
+                            android:id="@+id/calorie_assunte"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                </TableLayout>
+
                 <TableRow
                     android:id="@+id/add_calories"
                     android:layout_width="wrap_content"
@@ -75,11 +133,11 @@
                         style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
                         android:layout_width="49dp"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginBottom="6dp"
                         android:layout_toRightOf="@+id/user_name"
                         android:insetLeft="6dp"
+                        android:insetTop="6dp"
                         android:insetRight="6dp"
+                        android:insetBottom="6dp"
                         app:icon="@drawable/ic_baseline_add_box_24"
                         app:iconTint="@color/primaryLightColor_blue" />
 
