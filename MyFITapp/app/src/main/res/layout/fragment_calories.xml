@@ -44,36 +44,12 @@
                     android:layout_height="300dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    app:layout_constraintBottom_toTopOf="@id/text_report"
+                    android:layout_marginBottom="32dp"
+                    app:layout_constraintBottom_toTopOf="@id/add_calories"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.492"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_counter_calories" />
-
-                <TextView
-                    android:id="@+id/text_report"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="@string/weekly_report"
-                    android:textColor="@color/secondaryDarkColor_cobalto"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/lineChart"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pieChart_calories" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toTopOf="@+id/add_calories"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_report"/>
 
                 <TableRow
                     android:id="@+id/add_calories"
