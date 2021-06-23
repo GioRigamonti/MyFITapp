@@ -59,11 +59,11 @@ public class ActivityFragment extends Fragment {
     private Timer timer;
     private TimerTask timerTask;
     private Double time = 0.0;
-    //private int day = Calendar.DAY_OF_WEEK;
     DayOfWeek day = LocalDate.now().getDayOfWeek();
-    //private int uid = 0;
     private PerformanceDatabase db;
     private PerformanceRegistration performanceRegistration;
+    //Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    SensorEventListener stepDetector;
 
     private PerformanceDatabase getDatabaseManager()
     {
@@ -108,60 +108,52 @@ public class ActivityFragment extends Fragment {
                     v.setBackgroundResource(R.drawable.ic_baseline_stop_24);
                     //v.vibrate(50000);
                     onActivity.setText(getResources().getString(R.string.stop));
+                    //stepCount = 0;
                     startTimer();
-                    stepCount = 0;
-                    steps.setText(Integer.toString(stepCount));
-                    sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+                    //steps.setText(Integer.toString(stepCount));
+                    sensorManager  = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
                     Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                    SensorEventListener stepDetector = new SensorEventListener() {
+                    stepDetector = new SensorEventListener() {
                         @Override
                         public void onSensorChanged(SensorEvent sensorEvent) {
+                            steps.setText(Integer.toString(stepCount));
                             if(sensorEvent != null){
                                 float x_acceleration = sensorEvent.values[0];
                                 float y_acceleration = sensorEvent.values[1];
                                 float z_acceleration = sensorEvent.values[2];
-
                                 double Magnitude = Math.sqrt(x_acceleration*x_acceleration +
                                         y_acceleration*y_acceleration + z_acceleration*z_acceleration);
                                 double MagnitudeDelta = Magnitude-MagnitudePrevious;
                                 MagnitudePrevious = Magnitude;
-
                                 if (MagnitudeDelta > 6){
                                     stepCount++;
                                 }
-                                steps.setText(Integer.toString(stepCount));
                             }
+                            //steps.setText(Integer.toString(stepCount));
                         }
-
 
                         @Override
                         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
                         }
                     };
                     sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-
                 } else {
                     v.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
                     onActivity.setText(getResources().getString(R.string.start_activity));
+                    sensorManager.unregisterListener(stepDetector);
                     timerTask.cancel();
                     performanceRegistration = new PerformanceRegistration(day, stepCount, time);
                     getDatabaseManager().performanceDao().insertPerformance(performanceRegistration);
-
                 }
                 start = !start; // reverse
             }
         });
-
-
-
-
         barChart = (BarChart) root.findViewById(R.id.barchart_activity);
         getBarEntries();
         setBarData(barEntriesArrayList,getResources().getString(R.string.activity_done_daily));
-
         return root;
     }
+
     public void onPause() {
         super.onPause();
         SharedPreferences sharedPreferences =  this.getActivity().getPreferences(MODE_PRIVATE);
@@ -182,31 +174,23 @@ public class ActivityFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-
         SharedPreferences sharedPreferences =  this.getActivity().getPreferences(MODE_PRIVATE);
         stepCount = sharedPreferences.getInt("stepCount", 0);
     }
 
-
-
     private void setBarData(ArrayList barEntriesArrayList, String string) {
         // creating a new bar data set.
         barDataSet = new BarDataSet(barEntriesArrayList, string);
-
         // creating a new bar data and
         // passing our bar data set.
         barData = new BarData(barDataSet);
-
         // below line is to set data
         // to our bar chart.
         barChart.setData(barData);
-
         // adding color to our bar data set.
         barDataSet.setColors(Color.MAGENTA);
-
         // setting text color.
         barDataSet.setValueTextColor(Color.BLACK);
-
         // setting text size
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
@@ -216,7 +200,6 @@ public class ActivityFragment extends Fragment {
     private void getBarEntries() {
         // creating a new array list
         barEntriesArrayList = new ArrayList<>();
-
         // adding new entry to our array list with bar
         // entry and passing x and y axis value to it.
         barEntriesArrayList.add(new BarEntry(1f, 4));
@@ -227,8 +210,8 @@ public class ActivityFragment extends Fragment {
         barEntriesArrayList.add(new BarEntry(6f, 1));
         barEntriesArrayList.add(new BarEntry(7f, 1));
     }
-    private void startTimer()
-    {
+
+    private void startTimer() {
         if (time != 0.0) {
             /*AppDatabase db = Room.databaseBuilder(getContext().getApplicationContext(),
                     AppDatabase.class, "attività settimanale").build();
@@ -236,7 +219,6 @@ public class ActivityFragment extends Fragment {
             List<Performance> performanceList = performanceDao.getAll();*/
             time = 0.0;
         }
-        //uid ++;
         timerTask = new TimerTask() {
             @Override
             public void run()
@@ -254,22 +236,16 @@ public class ActivityFragment extends Fragment {
         };
         timer.scheduleAtFixedRate(timerTask, 0 ,1000);
     }
-    private String getTimerText()
-    {
-        int rounded = (int) Math.round(time);
 
+    private String getTimerText() {
+        int rounded = (int) Math.round(time);
         int seconds = ((rounded % 86400) % 3600) % 60;
         int minutes = ((rounded % 86400) % 3600) / 60;
         int hours = ((rounded % 86400) / 3600);
-
         return formatTime(seconds, minutes, hours);
     }
 
-    private String formatTime(int seconds, int minutes, int hours)
-    {
+    private String formatTime(int seconds, int minutes, int hours) {
         return String.format("%02d",hours) + " : " + String.format("%02d",minutes) + " : " + String.format("%02d",seconds);
     }
-
-
-
 }
