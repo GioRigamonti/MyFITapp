@@ -2,8 +2,11 @@ package it.unimib.myfitapp.ui.calories;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,21 +43,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import it.unimib.myfitapp.ProfileActivity;
 import it.unimib.myfitapp.R;
+import it.unimib.myfitapp.UserCalories;
 import it.unimib.myfitapp.UserInformation;
 
 public class CaloriesFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    PieChart pieChart;
-    PieData pieData;
-    List<PieEntry> pieEntryList = new ArrayList<>();
-    Button addCalories;
+    private  FirebaseUser user;
+    private PieChart pieChart;
+    private PieData pieData;
+    private List<PieEntry> pieEntryList = new ArrayList<>();
+    private Button addCalories;
+    private TextView calTot;
+    private TextView gotCalories;
+    private TextView lostCalories;
+    private UserCalories userCalories;
+    private double totCal;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,13 +82,10 @@ public class CaloriesFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance("https://myfitapp-a5b2b-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        addCalories = (Button) root.findViewById(R.id.button_add_calories);
 
-        drawPieChart(root);
-
-
-        Button btn = (Button) root.findViewById(R.id.button_add_calories);
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        addCalories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -96,11 +108,11 @@ public class CaloriesFragment extends Fragment {
                 alert.setPositiveButton(getResources().getString(R.string.ok_confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        double insertCal = 0;
                         String foodName = etCalFood.getText().toString().trim();
-                        int cal = Integer.parseInt(etCalPer100.getText().toString().trim());
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        insertCal = Integer.parseInt(etCalPer100.getText().toString().trim());
                         databaseReference.child(user.getUid()).child("calories").child(foodName).setValue(foodName);
-                        databaseReference.child(user.getUid()).child("calories").child(foodName).child("numCal").setValue(cal);
+                        databaseReference.child(user.getUid()).child("calories").child(foodName).child("numCal").setValue(insertCal);
                         etCalFood.onEditorAction(EditorInfo.IME_ACTION_DONE);
                         etCalPer100.onEditorAction(EditorInfo.IME_ACTION_DONE);
                     }
@@ -109,6 +121,29 @@ public class CaloriesFragment extends Fragment {
                 dialog.show();
             }
         });
+
+
+        calTot = (TextView) root.findViewById(R.id.calorie_totali);
+        databaseReference.child(firebaseAuth.getUid()).child("profile").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    UserInformation userProfile = task.getResult().getValue(UserInformation.class);
+                    if (userProfile.getSex().equalsIgnoreCase("M")) {
+                        totCal = userProfile.getWeight() * 1 * 24;
+                    } else
+                        totCal = userProfile.getWeight() * 0.9 * 24;
+                    calTot.setText(String.valueOf(totCal));
+                }
+            }
+        });
+
+        drawPieChart(root);
         return root;
     }
 
@@ -134,4 +169,8 @@ public class CaloriesFragment extends Fragment {
         pieChart.invalidate();
         pieChart.animateY(500);
     }
-}
+
+
+
+
+    }
