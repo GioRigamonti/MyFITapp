@@ -48,6 +48,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = EditProfileActivity.class.getSimpleName();
@@ -182,6 +183,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (editTextName.getText().toString().isEmpty()) {
             editTextName.setError("Please insert name");
             controlli[0]=false;
+        }else if (!Pattern.matches("[a-zA-Z]+", editTextName.getText().toString())){
+            editTextName.setError("Please insert only alphabetic char");
+            controlli[0]=false;
         }else{
             name = editTextName.getText().toString().trim();
             controlli[0]=true;
@@ -189,7 +193,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (editTextSurname.getText().toString().isEmpty()) {
             editTextSurname.setError("Please insert surname");
             controlli[1]=false;
-        } else {
+        } else if (!Pattern.matches("[a-zA-Z]+", editTextSurname.getText().toString())){
+            editTextSurname.setError("Please insert only alphabetic char");
+            controlli[1]=false;
+        }else{
             surname = editTextSurname.getText().toString().trim();
             controlli[1]=true;
         }
@@ -205,20 +212,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (editHeight.getText().toString().isEmpty()) {
             editHeight.setError("Please insert height");
             controlli[5]=false;
-        } else{
+        } else {
             height = Integer.parseInt(editHeight.getText().toString());
             controlli[5]=true;
         }
         if (editWeight.getText().toString().isEmpty()) {
             editWeight.setError("Please insert height");
-            controlli[6]=false;
-        } else{
+            controlli[6] = false;
+        }else{
             weight = Double.parseDouble(editWeight.getText().toString());
             controlli[6]=true;
         }
         String activity_level = editTextActivity_level.getSelectedItem().toString();
         for (int i = 0; i < controlli.length; i++){
-            if (controlli[i] == true && caricamento == true){
+            if (controlli[i]  && caricamento){
                 caricamento = true;
             }else{
                 caricamento = false;
