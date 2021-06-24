@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,15 +17,23 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
 import it.unimib.adl_library.*;
-
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.widget.Toast;
 
 
 public class ConfidenceActivity extends AppCompatActivity {
+    public class SensorsValuesBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            /*map = (HashMap<String, Float>) intent.getSerializableExtra("confidence");*/
+            index = intent.getStringExtra("label");
+            downstairsTextView.setText(index);
+        }
+    };
+
     private TextView downstairsTextView;
     private TextView joggingTextView;
     private TextView sittingTextView;
@@ -39,9 +48,10 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow upstairsTableRow;
     private TableRow walkingTableRow;
 
-    private HashMap<String, Float> map;
+    private HashMap<String, Float> map = new HashMap<>();
     private String index;
-    private SensorsValuesBroadcastReceiver mSensorsValuesBroadcastReceiver;
+
+    SensorsValuesBroadcastReceiver mSensorsValuesBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,9 @@ public class ConfidenceActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
+        startService(i);
 
         downstairsTextView = (TextView) findViewById(R.id.downstairs_prob);
         joggingTextView = (TextView) findViewById(R.id.jogging_prob);
@@ -66,9 +79,6 @@ public class ConfidenceActivity extends AppCompatActivity {
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
 
-
-        Intent i = new Intent(ConfidenceActivity.this, BackgroundAccelerometerService.class);
-        startService(i);
         try {
             setProbabilities();
         } catch (Exception e) {
@@ -102,12 +112,12 @@ public class ConfidenceActivity extends AppCompatActivity {
     }
 
     private void setRowsColor(String idx) {
-        downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
+        /*downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         joggingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         sittingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         standingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         upstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
-        walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
+        walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));*/
 
         if (idx.equalsIgnoreCase("stairs down"))
             downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.ic_launcher_myfitapp_background, null));
@@ -129,15 +139,7 @@ public class ConfidenceActivity extends AppCompatActivity {
         return bd.floatValue();
     }
 
-    public class SensorsValuesBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            map = (HashMap<String, Float>) intent.getSerializableExtra("confidence");
-            index = intent.getStringExtra("label");
-        }
-    };
 
-    @Override
     protected void onStart() {
         super.onStart();
         mSensorsValuesBroadcastReceiver = new SensorsValuesBroadcastReceiver();
@@ -146,7 +148,6 @@ public class ConfidenceActivity extends AppCompatActivity {
         registerReceiver(mSensorsValuesBroadcastReceiver, intentFilter);
     }
 
-    @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mSensorsValuesBroadcastReceiver);

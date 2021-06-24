@@ -1,10 +1,12 @@
 package it.unimib.adl_library;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
@@ -15,6 +17,7 @@ import org.tensorflow.lite.support.label.TensorLabel;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +28,7 @@ import it.unimib.adl_library.ml.AdlModel;
 public class TFRecognizer extends ADLManager {
     private Interpreter tflite;
     private ADLModel adl_model;
-    private Map<String, Float> floatMap;
+    private HashMap<String, Float> floatMap;
     private List<String> outputLabels;
     /*private Object[] inputVal;
     private float[] outputval;
@@ -58,6 +61,10 @@ public class TFRecognizer extends ADLManager {
             instance.setActivity(setLabel());
             instance.setMap(setProbabilityMap());
 
+            /*Intent i = new Intent();
+            i.setAction("it.unimib.myfitapp");
+            i.putExtra("label", "a");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(i);*/
         }catch(IOException e){}
     }
 
@@ -68,7 +75,7 @@ public class TFRecognizer extends ADLManager {
         return key;
     }
 
-    private Map<String, Float> getLabel_Probabilities() {
+    private HashMap<String, Float> getLabel_Probabilities() {
         // Post-processor which dequantize the result
         TensorProcessor probabilityProcessor =
                 new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
@@ -76,14 +83,14 @@ public class TFRecognizer extends ADLManager {
             // Map of labels and their corresponding probability
             TensorLabel labels = new TensorLabel(outputLabels, probabilityProcessor.process(outputs.getProbabilitiesAsTensorBuffer()));
             // Create a map to access the result based on label
-            floatMap = labels.getMapWithFloatValue();
+            floatMap = (HashMap<String, Float>) labels.getMapWithFloatValue();
         }
         return floatMap;
     }
 
 
-    protected Map setProbabilityMap() {
-        Map<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
+    protected HashMap setProbabilityMap() {
+        HashMap<String, Float> probabilityMap = new HashMap<String, Float>(floatMap);
         return probabilityMap;
     }
 

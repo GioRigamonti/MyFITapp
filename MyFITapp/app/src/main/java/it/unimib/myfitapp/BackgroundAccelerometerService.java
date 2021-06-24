@@ -1,6 +1,7 @@
 package it.unimib.myfitapp;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -15,6 +16,8 @@ import androidx.annotation.Nullable;
 import it.unimib.adl_library.*;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import java.io.Serializable;
 
 public class BackgroundAccelerometerService extends Service{
     private Observer observer;
@@ -36,21 +39,28 @@ public class BackgroundAccelerometerService extends Service{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Toast.makeText(this, "The new Service was Created", Toast.LENGTH_LONG)
+        Toast.makeText(this, "The new Service was Created", Toast.LENGTH_SHORT)
                 .show();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(getApplicationContext(), "Start Detecting", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Start Detecting", Toast.LENGTH_SHORT).show();
         try {
             observer.startReadingAccelerometer(mSensorManager);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Intent i = new Intent();
+        /*i.setAction("it.unimib.myfitapp");
+        i.putExtra("label", "abc");*/
+        i.setAction("it.unimib.myfitapp");
+        i.putExtra("label", observer.activityIdentified());
+        sendBroadcast(i);
         return START_STICKY;
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -58,15 +68,12 @@ public class BackgroundAccelerometerService extends Service{
         observer.stopReadingAccelerometer(mSensorManager);
     }
 
-    /*@Override
-    public void onSensorChanged(SensorEvent event) {
-        observer.getListener().onSensorChanged(event);
-        sendBroadcast(observer.probability());
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+    /*public Intent probability(){
+        Intent intent = new Intent();
+        intent.setAction("it.unimib.myfitapp");
+        intent.putExtra("label", observer.activityIdentified());
+        //intent.putExtra("confidence", (Serializable) activityConfidence());
+        return intent;
     }*/
+
 }

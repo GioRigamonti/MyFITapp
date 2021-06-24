@@ -102,19 +102,25 @@ import java.util.Map;*/
 
 package it.unimib.adl_library;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.IBinder;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
-public class Observer  implements ADLObserver{
+public class Observer implements ADLObserver{
     private ADLInstance instance;
     private ADLManager recognizer;
     private ADLListener listener;
+    SensorManager m;
 
     public Observer(Context context, String index) throws Exception {
         instance = new ADLInstance();
@@ -125,29 +131,13 @@ public class Observer  implements ADLObserver{
             /*default: ??? */
         }
         listener = recognizer.getAccListener();
-    }
-
-    @Override
-    public String activityIdentified() {
-        return instance.getActivity();
-    }
-
-    @Override
-    public Map<String, Float> activityConfidence() {
-        return instance.getMap();
-    }
-
-    public Intent probability(){
-        Intent intent = new Intent();
-        intent.setAction("it.unimib.adl_library");
-        intent.putExtra("label", activityIdentified());
-        intent.putExtra("confidence", (Serializable) activityConfidence());
-        return intent;
+        /*m = recognizer.mSensorManager;
+        startReadingAccelerometer(m);*/
     }
 
     @Override
     public void startReadingAccelerometer(SensorManager mSensorManager) throws Exception {
-        listener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
+        //listener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
         //ACCELEROMETRO CON GRAVITA'
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             /*List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
@@ -166,11 +156,21 @@ public class Observer  implements ADLObserver{
     @Override
     public void stopReadingAccelerometer(SensorManager mSensorManager) {
         mSensorManager.unregisterListener(listener);
-        listener.clearFeatures(); //pulizia delle letture precedenti
+        //listener.clearFeatures(); //pulizia delle letture precedenti
     }
 
     public ADLListener getListener() {
         return listener;
+    }
+
+    @Override
+    public String activityIdentified() {
+        return instance.getActivity();
+    }
+
+    @Override
+    public HashMap<String, Float> activityConfidence() {
+        return instance.getMap();
     }
 }
 

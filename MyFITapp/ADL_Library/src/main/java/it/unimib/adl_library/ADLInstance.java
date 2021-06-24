@@ -3,13 +3,13 @@ package it.unimib.adl_library;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 
 public class ADLInstance {
     private final int OVERLAP = 100;
     private final int FRAME = 150;
     private String activity;
-    private Map<String, Float> map;
+    private HashMap<String, Float> map;
     List<float[]> acc_Features;
     private List<float[]> frame;
 
@@ -27,11 +27,11 @@ public class ADLInstance {
         return activity;
     }
 
-    public void setMap(Map probabilityMap) {
+    public void setMap(HashMap probabilityMap) {
         this.map = probabilityMap;
     }
 
-    public Map<String, Float> getMap() {
+    public HashMap<String, Float> getMap() {
         return map;
     }
 
