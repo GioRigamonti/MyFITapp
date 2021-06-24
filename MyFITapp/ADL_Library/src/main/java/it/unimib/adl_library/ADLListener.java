@@ -10,8 +10,9 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class ADLListener extends Service implements SensorEventListener {
+public class ADLListener implements SensorEventListener {
     protected static final int SAMPLE_PER_SEC = 150;
     private ADLInstance adl_instance;
     private ADLManager recognizer;
@@ -46,25 +47,19 @@ public class ADLListener extends Service implements SensorEventListener {
             try {
                 recognizer.doInference(adl_instance);
             } catch (Exception e) {}
-            Intent intent = new Intent();
-            intent.setAction("it.unimib.adl_library");
-            intent.putExtra("label", adl_instance.getActivity());
-            intent.putExtra("confidence", (Serializable) adl_instance.getMap());
-            sendBroadcast(intent);
-            clearFeatures();}
-
+            clearFeatures();
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
 
     public void clearFeatures() {
-        adl_instance.getAccFeatures().clear();
+        //List<float[]>  clearFeatures = adl_instance.getAccFeatures().subList(0,adl_instance.FRAME - adl_instance.OVERLAP);
+        //List<float[]>  newFeatures = adl_instance.getAccFeatures().subList(adl_instance.FRAME - adl_instance.OVERLAP + 1, adl_instance.getAccFeatures().size());
+        adl_instance.getAccFeatures().subList(0,adl_instance.FRAME - adl_instance.OVERLAP).clear();
+        adl_instance.acc_Features.subList(0,adl_instance.getAccFeatures().size());
+
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 }
