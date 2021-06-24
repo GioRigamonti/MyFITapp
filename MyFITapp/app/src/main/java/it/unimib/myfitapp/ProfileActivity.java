@@ -2,6 +2,7 @@ package it.unimib.myfitapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,12 +44,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "Profile";
+    private static int PICK_IMAGE = 123;
+    Uri imagePath;
     private DatabaseReference databaseReference;
     private TextView profileNameTextView, profileSurnameTextView,textViewemailname;
     private TextView profileSex, profileAge, profileWeight, profileActivityLevel;
@@ -142,13 +149,56 @@ public class ProfileActivity extends AppCompatActivity {
                 buttonClickedDelete(v);
             }
         });
-        
+
+        profilePicImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent();
+                profileIntent.setType("image/*");
+                profileIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(profileIntent, "Select Image."), PICK_IMAGE);
+            }
+
+        });
+
     }
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
+            imagePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
+                profilePicImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        // Get "User UID" from Firebase > Authentification > Users.
+        DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
+        if(imagePath != null) {
+            StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("Profile Pic"); //User id/Images/Profile Pic.jpg
+            UploadTask uploadTask = imageReference.putFile(imagePath);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ProfileActivity.this, getResources().getString(R.string.error_picture), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(ProfileActivity.this, getResources().getString(R.string.picture_uploaded), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else
+            Toast.makeText(ProfileActivity.this, "No picture update", Toast.LENGTH_LONG).show();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
