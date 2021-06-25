@@ -1,41 +1,30 @@
 package it.unimib.adl_library;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.support.common.TensorProcessor;
-import org.tensorflow.lite.support.common.ops.NormalizeOp;
-import org.tensorflow.lite.support.label.Category;
-import org.tensorflow.lite.support.label.TensorLabel;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import it.unimib.adl_library.ml.AdlModel;
 
 public class TFRecognizer extends ADLManager {
     private Interpreter tflite;
     private ADLModel adl_model;
     private HashMap<String, Float> floatMap;
     private List<String> outputLabels;
-    /*private Object[] inputVal;
-    private float[] outputval;
-    private TensorBuffer probabilityBuffer;*/
+    private float [][] inputVal;
+    private float [][] outputval;
+    private TensorBuffer probabilityBuffer;
     private ADLListener accListener;
-    private TensorBuffer accelerometerCoordinates;
-    private AdlModel.Outputs outputs;
+    //private TensorBuffer accelerometerCoordinates;
+    //private AdlModel.Outputs outputs;
 
     public TFRecognizer(Context context, ADLInstance adlInst) throws Exception {
         super(context);
@@ -45,7 +34,23 @@ public class TFRecognizer extends ADLManager {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void doInference(ADLInstance instance) throws IOException {
-        try{
+
+            tflite = new Interpreter(adl_model.getModel());
+            tflite.allocateTensors();
+            inputVal = new float [150][3];
+            for (int i = 0; i< inputVal.length; i++){
+                for(int j = 0; j < inputVal[i].length; j ++){
+                    inputVal[i][j] = instance.getAccFeatures().get(i)[j];
+                }
+            }
+            //inputVal = instance.getAccFeatures().toArray();
+            outputLabels = adl_model.getLabelRead();
+            outputval = new float[1][outputLabels.size()];
+
+            tflite.run(inputVal, outputval);
+
+
+        /*try{
             AdlModel model = AdlModel.newInstance(context);
             if (accelerometerCoordinates == null) {
                 accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{1, 150, 3, 1}, DataType.FLOAT32);
@@ -56,16 +61,16 @@ public class TFRecognizer extends ADLManager {
             outputs = model.process(accelerometerCoordinates);
             List<Category> Probabilities = outputs.getProbabilitiesAsCategoryList();
 
-            outputLabels = adl_model.getLabelRead();
+            outputLabels = adl_model.getLabelRead();*/
 
             instance.setActivity(setLabel());
             instance.setMap(setProbabilityMap());
+            tflite.close();
 
             /*Intent i = new Intent();
             i.setAction("it.unimib.myfitapp");
             i.putExtra("label", "a");
             LocalBroadcastManager.getInstance(context).sendBroadcast(i);*/
-        }catch(IOException e){}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -76,17 +81,22 @@ public class TFRecognizer extends ADLManager {
     }
 
     private HashMap<String, Float> getLabel_Probabilities() {
+         for (int i = 0; i < outputLabels.size(); i++) {
+            String label = outputLabels.get(i);
+            floatMap.put(label, outputval[1][i]);
+        }
+        return floatMap;
         // Post-processor which dequantize the result
-        TensorProcessor probabilityProcessor =
+        /*TensorProcessor probabilityProcessor =
                 new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
         if (null != outputLabels) {
             // Map of labels and their corresponding probability
-            TensorLabel labels = new TensorLabel(outputLabels, probabilityProcessor.process(outputs.getProbabilitiesAsTensorBuffer()));
+            TensorLabel labels = new TensorLabel(outputLabels, probabilityProcessor.process(outputval));
             // Create a map to access the result based on label
-            floatMap = (HashMap<String, Float>) labels.getMapWithFloatValue();
-        }
-        return floatMap;
-    }
+            floatMap = (HashMap<String, Float>) labels.getMapWithFloatValue();*/
+        //}
+        //return floatMap;
+   }
 
 
     protected HashMap setProbabilityMap() {
@@ -94,12 +104,12 @@ public class TFRecognizer extends ADLManager {
         return probabilityMap;
     }
 
-    /*private void close_interpreter() {
+    private void close_interpreter() {
         if (tflite != null) {
             tflite.close();
             tflite = null;
         }
-    }*/
+    }
 
     public ADLListener getAccListener(){
         return accListener;
