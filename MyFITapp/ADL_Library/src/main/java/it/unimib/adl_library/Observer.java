@@ -156,5 +156,14 @@ public class Observer implements ADLObserver{
     public HashMap<String, Float> activityConfidence() {
         return instance.getMap();
     }
+
+     /*public Intent probability(){
+        Intent i = new Intent();
+        i.setAction("it.unimib.myfitapp");
+        i.putExtra("label", observer.activityIdentified());
+        //i.putExtra("confidence", activityConfidence());
+        //sendBroadcast(i);
+        return intent;
+    }*/
 }
 

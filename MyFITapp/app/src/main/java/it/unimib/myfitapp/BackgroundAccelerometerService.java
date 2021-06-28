@@ -1,5 +1,6 @@
 package it.unimib.myfitapp;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,6 +23,7 @@ import java.io.Serializable;
 public class BackgroundAccelerometerService extends Service{
     private Observer observer;
     protected SensorManager mSensorManager;
+    Intent i;
 
     public BackgroundAccelerometerService() {
     }
@@ -31,6 +33,7 @@ public class BackgroundAccelerometerService extends Service{
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 
     @Override
     public void onCreate() {
@@ -42,6 +45,7 @@ public class BackgroundAccelerometerService extends Service{
         Toast.makeText(this, "The new Service was Created", Toast.LENGTH_SHORT)
                 .show();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        i = new Intent();
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -52,28 +56,16 @@ public class BackgroundAccelerometerService extends Service{
             e.printStackTrace();
         }
         Intent i = new Intent();
-        /*i.setAction("it.unimib.myfitapp");
-        i.putExtra("label", "abc");*/
-        i.setAction("it.unimib.myfitapp");
         i.putExtra("label", observer.activityIdentified());
+        i.putExtra("confidence", observer.activityConfidence());
         sendBroadcast(i);
         return START_STICKY;
     }
-
-
 
     @Override
     public void onDestroy() {
         Toast.makeText(getApplicationContext(), "Service Destroyed", Toast.LENGTH_LONG).show();
         observer.stopReadingAccelerometer(mSensorManager);
     }
-
-    /*public Intent probability(){
-        Intent intent = new Intent();
-        intent.setAction("it.unimib.myfitapp");
-        intent.putExtra("label", observer.activityIdentified());
-        //intent.putExtra("confidence", (Serializable) activityConfidence());
-        return intent;
-    }*/
 
 }
