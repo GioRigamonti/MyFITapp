@@ -120,7 +120,6 @@ public class Observer implements ADLObserver{
     private ADLInstance instance;
     private ADLManager recognizer;
     private ADLListener listener;
-    SensorManager m;
 
     public Observer(Context context, String index) throws Exception {
         instance = new ADLInstance();
@@ -131,36 +130,21 @@ public class Observer implements ADLObserver{
             /*default: ??? */
         }
         listener = recognizer.getAccListener();
-        /*m = recognizer.mSensorManager;
-        startReadingAccelerometer(m);*/
+
     }
 
     @Override
     public void startReadingAccelerometer(SensorManager mSensorManager) throws Exception {
-        //listener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
         //ACCELEROMETRO CON GRAVITA'
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            /*List<Sensor> ls = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
-            for (int i = 0; i < ls.size(); i++) {
-                Sensor s_i = ls.get(i);
-                mSensorManager.registerListener(listener, s_i, SensorManager.SENSOR_DELAY_GAME);*/
             mSensorManager.registerListener(listener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                    SensorManager.SENSOR_DELAY_NORMAL);
-            /*if(instance.getAccFeatures().size()<=50)
-                recognizer.doInference(instance);
-            else
-                stopReadingAccelerometer(mSensorManager);*/
+                    SensorManager.SENSOR_DELAY_GAME);
         }
     }
 
     @Override
     public void stopReadingAccelerometer(SensorManager mSensorManager) {
         mSensorManager.unregisterListener(listener);
-        //listener.clearFeatures(); //pulizia delle letture precedenti
-    }
-
-    public ADLListener getListener() {
-        return listener;
     }
 
     @Override
