@@ -56,14 +56,4 @@ public class ADLModel {
         long declaredLength = fileDescriptor.getDeclaredLength();
         return  fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
-
-    /*public static String getModelPath() {
-        return MODEL_FILE;
-    }
-
-    public static String getLabelPath() {
-        return LABEL_FILE;
-    }*/
-
-
 }
