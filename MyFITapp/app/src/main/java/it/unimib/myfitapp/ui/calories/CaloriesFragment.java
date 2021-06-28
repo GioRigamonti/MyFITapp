@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -43,16 +45,36 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static java.time.DayOfWeek.FRIDAY;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SATURDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.DayOfWeek.THURSDAY;
+import static java.time.DayOfWeek.TUESDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unimib.myfitapp.PerformanceDatabase;
 import it.unimib.myfitapp.ProfileActivity;
 import it.unimib.myfitapp.R;
-import it.unimib.myfitapp.UserCalories;
+//import it.unimib.myfitapp.UserCalories;
 import it.unimib.myfitapp.UserInformation;
 
+import static java.time.DayOfWeek.FRIDAY;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SATURDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.DayOfWeek.THURSDAY;
+import static java.time.DayOfWeek.TUESDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CaloriesFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -65,8 +87,10 @@ public class CaloriesFragment extends Fragment {
     private TextView calTot;
     private TextView gotCalories;
     private TextView lostCalories;
-    private UserCalories userCalories;
+    //private UserCalories userCalories;
     private double totCal;
+    private TextView calBruciate;
+    private double bruciate;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -124,6 +148,7 @@ public class CaloriesFragment extends Fragment {
 
 
         calTot = (TextView) root.findViewById(R.id.calorie_totali);
+        calBruciate = (TextView) root.findViewById(R.id.calorie_bruciate);
         databaseReference.child(firebaseAuth.getUid()).child("profile").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -139,6 +164,11 @@ public class CaloriesFragment extends Fragment {
                     } else
                         totCal = userProfile.getWeight() * 0.9 * 24;
                     calTot.setText(String.valueOf(totCal));
+
+                    double weight = userProfile.getWeight();
+                    int num_passi= num_steps();
+                    bruciate = weight*0.0005*num_passi;
+                    calBruciate.setText(String.valueOf(round(bruciate, 2)));
                 }
             }
         });
@@ -169,8 +199,34 @@ public class CaloriesFragment extends Fragment {
         pieChart.invalidate();
         pieChart.animateY(500);
     }
+    DayOfWeek[] days = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
+    int step = 0 ;
+    private PerformanceDatabase db;
 
-
-
-
+    public int num_steps(){
+        for (int j= 0 ; j < days.length; j++){
+            int steptot = 0;
+            if(getDatabaseManager().performanceDao().readSteps(days[j]).length >= 1){
+                for (int i = 0; i < getDatabaseManager().performanceDao().readSteps(days[j]).length; i++){
+                    steptot +=  getDatabaseManager().performanceDao().readSteps(days[j])[i];
+                }
+            }
+            step += steptot;
+        }
+        return step;
     }
+
+    private PerformanceDatabase getDatabaseManager()
+    {
+        if (db==null)
+            //db = PerformanceDatabase.buildDatabase(this.getContext());
+            db=PerformanceDatabase.getInMemoryDatabase(this.getContext());
+        return db;
+    }
+
+    private static double round(double d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Double.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.doubleValue();
+    }
+}
