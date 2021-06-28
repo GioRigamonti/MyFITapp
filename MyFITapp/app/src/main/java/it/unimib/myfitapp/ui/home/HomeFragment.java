@@ -88,18 +88,19 @@ public class HomeFragment extends Fragment {
         pieEntryList.add(new PieEntry(3, getResources().getString(R.string.jogging)));
         pieEntryList.add(new PieEntry(3, getResources().getString(R.string.upstairs)));
         pieEntryList.add(new PieEntry(3, getResources().getString(R.string.downstairs)));
-
+        pieChart.setDescription(null);
+        pieChart.getLegend().setEnabled(false);
         PieDataSet pieDataSet = new PieDataSet(pieEntryList, "");
         pieDataSet.setValueTextSize(12f);
-        //pieDataSet.setValueTextColor(Color.WHITE);
-        pieDataSet.setColors(Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA);
-        Description description = new Description();
-        description.setText(getString(R.string.activity));
-        pieChart.setDescription(description);
+        pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setColors(getResources().getColor(R.color.primaryLightColor_blue), getResources().getColor(R.color.rose2), getResources().getColor(R.color.secondaryColor_cobalto), getResources().getColor(R.color.rose1), getResources().getColor(R.color.primaryColor_blue),  getResources().getColor(R.color.ic_launcher_myfitapp_background));
+        //Description description = new Description();
+        //description.setText(getString(R.string.activity));
+        //pieChart.setDescription(description);
         pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         pieChart.invalidate();
-        pieChart.animateY(5000);
+        pieChart.animateY(500);
     }
 
     private void configureChartAppearance() {
@@ -133,7 +134,7 @@ public class HomeFragment extends Fragment {
 
         BarDataSet set1 = new BarDataSet(values, SET_LABEL);
 
-        set1.setColors(new int[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA});
+        set1.setColors(new int[] {getResources().getColor(R.color.primaryLightColor_blue), getResources().getColor(R.color.rose2), getResources().getColor(R.color.secondaryColor_cobalto), getResources().getColor(R.color.rose1), getResources().getColor(R.color.primaryColor_blue),  getResources().getColor(R.color.ic_launcher_myfitapp_background)});
         set1.setStackLabels(new String[] {WALKING, SITTING,  STANDING, JOGGING,UPSTAIRS, DOWNSTAIRS});
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
@@ -148,6 +149,8 @@ public class HomeFragment extends Fragment {
         chart.setData(data);
         chart.invalidate();
     }
+
+
 }
 
 
