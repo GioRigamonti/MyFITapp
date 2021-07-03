@@ -172,5 +172,9 @@ public class Observer implements ADLObserver{
     public HashMap<String, Float> activityConfidence() {
         return instance.getMap();
     }
+
+    public ADLManager getRecognizer() {
+        return recognizer;
+    }
 }
 

@@ -19,7 +19,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.Serializable;
 
-public class BackgroundAccelerometerService extends Service{
+public class BackgroundAccelerometerService extends Service {
     private Observer observer;
     protected SensorManager mSensorManager;
 
@@ -47,20 +47,12 @@ public class BackgroundAccelerometerService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(getApplicationContext(), "Start Detecting", Toast.LENGTH_SHORT).show();
         try {
-            observer.startReadingAccelerometer(mSensorManager);
+            observer.getRecognizer().startReadingAccelerometer();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Intent i = new Intent();
-        /*i.setAction("it.unimib.myfitapp");
-        i.putExtra("label", "abc");*/
-        i.setAction("it.unimib.myfitapp");
-        i.putExtra("label", observer.activityIdentified());
-        sendBroadcast(i);
         return START_STICKY;
     }
-
-
 
     @Override
     public void onDestroy() {
@@ -75,5 +67,4 @@ public class BackgroundAccelerometerService extends Service{
         //intent.putExtra("confidence", (Serializable) activityConfidence());
         return intent;
     }*/
-
 }
