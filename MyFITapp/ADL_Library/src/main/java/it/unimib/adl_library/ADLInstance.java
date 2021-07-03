@@ -19,6 +19,14 @@ public class ADLInstance {
         this.map = new HashMap<>();
     }
 
+    public int getOVERLAP() {
+        return OVERLAP;
+    }
+
+    public int getFRAME() {
+        return FRAME;
+    }
+
     public void setActivity(String activity) {
         this.activity = activity;
     }
@@ -27,7 +35,7 @@ public class ADLInstance {
         return activity;
     }
 
-    public void setMap(HashMap probabilityMap) {
+    public void setMap(HashMap<String, Float> probabilityMap) {
         this.map = probabilityMap;
     }
 
