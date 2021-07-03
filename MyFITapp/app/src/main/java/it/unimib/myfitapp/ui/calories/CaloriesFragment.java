@@ -50,7 +50,6 @@ import java.util.List;
 
 import it.unimib.myfitapp.ProfileActivity;
 import it.unimib.myfitapp.R;
-import it.unimib.myfitapp.UserCalories;
 import it.unimib.myfitapp.UserInformation;
 
 public class CaloriesFragment extends Fragment {
@@ -65,7 +64,6 @@ public class CaloriesFragment extends Fragment {
     private TextView calTot;
     private TextView gotCalories;
     private TextView lostCalories;
-    private UserCalories userCalories;
     private double totCal;
 
 
