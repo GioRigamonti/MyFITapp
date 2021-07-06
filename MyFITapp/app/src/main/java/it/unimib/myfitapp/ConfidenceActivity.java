@@ -34,15 +34,16 @@ public class ConfidenceActivity extends AppCompatActivity {
             /*index = intent.getStringExtra("label");
             downstairsTextView.setText(index);*/
             HashMap<String, Float> activitiesProbabilitiesMap = (HashMap<String, Float>) intent.getSerializableExtra("map");
-
+            String label = intent.getStringExtra("label");
             Log.d(TAG, activitiesProbabilitiesMap.toString());
 
-            downstairsTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("stairs down")));
+            /*downstairsTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("stairs down")));
             joggingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("jogging")));
             sittingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("sitting")));
             standingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("standing")));
             upstairsTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("stairs up")));
-            walkingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("walking")));
+            walkingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("walking")));*/
+            setProbabilities(activitiesProbabilitiesMap, label);
         }
     };
 
@@ -106,7 +107,7 @@ public class ConfidenceActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setProbabilities(HashMap<String, Float> activitiesProbabilitiesMap) {
+    private void setProbabilities(HashMap<String, Float> activitiesProbabilitiesMap, String index) {
         setRowsColor(index);
         if (activitiesProbabilitiesMap != null) {
 
@@ -137,12 +138,12 @@ public class ConfidenceActivity extends AppCompatActivity {
     }
 
     private void setRowsColor(String idx) {
-        /*downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
+        downstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         joggingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         sittingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         standingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
         upstairsTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
-        walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));*/
+        walkingTableRow.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorTransparent, null));
 
         if (idx != null) {
             if (idx.equalsIgnoreCase("stairs down"))

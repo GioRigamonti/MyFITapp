@@ -37,11 +37,12 @@ public class ADLListener implements SensorEventListener {
         } else{
             try {
                 recognizer.doInference(adl_instance);
-                HashMap<String, Float> map = recognizer.doInference(adl_instance);
+                ADLInstance newInst = recognizer.doInference(adl_instance);
 
                 Intent intent = new Intent();
                 intent.setAction("it.unimib.myservice");
-                intent.putExtra("map", map);
+                intent.putExtra("map", newInst.getMap());
+                intent.putExtra("label", newInst.getActivity());
 
                 context.sendBroadcast(intent);
 

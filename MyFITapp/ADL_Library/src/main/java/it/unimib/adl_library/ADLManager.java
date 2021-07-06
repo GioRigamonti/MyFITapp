@@ -17,8 +17,8 @@ public abstract class ADLManager {
 
     public abstract ADLListener getAccListener();
     //public abstract void doInference(ADLInstance instance)throws Exception;
-    public abstract HashMap<String, Float> doInference(ADLInstance instance)throws Exception;
+    public abstract ADLInstance doInference(ADLInstance instance)throws Exception;
     protected abstract String setLabel();
     //protected abstract Map setProbabilityMap();
-    public abstract void startReadingAccelerometer();
+    //public abstract void startReadingAccelerometer();
 }

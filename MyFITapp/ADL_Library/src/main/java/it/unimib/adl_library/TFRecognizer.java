@@ -49,7 +49,7 @@ public class TFRecognizer extends ADLManager {
         accListener = new ADLListener(adlInst, this, context);
     }
 
-    public void startReadingAccelerometer() {
+    /*public void startReadingAccelerometer() {
         //accListener.clearFeatures(); //si assicura che l'istanza non ha letture precedenti
         //ACCELEROMETRO CON GRAVITA'
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
@@ -59,10 +59,10 @@ public class TFRecognizer extends ADLManager {
                 mSensorManager.registerListener(accListener, s_i, SensorManager.SENSOR_DELAY_GAME);
             }
         }
-    }
+    }*/
     //Versione 1
    @RequiresApi(api = Build.VERSION_CODES.N)
-    public HashMap<String, Float> doInference(ADLInstance instance) throws IOException {
+    public ADLInstance doInference(ADLInstance instance) throws IOException {
         AdlModel model = AdlModel.newInstance(context);
 
        int accelerometerValuesListSize = instance.getAccFeatures().size();
@@ -86,7 +86,7 @@ public class TFRecognizer extends ADLManager {
        instance.setActivity(setLabel());
        instance.setMap(floatMap);
 
-       return floatMap;
+       return instance;
     }
 
     private HashMap<String, Float> getLabel_Probabilities() {
@@ -108,7 +108,8 @@ public class TFRecognizer extends ADLManager {
     /*public FloatBuffer input;
     public FloatBuffer output;
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void doInference(ADLInstance instance) throws IOException {
+    public ADLInstance doInference(ADLInstance instance) throws IOException {
+        floatMap = new HashMap<String, Float>();
         tflite = new Interpreter(adl_model.getModel());
         input = FloatBuffer.allocate(tflite.getInputTensor(0).numElements());
         // Populate inputs...
@@ -126,6 +127,7 @@ public class TFRecognizer extends ADLManager {
             for (int i = 0; i < output.capacity(); i++) {
                 String label = reader.readLine();
                 float probability = output.get(i);
+                floatMap.put(label, probability);
                 Log.i(TAG, String.format("%s: %1.4f", label, probability));
             }
         } catch (IOException e) {
@@ -135,14 +137,17 @@ public class TFRecognizer extends ADLManager {
         // prova; (quindi i metodi getLabel_Probabilities(),  setProbabilityMap() e  setLabel() risultano
         // inutilizzati con questo doInference; andranno poi sistemati una volta risolto l’errore)
 
-        //instance.setActivity(setLabel());
-        //instance.setMap(setProbabilityMap());
+        instance.setActivity(setLabel(floatMap));
+        instance.setMap(floatMap);
         close_interpreter();
+
+        return instance;
     }*/
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected String setLabel() {
         Map<String, Float> probMap = getLabel_Probabilities();
+        //Map<String, Float> probMap = floatMap;
         return Collections.max(probMap.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
@@ -151,21 +156,21 @@ public class TFRecognizer extends ADLManager {
         return probabilityMap;
     }*/
 
-    private void close_interpreter() {
+    /*private void close_interpreter() {
         if (tflite != null) {
             tflite.close();
             tflite = null;
         }
-    }
+    }*/
 
     public ADLListener getAccListener(){
         return accListener;
     }
 
-    public void stopReadingAccelerometer() {
+    /*public void stopReadingAccelerometer() {
         mSensorManager.unregisterListener(accListener);
         //accListener.clearFeatures(); //pulizia delle letture precedenti
-    }
+    }*/
     
 }
 
