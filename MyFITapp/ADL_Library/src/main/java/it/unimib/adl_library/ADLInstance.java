@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.HashMap;
 
 public class ADLInstance {
-    public final int OVERLAP = 100;
-    public final int FRAME = 150;
+    private final int OVERLAP = 100;
+    private final int FRAME = 150;
     private String activity;
     private HashMap<String, Float> map;
     List<float[]> acc_Features;
@@ -23,11 +23,19 @@ public class ADLInstance {
         this.activity = activity;
     }
 
+    public int getOVERLAP() {
+        return OVERLAP;
+    }
+
+    public int getFRAME() {
+        return FRAME;
+    }
+
     public String getActivity() {
         return activity;
     }
 
-    public void setMap(HashMap probabilityMap) {
+    public void setMap(HashMap<String, Float> probabilityMap) {
         this.map = probabilityMap;
     }
 
