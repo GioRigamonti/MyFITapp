@@ -71,11 +71,47 @@ public class TFRecognizer extends ADLManager {
         accelerometerCoordinates = TensorBuffer.createFixedSize(new int[]{150, 3, 1}, DataType.FLOAT32);
         //accelerometerCoordinates = (TensorBuffer) instance.getAccFeatures();
 
-       for (int i = 0; i < instance.getAccFeatures().size(); i++) {
+       float somma_x, somma_y, somma_z;
+       float media_x, media_y, media_z;
+        // calcola somma e media
+       somma_x = 0;
+       somma_y = 0;
+       somma_z = 0;
+       for(int i=0; i<accelerometerValuesListSize; i++){
+            somma_x += instance.getAccFeatures().get(i)[0];
+            somma_y += instance.getAccFeatures().get(i)[1];
+            somma_z += instance.getAccFeatures().get(i)[2];
+       }
+       media_x = somma_x/accelerometerValuesListSize;
+       media_y = somma_y/accelerometerValuesListSize;
+       media_z = somma_z/accelerometerValuesListSize;
+
+       // calcola somma dei quadrati degli scarti
+       float sommaQuadScarti_x = 0;
+       float sommaQuadScarti_y = 0;
+       float sommaQuadScarti_z = 0;
+       for(int i=0; i<accelerometerValuesListSize; i++) {
+           sommaQuadScarti_x += Math.pow((instance.getAccFeatures().get(i)[0] - media_x), 2);
+           sommaQuadScarti_y += Math.pow((instance.getAccFeatures().get(i)[1] - media_y), 2);
+           sommaQuadScarti_z += Math.pow((instance.getAccFeatures().get(i)[2] - media_z), 2);
+       }
+       // calcola std dev
+       double stddev_x = Math.sqrt(sommaQuadScarti_x/accelerometerValuesListSize);
+       double stddev_y = Math.sqrt(sommaQuadScarti_y/accelerometerValuesListSize);
+       double stddev_z = Math.sqrt(sommaQuadScarti_z/accelerometerValuesListSize);
+
+
+       for (int i = 0; i < accelerometerValuesListSize; i++) {
+           accelerometerValuesArray[i] = (float) ((instance.getAccFeatures().get(i)[0]-media_x)/stddev_x);
+           accelerometerValuesArray[++i] = (float) ((instance.getAccFeatures().get(i)[1]-media_y)/stddev_y);
+           accelerometerValuesArray[++i] = (float) ((instance.getAccFeatures().get(i)[2]-media_z)/stddev_z);
+       }
+       /*DA ELIMINARE
+       for (int i = 0; i < accelerometerValuesListSize; i++) {
            accelerometerValuesArray[i] = instance.getAccFeatures().get(i)[0];
            accelerometerValuesArray[++i] = instance.getAccFeatures().get(i)[1];
            accelerometerValuesArray[++i] = instance.getAccFeatures().get(i)[2];
-       }
+       }*/
        accelerometerCoordinates.loadArray(accelerometerValuesArray);
 
 
@@ -84,7 +120,7 @@ public class TFRecognizer extends ADLManager {
        Log.d(TAG, probabilities.get(3).getLabel() + " " + probabilities.get(3).getScore());
        outputLabels = adl_model.getLabelRead();
        instance.setActivity(setLabel());
-       instance.setMap(floatMap);
+       instance.setMap(getLabel_Probabilities());
 
        return instance;
     }
