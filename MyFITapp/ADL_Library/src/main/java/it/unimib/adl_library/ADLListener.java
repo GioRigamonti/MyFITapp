@@ -46,7 +46,7 @@ public class ADLListener implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
 
-    public void clearFeatures() {
+    private void clearFeatures() {
         //eliminazione delle prime (150-100) feature della lista delle rilevazioni dell'accelerometro
         adl_instance.getAccFeatures().subList(0,adl_instance.getFRAME() - adl_instance.getOVERLAP()).clear();
     }

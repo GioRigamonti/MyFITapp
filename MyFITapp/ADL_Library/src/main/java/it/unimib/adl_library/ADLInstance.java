@@ -13,7 +13,6 @@ public class ADLInstance {
 
     public ADLInstance() {
         this.acc_Features = new ArrayList<float[]>();
-        this.activity = null;
         this.map = new HashMap<>();
     }
 
