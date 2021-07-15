@@ -3,46 +3,28 @@ package it.unimib.myfitapp;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
-
-import it.unimib.adl_library.*;
-
-import android.widget.Toast;
-
 
 public class ConfidenceActivity extends AppCompatActivity {
     private static final String TAG = "ConfidenceActivity";
     public class SensorsValuesBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            /*map = (HashMap<String, Float>) intent.getSerializableExtra("confidence");*/
-            /*index = intent.getStringExtra("label");
-            downstairsTextView.setText(index);*/
             HashMap<String, Float> activitiesProbabilitiesMap = (HashMap<String, Float>) intent.getSerializableExtra("map");
             String label = intent.getStringExtra("label");
             Log.d(TAG, activitiesProbabilitiesMap.toString());
 
-            /*downstairsTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("stairs down")));
-            joggingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("jogging")));
-            sittingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("sitting")));
-            standingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("standing")));
-            upstairsTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("stairs up")));
-            walkingTextView.setText(String.valueOf(activitiesProbabilitiesMap.get("walking")));*/
             setProbabilities(activitiesProbabilitiesMap, label);
         }
     };
@@ -60,8 +42,6 @@ public class ConfidenceActivity extends AppCompatActivity {
     private TableRow standingTableRow;
     private TableRow upstairsTableRow;
     private TableRow walkingTableRow;
-
-    private String index;
 
     SensorsValuesBroadcastReceiver mSensorsValuesBroadcastReceiver;
 
@@ -90,7 +70,6 @@ public class ConfidenceActivity extends AppCompatActivity {
         standingTableRow = (TableRow) findViewById(R.id.standing_row);
         upstairsTableRow = (TableRow) findViewById(R.id.upstairs_row);
         walkingTableRow = (TableRow) findViewById(R.id.walking_row);
-
     }
 
     @Override

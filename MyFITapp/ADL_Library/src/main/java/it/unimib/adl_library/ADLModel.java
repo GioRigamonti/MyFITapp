@@ -1,37 +1,38 @@
 package it.unimib.adl_library;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unimib.adl_library.ml.AdlModel;
+
 public class ADLModel {
     private Context context;
-    private MappedByteBuffer model;
+    private AdlModel model;
     private List<String> labels;
-    private final static String MODEL_FILE = "ADL_Model.tflite";
     private final static String LABEL_FILE = "labels.txt";
 
     public ADLModel(Context context) throws IOException {
         this.context = context;
-        this.model = loadModelFile();
+        this.model = loadModelFromMetadata();
         this.labels = loadLabelsFile();
     }
 
-    public MappedByteBuffer getModel() {
+    public AdlModel getModelFromMetadata() {
         return model;
     }
 
     public List<String> getLabelRead() {
         return labels;
+    }
+
+    private AdlModel loadModelFromMetadata() throws IOException {
+        return AdlModel.newInstance(context);
     }
 
     private List<String> loadLabelsFile(){
@@ -45,15 +46,5 @@ public class ADLModel {
             e.printStackTrace();
         }
         return labels;
-    }
-
-    private MappedByteBuffer loadModelFile()throws IOException{
-        //open the model using an input stream and memory map it load
-        AssetFileDescriptor fileDescriptor = context.getAssets().openFd(MODEL_FILE);
-        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-        FileChannel fileChannel = inputStream.getChannel();
-        Long startOffset = fileDescriptor.getStartOffset();
-        long declaredLength = fileDescriptor.getDeclaredLength();
-        return  fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 }
