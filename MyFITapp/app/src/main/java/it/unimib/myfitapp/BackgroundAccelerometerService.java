@@ -20,7 +20,6 @@ public class BackgroundAccelerometerService extends Service{
         return null;
     }
 
-
     @Override
     public void onCreate() {
         try {
@@ -28,8 +27,7 @@ public class BackgroundAccelerometerService extends Service{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Toast.makeText(this, "The new Service was Created", Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(this, "The new Service was Created", Toast.LENGTH_SHORT).show();
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
 
